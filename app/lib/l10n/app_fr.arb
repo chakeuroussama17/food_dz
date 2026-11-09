@@ -1,0 +1,730 @@
+{
+  "@@locale": "fr",
+  "appName": "Food App",
+  "language": "Langue",
+  "langAr": "العربية",
+  "langFr": "Français",
+  "langEn": "English",
+  "back": "Retour",
+  "addToCart": "Ajouter au panier",
+  "cart": "Panier",
+  "checkout": "Commander",
+  "placeOrder": "Passer la commande",
+  "total": "Total",
+  "subtotal": "Sous-total",
+  "deliveryFee": "Livraison",
+  "freeDelivery": "Gratuit",
+  "minutes": "{count} min",
+  "@minutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "open": "Ouvert",
+  "closed": "Fermé",
+  "fullName": "Nom complet",
+  "phone": "Téléphone",
+  "address": "Adresse",
+  "area": "Quartier / commune",
+  "notes": "Remarques",
+  "optional": "facultatif",
+  "cashOnDelivery": "Paiement à la livraison",
+  "otherRestaurants": "Autres restaurants",
+  "email": "E-mail",
+  "password": "Mot de passe",
+  "logIn": "Se connecter",
+  "logInSubtitle": "Connectez-vous à votre compte",
+  "accept": "Accepter",
+  "reject": "Refuser",
+  "ready": "Prêt",
+  "cancel": "Annuler",
+  "save": "Enregistrer",
+  "statusPlaced": "Commande envoyée",
+  "statusAccepted": "Acceptée par le restaurant",
+  "statusReady": "Prête",
+  "statusPickedUp": "En route",
+  "statusDelivered": "Livrée",
+  "statusRejected": "Refusée",
+  "statusCancelled": "Annulée",
+  "runningOrders": "Commandes en cours",
+  "orderRequests": "Nouvelles demandes",
+  "itemCount": "{count, plural, =0{Aucun article} =1{1 article} other{{count} articles}}",
+  "@itemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "componentGallery": "Galerie des composants",
+  "onb1Title": "Tous vos plats préférés",
+  "onb1Body": "Tous vos plats préférés au même endroit. Vous commandez, on s'occupe du reste.",
+  "onb2Title": "Les meilleurs restaurants",
+  "onb2Body": "Les restaurants de votre quartier, tout leur menu, en quelques secondes.",
+  "onb3Title": "Paiement à la livraison",
+  "onb3Body": "Pas besoin de carte : payez en espèces à l'arrivée de votre commande.",
+  "next": "Suivant",
+  "skip": "Passer",
+  "getStarted": "Commencer",
+  "logInTitle": "Connexion",
+  "logInSubtitleLong": "Connectez-vous à votre compte",
+  "signUpTitle": "Inscription",
+  "signUpSubtitle": "Inscrivez-vous pour commencer",
+  "signUp": "S'inscrire",
+  "name": "Nom",
+  "namePlaceholder": "Karim Benali",
+  "emailPlaceholder": "exemple@gmail.com",
+  "retypePassword": "Confirmer le mot de passe",
+  "rememberMe": "Se souvenir de moi",
+  "forgotPassword": "Mot de passe oublié",
+  "noAccount": "Pas encore de compte ?",
+  "haveAccount": "Déjà un compte ?",
+  "verificationTitle": "Vérification",
+  "codeSentTo": "Nous avons envoyé un code à",
+  "code": "Code",
+  "resend": "Renvoyer",
+  "resendIn": "dans {seconds} s",
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "verify": "Vérifier",
+  "codeResent": "Nouveau code envoyé",
+  "forgotPasswordTitle": "Mot de passe oublié",
+  "forgotPasswordSubtitle": "Entrez votre e-mail pour recevoir un code",
+  "sendCode": "Envoyer le code",
+  "newPasswordTitle": "Nouveau mot de passe",
+  "newPasswordSubtitle": "Choisissez un nouveau mot de passe",
+  "newPassword": "Nouveau mot de passe",
+  "passwordUpdated": "Mot de passe modifié",
+  "logOut": "Se déconnecter",
+  "hello": "Bonjour, {name}",
+  "@hello": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeComingSoon": "Les restaurants arrivent à la prochaine étape.",
+  "errNameRequired": "Entrez votre nom (2 à 80 caractères)",
+  "errEmailInvalid": "Adresse e-mail invalide",
+  "errPasswordShort": "8 caractères minimum",
+  "errPasswordMismatch": "Les mots de passe ne correspondent pas",
+  "errCodeIncomplete": "Entrez le code à 6 chiffres",
+  "errInvalidCredentials": "E-mail ou mot de passe incorrect",
+  "errUserExists": "Un compte existe déjà avec cet e-mail",
+  "errCodeInvalid": "Code incorrect ou expiré",
+  "errTooManyRequests": "Trop de tentatives, réessayez dans un moment",
+  "errWeakPassword": "Mot de passe trop faible",
+  "errNetwork": "Pas de connexion. Vérifiez votre réseau.",
+  "errGeneric": "Une erreur est survenue, réessayez",
+  "errBackendMissing": "Serveur non configuré (env.json)",
+  "showPassword": "Afficher le mot de passe",
+  "hidePassword": "Masquer le mot de passe",
+  "errEmailSend": "Impossible d'envoyer l'e-mail de code à cette adresse. Réessayez plus tard.",
+  "errServer": "Le serveur a rencontré un problème. Réessayez dans un instant.",
+  "deliverTo": "Livrer à",
+  "chooseAddress": "Choisir une adresse",
+  "greetingMorning": "Bonjour {name} !",
+  "@greetingMorning": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "greetingAfternoon": "Bon après-midi {name} !",
+  "@greetingAfternoon": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "greetingEvening": "Bonsoir {name} !",
+  "@greetingEvening": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "searchHint": "Rechercher plats, restaurants",
+  "allCategories": "Toutes les catégories",
+  "seeAll": "Tout voir",
+  "openRestaurants": "Restaurants",
+  "all": "Tout",
+  "fromPrice": "Dès {price}",
+  "@fromPrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "kmAway": "{km} km",
+  "@kmAway": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "recentKeywords": "Recherches récentes",
+  "suggestedRestaurants": "Restaurants suggérés",
+  "noResults": "Aucun résultat pour « {query} »",
+  "@noResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "dishes": "Plats",
+  "restaurantsTitle": "Restaurants",
+  "restaurant": "Restaurant",
+  "details": "Détails",
+  "popularIn": "{category} populaires",
+  "@popularIn": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToCart": "Ajouté au panier",
+  "cartOtherRestaurant": "Votre panier contient des articles de {name}. Commencer un nouveau panier ?",
+  "@cartOtherRestaurant": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "newCart": "Nouveau panier",
+  "unavailable": "Indisponible",
+  "restaurantNotFound": "Restaurant introuvable",
+  "restaurantClosedNote": "Ce restaurant est fermé pour le moment",
+  "retry": "Réessayer",
+  "loadError": "Chargement impossible. Vérifiez votre connexion.",
+  "accessLocation": "Accéder à la position",
+  "locationExplain": "FOOD UTILISE VOTRE POSITION UNIQUEMENT PENDANT L'UTILISATION DE L'APPLICATION",
+  "notNow": "Plus tard",
+  "locationDenied": "Accès à la position refusé",
+  "profile": "Profil",
+  "personalInfo": "Informations personnelles",
+  "addresses": "Adresses",
+  "edit": "Modifier",
+  "editProfile": "Modifier le profil",
+  "saved": "Enregistré",
+  "changePhoto": "Changer la photo",
+  "phoneOptionalHint": "0550 12 34 56",
+  "errPhoneInvalid": "Numéro invalide (05, 06 ou 07 + 8 chiffres)",
+  "addNewAddress": "Ajouter une adresse",
+  "editAddress": "Modifier l'adresse",
+  "saveLocation": "Enregistrer l'adresse",
+  "labelAs": "Type",
+  "labelHome": "Maison",
+  "labelWork": "Travail",
+  "labelOther": "Autre",
+  "addressDetails": "Bâtiment, étage, porte",
+  "addressHint": "Cité 200 logements, rue…",
+  "areaHint": "Kouba, Hydra, Bab Ezzouar…",
+  "setDefault": "Définir par défaut",
+  "defaultTag": "Par défaut",
+  "delete": "Supprimer",
+  "deleteAddressConfirm": "Supprimer cette adresse ?",
+  "noAddresses": "Aucune adresse enregistrée",
+  "moveMapHint": "Déplacez la carte pour placer le repère",
+  "useMyLocation": "Ma position",
+  "errAddressRequired": "Entrez l'adresse (3 caractères minimum)",
+  "errAddressLimit": "Vous pouvez enregistrer 10 adresses au maximum",
+  "search": "Rechercher",
+  "cartEmpty": "Votre panier est vide",
+  "checkoutNextStep": "La commande sera disponible à la prochaine étape.",
+  "ownRestaurant": "Vous avez un restaurant ?",
+  "registerIt": "Inscrivez-le",
+  "registerRestaurantTitle": "Votre restaurant",
+  "registerRestaurantSubtitle": "Rejoignez Food et recevez des commandes",
+  "yourAccount": "Votre compte",
+  "restaurantSection": "Le restaurant",
+  "restaurantName": "Nom du restaurant",
+  "restaurantPhone": "Téléphone du restaurant",
+  "prepTime": "Temps de préparation (min)",
+  "errRestaurantPhone": "Numéro invalide (ex. 0550123456 ou 021234567)",
+  "errPrepTime": "Entre 5 et 120 minutes",
+  "pendingApprovalTitle": "En attente de validation",
+  "pendingApprovalBody": "Nous vérifions votre restaurant. Préparez votre menu en attendant : les clients le verront dès la validation.",
+  "openForOrders": "Ouvert aux commandes",
+  "closedForOrders": "Fermé",
+  "openSwitchHint": "Les clients peuvent commander quand c'est activé",
+  "cantOpenPending": "Vous pourrez ouvrir après la validation",
+  "dashboard": "Tableau de bord",
+  "menu": "Menu",
+  "orders": "Commandes",
+  "myMenu": "Mon menu",
+  "totalItems": "{count, plural, =0{Aucun plat} =1{1 plat} other{{count} plats}}",
+  "@totalItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addItem": "Ajouter un plat",
+  "editItem": "Modifier le plat",
+  "reset": "Réinitialiser",
+  "itemName": "Nom du plat",
+  "itemNameHint": "Pizza Margherita",
+  "uploadPhoto": "Photo",
+  "add": "Ajouter",
+  "price": "Prix (DA)",
+  "priceHint": "650",
+  "errPrice": "Prix entre 10 et 100 000 DA",
+  "category": "Catégorie",
+  "noCategory": "Aucune",
+  "available": "Disponible",
+  "itemDetails": "Description",
+  "itemDetailsHint": "Ingrédients, taille…",
+  "saveChanges": "Enregistrer",
+  "deleteItemConfirm": "Supprimer ce plat ?",
+  "emptyMenu": "Votre menu est vide. Ajoutez votre premier plat.",
+  "ordersComingSoon": "Les commandes en direct arrivent à la prochaine étape.",
+  "restaurantProfile": "Profil du restaurant",
+  "coverPhoto": "Photo de couverture",
+  "logo": "Logo",
+  "description": "Description",
+  "descriptionHint": "Pizzas au feu de bois, tacos…",
+  "restaurantLocation": "Position sur la carte",
+  "errPhotoTooLarge": "Photo trop lourde (3 Mo max)",
+  "dishesAvailable": "{available} sur {total} disponibles",
+  "@dishesAvailable": {
+    "placeholders": {
+      "available": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "seeMenu": "Voir le menu",
+  "registrationDone": "Restaurant enregistré",
+  "admin": "Administration",
+  "receipts": "Relevés",
+  "settings": "Paramètres",
+  "customers": "Clients",
+  "periodToday": "Aujourd'hui",
+  "periodLast7": "7 jours",
+  "periodThisMonth": "Ce mois",
+  "periodLastMonth": "Mois dernier",
+  "periodCustom": "Personnalisé",
+  "previousHalfMonth": "Quinzaine précédente",
+  "statDelivered": "Commandes livrées",
+  "statSales": "Ventes (repas)",
+  "statDeliveryFees": "Frais de livraison",
+  "statCommission": "Commission gagnée",
+  "statCancelled": "Annulées / refusées",
+  "statActive": "En cours",
+  "statPending": "Restaurants à valider",
+  "statActiveRestaurants": "Restaurants actifs",
+  "statUnbilled": "Commission non facturée",
+  "byRestaurant": "Par restaurant",
+  "filterPending": "À valider",
+  "filterActive": "Actifs",
+  "filterInactive": "Désactivés",
+  "approve": "Valider",
+  "deactivate": "Désactiver",
+  "reactivate": "Réactiver",
+  "commissionRate": "Taux de commission",
+  "defaultRate": "Par défaut ({rate})",
+  "@defaultRate": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "useDefault": "Taux par défaut",
+  "errRate": "Entre 0 et 50 %",
+  "owner": "Gérant",
+  "toBill": "À facturer : {amount}",
+  "@toBill": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "deliveredCount": "{count} livrées",
+  "@deliveredCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noRestaurants": "Aucun restaurant",
+  "newReceipt": "Nouveau relevé",
+  "receiptPeriod": "Période",
+  "receiptPreview": "{count} commandes livrées · ventes {food}",
+  "@receiptPreview": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "food": {
+        "type": "String"
+      }
+    }
+  },
+  "commissionDue": "Commission due",
+  "generateReceipt": "Générer le relevé",
+  "noOrdersToBill": "Aucune commande livrée à facturer sur cette période",
+  "periodNotFinished": "Choisissez une période terminée",
+  "statusPaid": "Payé",
+  "statusUnpaid": "Non payé",
+  "markPaid": "Marquer payé",
+  "markUnpaid": "Marquer non payé",
+  "downloadPdf": "Télécharger le PDF",
+  "printPdf": "Imprimer",
+  "cancelReceipt": "Annuler le relevé",
+  "cancelReceiptConfirm": "Annuler ce relevé ? Ses commandes pourront être refacturées.",
+  "noReceipts": "Aucun relevé pour l'instant",
+  "allRestaurants": "Tous les restaurants",
+  "allStatuses": "Tous les statuts",
+  "noOrders": "Aucune commande",
+  "loadMore": "Voir plus",
+  "itemsTitle": "Articles",
+  "defaultCommission": "Commission par défaut (%)",
+  "deliveryFeeDa": "Frais de livraison (DA)",
+  "errDeliveryFee": "Entre 0 et 5 000 DA",
+  "businessInfo": "Vos informations (imprimées sur les relevés)",
+  "businessName": "Nom commercial",
+  "businessPhone": "Téléphone",
+  "businessEmail": "E-mail",
+  "businessAddress": "Adresse",
+  "businessTaxId": "NIF",
+  "searchCustomers": "Nom, e-mail ou téléphone",
+  "ordersCount": "{count, plural, =0{Aucune commande} =1{1 commande} other{{count} commandes}}",
+  "@ordersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "restaurantFilter": "Restaurant",
+  "statusFilter": "Statut",
+  "issuedOn": "Émis le {date}",
+  "@issuedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "deliveryAddress": "Adresse de livraison",
+  "breakdown": "Détail",
+  "addDeliveryAddress": "Ajouter une adresse de livraison",
+  "deliveryDetails": "Détails de livraison",
+  "phoneForDriver": "Le restaurant et le livreur vous appelleront sur ce numéro.",
+  "notesHint": "Ex. : sans oignons, 2e étage",
+  "orderPlacedTitle": "Commande envoyée !",
+  "orderPlacedBody": "Le restaurant va confirmer votre commande. Vous paierez {total} en espèces à la livraison.",
+  "@orderPlacedBody": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "trackOrder": "Suivre la commande",
+  "backToHome": "Retour à l'accueil",
+  "myOrders": "Mes commandes",
+  "ongoingOrders": "En cours",
+  "orderHistory": "Historique",
+  "noOngoingOrders": "Aucune commande en cours",
+  "noPastOrders": "Aucune commande passée",
+  "orderNumber": "Commande #{code}",
+  "@orderNumber": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "orderedAt": "Commandée le {date}",
+  "@orderedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelOrder": "Annuler la commande",
+  "cancelOrderConfirm": "Annuler cette commande ?",
+  "keepOrder": "Non, garder",
+  "orderCancelledMsg": "Commande annulée",
+  "rejectReasonLabel": "Motif : {reason}",
+  "@rejectReasonLabel": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "payInCash": "À payer en espèces",
+  "orderItems": "Votre commande",
+  "callRestaurant": "Appeler le restaurant",
+  "errRestaurantClosed": "Ce restaurant est fermé pour le moment.",
+  "errRestaurantUnavailable": "Ce restaurant n'est plus disponible.",
+  "errItemUnavailable": "Un plat n'est plus disponible. Votre panier a été mis à jour.",
+  "errPricesChanged": "Les prix ont changé. Votre panier a été mis à jour, vérifiez le total.",
+  "errTooManyActiveOrders": "Vous avez déjà 3 commandes en cours. Attendez qu'une soit livrée.",
+  "errTooManyOrders": "Trop de commandes en peu de temps. Réessayez plus tard.",
+  "errAddressGone": "Cette adresse n'existe plus. Choisissez-en une autre.",
+  "errCannotCancel": "Le restaurant a déjà accepté la commande, elle ne peut plus être annulée.",
+  "tabNewOrders": "Nouvelles ({count})",
+  "@tabNewOrders": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "tabInProgress": "En cours ({count})",
+  "@tabInProgress": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "markReady": "Prête",
+  "waitingDriver": "En attente du livreur",
+  "rejectOrderTitle": "Refuser la commande",
+  "cancelOrderTitleOwner": "Annuler la commande",
+  "reasonLabel": "Motif (visible par le client)",
+  "reasonBusy": "Trop de commandes en ce moment",
+  "reasonItemOut": "Un plat n'est plus disponible",
+  "reasonClosing": "Nous fermons bientôt",
+  "reasonUnreachable": "Client injoignable",
+  "errReasonRequired": "Indiquez un motif.",
+  "errOrderChanged": "Cette commande a changé entre-temps. La liste est à jour.",
+  "enableSoundAlerts": "Touchez ici pour activer l'alerte sonore des nouvelles commandes",
+  "soundOn": "Alerte sonore activée",
+  "soundOff": "Alerte sonore coupée",
+  "minutesAgo": "il y a {count} min",
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "justNow": "à l'instant",
+  "noNewOrders": "Aucune nouvelle commande",
+  "noOrdersInProgress": "Aucune commande en cours",
+  "customer": "Client",
+  "orderAcceptedMsg": "Commande acceptée",
+  "orderReadyMsg": "Commande prête, en attente du livreur",
+  "orderRejectedMsg": "Commande refusée",
+  "newOrderBanner": "{count, plural, =1{1 nouvelle commande à accepter} other{{count} nouvelles commandes à accepter}}",
+  "@newOrderBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deliverWithUs": "Vous êtes livreur ?",
+  "joinAsDriver": "Rejoignez-nous",
+  "registerDriverTitle": "Devenir livreur",
+  "registerDriverSubtitle": "Livrez des commandes près de chez vous",
+  "driverSection": "Livreur",
+  "driverPhone": "Téléphone (mobile)",
+  "vehicle": "Véhicule",
+  "vehicleMoto": "Moto",
+  "vehicleCar": "Voiture",
+  "vehicleBike": "Vélo",
+  "driverRegistered": "Inscription envoyée. Un administrateur va valider votre compte.",
+  "driverPendingTitle": "En attente de validation",
+  "driverPendingBody": "L'administrateur doit valider votre compte avant que vous puissiez livrer.",
+  "onlineLabel": "En ligne",
+  "offlineLabel": "Hors ligne",
+  "youAreOnline": "Vous recevez les nouvelles commandes.",
+  "youAreOffline": "Passez en ligne pour recevoir des commandes.",
+  "availableOrders": "Commandes disponibles",
+  "noAvailableOrders": "Aucune commande pour le moment. La liste se met à jour toute seule.",
+  "takeOrder": "Je la prends",
+  "orderTaken": "Commande à vous ! Allez au restaurant.",
+  "errAlreadyTaken": "Un autre livreur l'a prise avant vous.",
+  "errDriverBusy": "Terminez d'abord votre livraison en cours.",
+  "errNotOnline": "Passez en ligne d'abord.",
+  "errNotApproved": "Votre compte n'est pas encore validé.",
+  "currentDelivery": "Livraison en cours",
+  "pickupAt": "Récupérer chez",
+  "dropOffAt": "Livrer à",
+  "cashToCollect": "À encaisser",
+  "yourFee": "Votre gain",
+  "handToRestaurant": "À remettre au restaurant",
+  "waitRestaurant": "Le restaurant prépare la commande. Attendez qu'elle soit prête.",
+  "markPickedUp": "Commande récupérée",
+  "markDelivered": "Livrée et payée",
+  "confirmDelivered": "Confirmer la livraison ? Le client vous a payé {total}.",
+  "@confirmDelivered": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "confirm": "Confirmer",
+  "releaseOrder": "Rendre la commande",
+  "releaseConfirm": "Rendre cette commande aux autres livreurs ?",
+  "callAction": "Appeler",
+  "directions": "Itinéraire",
+  "deliveredMsg": "Livraison terminée. Merci !",
+  "pickedUpMsg": "En route vers le client",
+  "cancelledByRestaurant": "Le restaurant a annulé cette commande.",
+  "todaySummary": "Aujourd'hui : {count} livraisons · {amount}",
+  "@todaySummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "driversTitle": "Livreurs",
+  "noDrivers": "Aucun livreur",
+  "currentOrderCode": "Commande en cours : #{code}",
+  "@currentOrderCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "yourDriver": "Votre livreur",
+  "driverLabel": "Livreur : {name}",
+  "@driverLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "myDeliveries": "Mes livraisons",
+  "noDeliveries": "Aucune livraison",
+  "driverApproved": "Compte validé",
+  "proofTitle": "Photo de livraison",
+  "proofHint": "Prenez en photo la commande remise au client (ou devant sa porte). Elle sert de preuve en cas de litige.",
+  "takePhoto": "Prendre la photo",
+  "retakePhoto": "Reprendre",
+  "errPhotoRequired": "La photo est obligatoire pour confirmer la livraison.",
+  "errCashOverdue": "Vous avez de l'argent à remettre depuis trop longtemps. Le restaurant doit confirmer la réception avant que vous preniez de nouvelles commandes.",
+  "cashBlockedTitle": "Nouvelles commandes bloquées",
+  "moneyToHand": "Argent à remettre aux restaurants",
+  "moneyToHandTotal": "Total à remettre : {amount}",
+  "@moneyToHandTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "iGaveMoney": "J'ai remis l'argent",
+  "waitingRestaurantConfirm": "En attente de confirmation du restaurant",
+  "cashHandedMsg": "Noté. Le restaurant doit confirmer la réception.",
+  "cashToReceive": "Argent à recevoir des livreurs",
+  "confirmReceived": "Reçu",
+  "confirmReceivedQ": "Confirmer avoir reçu {amount} de {name} ?",
+  "@confirmReceivedQ": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "cashConfirmedMsg": "Réception confirmée",
+  "driverSaysHanded": "Le livreur dit l'avoir remis",
+  "proofOfDelivery": "Preuve de livraison",
+  "cashOwedLine": "Doit {amount} ({count} commandes)",
+  "@cashOwedLine": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cashBlockedPill": "Bloqué",
+  "cashStatusConfirmed": "Argent reçu par le restaurant",
+  "cashStatusHanded": "Argent remis par le livreur, à confirmer",
+  "cashStatusPending": "Argent pas encore remis au restaurant",
+  "deliveredOnTime": "Livrée {date}",
+  "@deliveredOnTime": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cashHoursSetting": "Bloquer un livreur après (heures sans remise)",
+  "errCashHours": "Entre 1 et 168 heures",
+  "downloadReceipt": "Télécharger le reçu",
+  "printAction": "Imprimer",
+  "receiptOrderTitle": "Reçu de commande",
+  "receiptOrderNo": "Commande",
+  "receiptDate": "Date",
+  "receiptDeliveredOn": "Livrée le",
+  "receiptCustomer": "Client",
+  "receiptItem": "Article",
+  "receiptQty": "Qté",
+  "receiptUnit": "Prix unitaire",
+  "receiptAmount": "Montant",
+  "receiptPaidCash": "Payé en espèces à la livraison",
+  "receiptDeliveredBy": "Livré par",
+  "receiptTotalPaid": "Total payé",
+  "receiptFooter": "Montants en dinars algériens (DA). Document généré par l'application.",
+  "receiptPage": "Page",
+  "taxIdShort": "NIF",
+  "driverStatementTitle": "Relevé du livreur",
+  "downloadStatement": "Télécharger le relevé",
+  "periodThisWeek": "Cette semaine",
+  "periodLastWeek": "Semaine dernière",
+  "stDeliveries": "Livraisons",
+  "stCollected": "Encaissé",
+  "stToRestaurant": "Au restaurant",
+  "stFee": "Gain",
+  "stMoney": "Argent",
+  "stConfirmed": "Remis",
+  "stOpen": "À remettre",
+  "stTotalCollected": "Total encaissé",
+  "stTotalToRestaurants": "Total dû aux restaurants",
+  "stStillToGive": "Reste à remettre",
+  "stEarned": "Vos gains",
+  "stDriver": "Livreur",
+  "noDeliveriesInPeriod": "Aucune livraison sur cette période",
+  "myStatements": "Mes relevés de commission",
+  "chooseFromGallery": "Choisir dans la galerie",
+  "errCamera": "Impossible d'ouvrir l'appareil photo. Autorisez la caméra dans les réglages, ou choisissez une photo dans la galerie.",
+  "reasonNoAnswer": "Le restaurant n'a pas répondu à temps",
+  "autoRejectSetting": "Refus automatique si le restaurant ne répond pas (minutes)",
+  "errAutoReject": "Entre 3 et 60 minutes"
+}

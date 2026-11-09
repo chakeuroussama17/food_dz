@@ -1,0 +1,56 @@
+name: food_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  audioplayers: ^6.8.1
+  firebase_core: ^5.1.0
+  firebase_messaging: ^17.0.1
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_map: ^8.3.2
+  flutter_riverpod: ^3.4.3
+  flutter_svg: ^2.3.2
+  flutter_web_plugins:
+    sdk: flutter
+  geolocator: ^14.1.2
+  go_router: ^18.1.3
+  image_picker: ^1.2.4
+  intl: ^0.20.2
+  latlong2: ^0.10.1
+  pdf: ^3.13.1
+  printing: ^5.15.1
+  shared_preferences: ^2.5.6
+  supabase_flutter: ^2.18.3
+  url_launcher: ^6.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/images/
+    - assets/sounds/
+  fonts:
+    - family: Sen
+      fonts:
+        - asset: assets/fonts/Sen-400.ttf
+        - asset: assets/fonts/Sen-700.ttf
+          weight: 700
+        - asset: assets/fonts/Sen-800.ttf
+          weight: 800
+    - family: NotoKufiArabic
+      fonts:
+        - asset: assets/fonts/NotoKufiArabic-400.ttf
+        - asset: assets/fonts/NotoKufiArabic-700.ttf
+          weight: 700

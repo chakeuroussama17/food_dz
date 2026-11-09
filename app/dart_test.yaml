@@ -1,0 +1,3 @@
+tags:
+  screenshot:
+    skip: "Run explicitly with --tags screenshot"

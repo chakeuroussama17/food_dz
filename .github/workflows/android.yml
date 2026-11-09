@@ -1,0 +1,88 @@
+name: Android APK
+
+# Builds the Android app on every push to main (or by hand from the Actions
+# tab) and publishes the APK as a GitHub Release you can open on the phone.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - ".github/workflows/android.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.1"
+          channel: stable
+          cache: true
+
+      # Public app configuration only (Supabase URL + publishable key,
+      # Firebase app ids), from the repository secrets. Never a server key.
+      - name: Write env.json
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_SENDER_ID: ${{ secrets.FIREBASE_SENDER_ID }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_PUBLISHABLE_KEY" ]; then
+            echo "::error::Add the SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY repository secrets (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json, os
+          keys = ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY", "FIREBASE_API_KEY",
+                  "FIREBASE_APP_ID", "FIREBASE_SENDER_ID", "FIREBASE_PROJECT_ID"]
+          json.dump({k: os.environ.get(k, "") for k in keys}, open("env.json", "w"))
+          PY
+
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+      - name: Build APK
+        run: flutter build apk --release --dart-define-from-file=env.json
+
+      - name: Rename
+        run: cp build/app/outputs/flutter-apk/app-release.apk "food-dz-${{ github.run_number }}.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: food-dz-apk
+          path: app/food-dz-${{ github.run_number }}.apk
+
+      # A release gives a direct download link that works on the phone.
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Food DZ build ${{ github.run_number }}
+          prerelease: true
+          body: |
+            Android test build from commit ${{ github.sha }}.
+            On the phone: download the .apk below, open it, allow
+            "install unknown apps" for your browser, then install.
+          files: app/food-dz-${{ github.run_number }}.apk

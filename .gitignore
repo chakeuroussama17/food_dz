@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.*
+!.env.example
+**/env.json
+supabase/.temp/
+supabase/.branches/
+
+# Private SQL with secrets (push settings)
+supabase/dashboard/private/
+# Dependencies and builds
+node_modules/
+build/
+# Android signing / Firebase files
+*.jks
+*.keystore
+key.properties
+**/google-services.json
+**/GoogleService-Info.plist
