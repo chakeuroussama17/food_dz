@@ -503,5 +503,9 @@
   "bannerNoLink": "لا شيء (صورة فقط)",
   "deleteBannerConfirm": "حذف هذه اللافتة؟",
   "moveUp": "إلى الأعلى",
-  "moveDown": "إلى الأسفل"
+  "moveDown": "إلى الأسفل",
+  "appearance": "المظهر",
+  "themeSystem": "تلقائي (حسب الهاتف)",
+  "themeLight": "فاتح",
+  "themeDark": "داكن"
 }

@@ -97,7 +97,7 @@ class _AdminOrdersPageState extends ConsumerState<AdminOrdersPage> {
                 const SizedBox(height: 4),
                 Text(
                   '${o.customerName} · ${o.customerPhone} · ${o.area}',
-                  style: const TextStyle(color: AppColors.body),
+                  style: TextStyle(color: AppColors.body),
                 ),
                 const SizedBox(height: 12),
                 Text(l.itemsTitle, style: Theme.of(ctx).textTheme.labelMedium),
@@ -143,7 +143,7 @@ class _AdminOrdersPageState extends ConsumerState<AdminOrdersPage> {
     child: Row(
       children: [
         Expanded(
-          child: Text(k, style: const TextStyle(color: AppColors.body)),
+          child: Text(k, style: TextStyle(color: AppColors.body)),
         ),
         Text(
           v,
@@ -224,7 +224,7 @@ class _AdminOrdersPageState extends ConsumerState<AdminOrdersPage> {
               child: Center(
                 child: Text(
                   l.noOrders,
-                  style: const TextStyle(color: AppColors.body),
+                  style: TextStyle(color: AppColors.body),
                 ),
               ),
             )

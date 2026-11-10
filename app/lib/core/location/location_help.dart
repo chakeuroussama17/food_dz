@@ -36,7 +36,7 @@ void showLocationProblem(BuildContext context, LocationResult r) {
     SnackBar(
       content: Text(text),
       behavior: SnackBarBehavior.floating,
-      backgroundColor: AppColors.ink,
+      backgroundColor: AppColors.pill,
       duration: const Duration(seconds: 6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),

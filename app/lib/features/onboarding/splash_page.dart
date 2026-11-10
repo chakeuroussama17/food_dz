@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../core/theme/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -62,7 +64,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
   Widget build(BuildContext context) {
     final curve = CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: AnimatedBuilder(
         animation: curve,
         builder: (context, _) {

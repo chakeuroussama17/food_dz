@@ -119,7 +119,7 @@ class _AdminRestaurantsPageState extends ConsumerState<AdminRestaurantsPage> {
                   child: Center(
                     child: Text(
                       l.noRestaurants,
-                      style: const TextStyle(color: AppColors.body),
+                      style: TextStyle(color: AppColors.body),
                     ),
                   ),
                 ),
@@ -192,7 +192,7 @@ class _RestaurantTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   r.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: AppColors.ink,
@@ -208,7 +208,7 @@ class _RestaurantTile extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 2),
               child: Text(
                 d,
-                style: const TextStyle(fontSize: 13, color: AppColors.body),
+                style: TextStyle(fontSize: 13, color: AppColors.body),
               ),
             ),
           const SizedBox(height: 10),
@@ -243,12 +243,12 @@ class _RestaurantTile extends StatelessWidget {
               ),
               Text(
                 l.deliveredCount(r.deliveredCount),
-                style: const TextStyle(fontSize: 13, color: AppColors.muted),
+                style: TextStyle(fontSize: 13, color: AppColors.muted),
               ),
               if (r.unbilledCommission > 0)
                 Text(
                   l.toBill(formatDzd(r.unbilledCommission, lang)),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: AppColors.ink,

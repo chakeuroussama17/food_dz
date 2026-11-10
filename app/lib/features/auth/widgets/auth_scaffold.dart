@@ -131,8 +131,8 @@ class AuthScaffold extends StatelessWidget {
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(24),
                     ),

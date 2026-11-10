@@ -6,19 +6,26 @@ abstract final class AppTheme {
   static String fontFor(Locale locale) =>
       locale.languageCode == 'ar' ? 'NotoKufiArabic' : 'Sen';
 
-  static ThemeData build(Locale locale) {
+  /// Builds the theme for [locale]. Call [AppColors.setDark] first: the
+  /// tokens below read the current palette.
+  static ThemeData build(Locale locale, {bool dark = false}) {
     final font = fontFor(locale);
     final fallback = font == 'Sen' ? ['NotoKufiArabic'] : ['Sen'];
     final base = ThemeData(
       useMaterial3: true,
+      brightness: dark ? Brightness.dark : Brightness.light,
       fontFamily: font,
       fontFamilyFallback: fallback,
       scaffoldBackgroundColor: AppColors.surface,
+      canvasColor: AppColors.surface,
+      cardColor: AppColors.surface,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
+        brightness: dark ? Brightness.dark : Brightness.light,
         primary: AppColors.primary,
         secondary: AppColors.accent,
         surface: AppColors.surface,
+        onSurface: AppColors.ink,
         error: AppColors.danger,
       ),
       splashFactory: InkSparkle.splashFactory,
@@ -65,6 +72,7 @@ abstract final class AppTheme {
           fontFamily: font,
           fontFamilyFallback: fallback,
         ),
+        labelStyle: TextStyle(color: AppColors.body),
         // 62px tall fields, text inset 19-20px (Figma).
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 19,
@@ -87,16 +95,42 @@ abstract final class AppTheme {
           borderSide: const BorderSide(color: AppColors.danger, width: 1.2),
         ),
       ),
-      dividerTheme: const DividerThemeData(color: AppColors.border),
-      bottomSheetTheme: const BottomSheetThemeData(
+      dividerTheme: DividerThemeData(color: AppColors.border),
+      dialogTheme: DialogThemeData(
+        backgroundColor: AppColors.surface,
+        titleTextStyle: t(18, FontWeight.w700, AppColors.ink),
+        contentTextStyle: t(15, FontWeight.w400, AppColors.ink, height: 1.4),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: AppColors.surface,
         showDragHandle: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(AppRadius.xl),
           ),
         ),
       ),
+      // Snack bars sit on the dark pill in both modes: white text.
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: AppColors.pill,
+        contentTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontFamily: font,
+          fontFamilyFallback: fallback,
+        ),
+      ),
+      popupMenuTheme: PopupMenuThemeData(color: AppColors.surface),
+      dropdownMenuTheme: DropdownMenuThemeData(
+        menuStyle: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(AppColors.surface),
+        ),
+      ),
+      listTileTheme: ListTileThemeData(
+        textColor: AppColors.ink,
+        iconColor: AppColors.inkSoft,
+      ),
+      iconTheme: IconThemeData(color: AppColors.ink),
     );
   }
 }

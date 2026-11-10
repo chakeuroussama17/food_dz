@@ -777,5 +777,9 @@
   "bannerNoLink": "Rien (image seule)",
   "deleteBannerConfirm": "Supprimer cette bannière ?",
   "moveUp": "Monter",
-  "moveDown": "Descendre"
+  "moveDown": "Descendre",
+  "appearance": "Apparence",
+  "themeSystem": "Auto (comme le téléphone)",
+  "themeLight": "Clair",
+  "themeDark": "Sombre"
 }

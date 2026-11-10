@@ -1659,4 +1659,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moveDown => 'Move down';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get themeSystem => 'Auto (like the phone)';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
 }

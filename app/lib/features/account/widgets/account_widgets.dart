@@ -48,7 +48,7 @@ class SettingsGroup extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFFF6F8FA),
+        color: AppColors.canvas,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(children: children),
@@ -88,8 +88,8 @@ class SettingsTile extends StatelessWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: AppColors.surface,
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: iconColor, size: 20),
@@ -110,10 +110,7 @@ class SettingsTile extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       value!,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF6B6E82),
-                      ),
+                      style: TextStyle(fontSize: 14, color: AppColors.body),
                     ),
                   ],
                 ],
@@ -123,9 +120,9 @@ class SettingsTile extends StatelessWidget {
                 (onTap == null
                     ? const SizedBox.shrink()
                     // Mirrors itself in RTL (matchTextDirection).
-                    : const Icon(
+                    : Icon(
                         Icons.chevron_right_rounded,
-                        color: Color(0xFF747783),
+                        color: AppColors.muted,
                       )),
           ],
         ),

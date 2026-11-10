@@ -25,7 +25,7 @@ class CategoryPage extends ConsumerWidget {
     final cats = ref.watch(categoriesProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -43,7 +43,7 @@ class CategoryPage extends ConsumerWidget {
                         child: Center(
                           child: Text(
                             l.noResults(slug),
-                            style: const TextStyle(color: AppColors.body),
+                            style: TextStyle(color: AppColors.body),
                           ),
                         ),
                       ),
@@ -61,7 +61,7 @@ class CategoryPage extends ConsumerWidget {
                         padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
                         child: Text(
                           l.popularIn(cat.name(lang)),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             color: AppColors.inkSoft,
                           ),
@@ -114,14 +114,14 @@ class _Header extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(33),
-                border: Border.all(color: const Color(0xFFECF0F4)),
+                border: Border.all(color: AppColors.border),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     current.name(lang).toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: AppColors.ink,
@@ -139,7 +139,7 @@ class _Header extends StatelessWidget {
           const Spacer(),
           CircleIconButton(
             icon: Icons.search_rounded,
-            background: AppColors.ink,
+            background: AppColors.pill,
             foreground: Colors.white,
             onPressed: () => context.push('/search'),
           ),
@@ -168,7 +168,7 @@ class _PopularItems extends ConsumerWidget {
         child: list.isEmpty
             ? Text(
                 l.noResults(category.name(lang)),
-                style: const TextStyle(color: AppColors.body),
+                style: TextStyle(color: AppColors.body),
               )
             : ProductGrid(
                 children: [

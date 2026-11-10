@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/widgets/theme_switch.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -52,7 +54,7 @@ class DriverDeliveriesPage extends ConsumerWidget {
                   ? Center(
                       child: Text(
                         l.noDeliveries,
-                        style: const TextStyle(color: AppColors.body),
+                        style: TextStyle(color: AppColors.body),
                       ),
                     )
                   : RefreshIndicator(
@@ -76,7 +78,7 @@ class DriverDeliveriesPage extends ConsumerWidget {
                                     children: [
                                       Text(
                                         '#${o.code} · ${o.restaurantName}',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           color: AppColors.ink,
                                         ),
@@ -89,9 +91,7 @@ class DriverDeliveriesPage extends ConsumerWidget {
                                           ),
                                           if (o.area.isNotEmpty) o.area,
                                         ].join(' · '),
-                                        style: const TextStyle(
-                                          color: AppColors.body,
-                                        ),
+                                        style: TextStyle(color: AppColors.body),
                                       ),
                                     ],
                                   ),
@@ -179,6 +179,12 @@ class DriverAccountPage extends ConsumerWidget {
                 label: l.language,
                 trailing: const LanguageSwitch(),
               ),
+              SettingsTile(
+                icon: Icons.dark_mode_outlined,
+                iconColor: const Color(0xFF7C6FD6),
+                label: l.appearance,
+                trailing: const ThemeSwitch(),
+              ),
             ],
           ),
           SettingsGroup(
@@ -219,7 +225,7 @@ class _StatementButtonState extends ConsumerState<_StatementButton> {
     final lang = Localizations.localeOf(context).languageCode;
     final period = await showModalBottomSheet<DriverPeriod>(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       builder: (ctx) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,

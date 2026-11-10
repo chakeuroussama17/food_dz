@@ -37,7 +37,7 @@ class AdminReceiptsPage extends ConsumerWidget {
             ? Center(
                 child: Text(
                   l.noReceipts,
-                  style: const TextStyle(color: AppColors.body),
+                  style: TextStyle(color: AppColors.body),
                 ),
               )
             : ListView(

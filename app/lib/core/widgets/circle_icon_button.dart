@@ -9,8 +9,8 @@ class CircleIconButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.onPressed,
-    this.background = AppColors.field,
-    this.foreground = AppColors.ink,
+    this.background,
+    this.foreground,
     this.size = 45,
     this.tooltip,
   });
@@ -29,9 +29,9 @@ class CircleIconButton extends StatelessWidget {
       tooltip: MaterialLocalizations.of(context).backButtonTooltip,
       onPressed: onPressed ?? () => Navigator.of(context).maybePop(),
       background: dark
-          ? AppColors.ink
+          ? AppColors.pill
           : onImage
-          ? Colors.white
+          ? AppColors.surface
           : AppColors.field,
       foreground: dark ? Colors.white : AppColors.ink,
     );
@@ -39,22 +39,30 @@ class CircleIconButton extends StatelessWidget {
 
   final IconData icon;
   final VoidCallback? onPressed;
-  final Color background;
-  final Color foreground;
+
+  /// Default: the input fill colour.
+  final Color? background;
+
+  /// Default: the main text colour.
+  final Color? foreground;
   final double size;
   final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
     final button = Material(
-      color: background,
+      color: background ?? AppColors.field,
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onPressed,
         child: SizedBox.square(
           dimension: size,
-          child: Icon(icon, color: foreground, size: size * 0.6),
+          child: Icon(
+            icon,
+            color: foreground ?? AppColors.ink,
+            size: size * 0.6,
+          ),
         ),
       ),
     );

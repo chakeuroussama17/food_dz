@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/widgets/theme_switch.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -185,7 +187,7 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
           const SizedBox(height: 20),
           Text(
             l.businessInfo,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.ink,
@@ -259,6 +261,12 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
                 trailing: const LanguageSwitch(),
               ),
               SettingsTile(
+                icon: Icons.dark_mode_outlined,
+                iconColor: const Color(0xFF7C6FD6),
+                label: l.appearance,
+                trailing: const ThemeSwitch(),
+              ),
+              SettingsTile(
                 icon: Icons.logout_rounded,
                 iconColor: const Color(0xFFFB4A59),
                 label: l.logOut,
@@ -307,7 +315,7 @@ class _AdminCustomersPageState extends ConsumerState<AdminCustomersPage> {
                     decoration: InputDecoration(
                       hintText: l.searchCustomers,
                       prefixIcon: const Icon(Icons.search_rounded),
-                      fillColor: Colors.white,
+                      fillColor: AppColors.surface,
                     ),
                     onSubmitted: (v) => setState(() {
                       _search = v;
@@ -362,7 +370,7 @@ class _AdminCustomersPageState extends ConsumerState<AdminCustomersPage> {
                                         Text(l.ordersCount(c.ordersCount)),
                                         Text(
                                           formatDzd(c.spent, lang),
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: AppColors.muted,
                                           ),
                                         ),

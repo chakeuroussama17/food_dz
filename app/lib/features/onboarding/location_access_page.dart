@@ -48,7 +48,7 @@ class _LocationAccessPageState extends ConsumerState<LocationAccessPage> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -83,7 +83,7 @@ class _LocationAccessPageState extends ConsumerState<LocationAccessPage> {
                   Text(
                     l.locationExplain,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       height: 1.5,
                       color: AppColors.body,

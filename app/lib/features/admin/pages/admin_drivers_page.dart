@@ -65,7 +65,7 @@ class _AdminDriversPageState extends ConsumerState<AdminDriversPage> {
             ? Center(
                 child: Text(
                   l.noDrivers,
-                  style: const TextStyle(color: AppColors.body),
+                  style: TextStyle(color: AppColors.body),
                 ),
               )
             : ListView.separated(
@@ -118,7 +118,7 @@ class _AdminDriversPageState extends ConsumerState<AdminDriversPage> {
                             d.phone,
                             if (d.email.isNotEmpty) d.email,
                           ].join(' · '),
-                          style: const TextStyle(color: AppColors.body),
+                          style: TextStyle(color: AppColors.body),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -127,7 +127,7 @@ class _AdminDriversPageState extends ConsumerState<AdminDriversPage> {
                             if (d.activeOrderCode != null)
                               l.currentOrderCode(d.activeOrderCode!),
                           ].join(' · '),
-                          style: const TextStyle(color: AppColors.body),
+                          style: TextStyle(color: AppColors.body),
                         ),
                         if (d.cashOwed > 0)
                           Text(

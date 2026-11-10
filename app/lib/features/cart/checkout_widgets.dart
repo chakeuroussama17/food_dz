@@ -282,7 +282,7 @@ class _DeliveryDetailsSheetState extends State<DeliveryDetailsSheet> {
                             a.addressText,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 15,
                               color: AppColors.ink,
                             ),
@@ -291,7 +291,7 @@ class _DeliveryDetailsSheetState extends State<DeliveryDetailsSheet> {
                               ? null
                               : Text(
                                   a.area,
-                                  style: const TextStyle(color: AppColors.body),
+                                  style: TextStyle(color: AppColors.body),
                                 ),
                         ),
                     ],
@@ -388,10 +388,7 @@ class BreakdownSheet extends StatelessWidget {
                   color: AppColors.primary,
                 ),
                 const SizedBox(width: 8),
-                Text(
-                  l.cashOnDelivery,
-                  style: const TextStyle(color: AppColors.body),
-                ),
+                Text(l.cashOnDelivery, style: TextStyle(color: AppColors.body)),
               ],
             ),
           ],

@@ -70,7 +70,7 @@ class AdminScaffold extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: AppColors.ink,
@@ -93,7 +93,7 @@ class AdminScaffold extends StatelessWidget {
           : NavigationBar(
               selectedIndex: section.index,
               onDestinationSelected: go,
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.surface,
               indicatorColor: AppColors.primarySoft,
               labelBehavior:
                   NavigationDestinationLabelBehavior.onlyShowSelected,
@@ -114,7 +114,7 @@ class AdminScaffold extends StatelessWidget {
                     selectedIndex: section.index,
                     onDestinationSelected: go,
                     labelType: NavigationRailLabelType.all,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.surface,
                     indicatorColor: AppColors.primarySoft,
                     leading: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -162,7 +162,7 @@ class AdminCard extends StatelessWidget {
   // A Material (not a decorated Container) so list rows inside show their
   // tap ripple instead of having it hidden under the white background.
   Widget build(BuildContext context) => Material(
-    color: Colors.white,
+    color: AppColors.surface,
     borderRadius: BorderRadius.circular(16),
     clipBehavior: Clip.antiAlias,
     child: Padding(
@@ -170,9 +170,9 @@ class AdminCard extends StatelessWidget {
       // The theme's default body text is the muted grey used for
       // descriptions; admin figures must read in the normal dark ink.
       child: DefaultTextStyle.merge(
-        style: const TextStyle(color: AppColors.ink, fontSize: 14),
+        style: TextStyle(color: AppColors.ink, fontSize: 14),
         child: DataTableTheme(
-          data: const DataTableThemeData(
+          data: DataTableThemeData(
             dataTextStyle: TextStyle(color: AppColors.ink, fontSize: 14),
             headingTextStyle: TextStyle(
               color: AppColors.ink,
@@ -207,7 +207,7 @@ class AdminStatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: highlight ? AppColors.primary : Colors.white,
+      color: highlight ? AppColors.primary : AppColors.surface,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),

@@ -29,7 +29,7 @@ class SheetPanel extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: tinted ? AppColors.field : Colors.white,
+        color: tinted ? AppColors.field : AppColors.surface,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(AppRadius.xl),
         ),

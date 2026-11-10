@@ -80,7 +80,7 @@ class StatusSteps extends StatelessWidget {
                   height: 24,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: state == _S.current ? Colors.white : color,
+                    color: state == _S.current ? AppColors.surface : color,
                     border: Border.all(color: color, width: 3),
                   ),
                   child: switch (state) {

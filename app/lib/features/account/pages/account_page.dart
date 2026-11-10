@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/widgets/theme_switch.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -62,7 +64,7 @@ class AccountPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l.back, style: const TextStyle(color: AppColors.body)),
+            child: Text(l.back, style: TextStyle(color: AppColors.body)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -96,14 +98,14 @@ class AccountPage extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final profile = ref.watch(profileProvider);
     final version = ref.watch(_versionProvider).value ?? '';
-    const sectionTitle = TextStyle(
+    final sectionTitle = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w800,
       color: AppColors.ink,
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       extendBody: true,
       bottomNavigationBar: const CustomerNavBar(current: CustomerTab.account),
       body: SafeArea(
@@ -118,7 +120,7 @@ class AccountPage extends ConsumerWidget {
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
                   child: Text(
                     l.navAccount,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: AppColors.ink,
@@ -142,7 +144,7 @@ class AccountPage extends ConsumerWidget {
                                   p.fullName.isEmpty ? p.email : p.fullName,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 26,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.ink,
@@ -151,7 +153,7 @@ class AccountPage extends ConsumerWidget {
                                 const SizedBox(height: 4),
                                 Text(
                                   l.viewProfile,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.inkSoft,
@@ -209,6 +211,11 @@ class AccountPage extends ConsumerWidget {
                   label: l.language,
                   trailing: const LanguageSwitch(),
                 ),
+                _Row(
+                  icon: Icons.dark_mode_outlined,
+                  label: l.appearance,
+                  trailing: const ThemeSwitch(),
+                ),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -250,7 +257,7 @@ class AccountPage extends ConsumerWidget {
                       ),
                       child: Text(
                         l.logOut,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: AppColors.ink,
@@ -273,10 +280,7 @@ class AccountPage extends ConsumerWidget {
                   Center(
                     child: Text(
                       '${l.appVersion} $version',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.muted,
-                      ),
+                      style: TextStyle(fontSize: 13, color: AppColors.muted),
                     ),
                   ),
               ],
@@ -300,10 +304,10 @@ class _ShortcutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-    color: Colors.white,
+    color: AppColors.surface,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(18),
-      side: const BorderSide(color: AppColors.border),
+      side: BorderSide(color: AppColors.border),
     ),
     child: InkWell(
       borderRadius: BorderRadius.circular(18),
@@ -319,7 +323,7 @@ class _ShortcutCard extends StatelessWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14, color: AppColors.ink),
+              style: TextStyle(fontSize: 14, color: AppColors.ink),
             ),
           ],
         ),
@@ -352,11 +356,11 @@ class _Row extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(fontSize: 16, color: AppColors.ink),
+              style: TextStyle(fontSize: 16, color: AppColors.ink),
             ),
           ),
           trailing ??
-              const Icon(Icons.chevron_right_rounded, color: AppColors.inkSoft),
+              Icon(Icons.chevron_right_rounded, color: AppColors.inkSoft),
         ],
       ),
     ),

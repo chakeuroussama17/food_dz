@@ -47,7 +47,7 @@ class _AdminBannersPageState extends ConsumerState<AdminBannersPage> {
     final added = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
       ),
@@ -110,7 +110,7 @@ class _AdminBannersPageState extends ConsumerState<AdminBannersPage> {
                   child: Text(
                     l.noBanners,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: AppColors.body),
+                    style: TextStyle(color: AppColors.body),
                   ),
                 ),
               )
@@ -149,9 +149,7 @@ class _AdminBannersPageState extends ConsumerState<AdminBannersPage> {
                                   if (b.restaurantName != null)
                                     Text(
                                       '→ ${b.restaurantName}',
-                                      style: const TextStyle(
-                                        color: AppColors.body,
-                                      ),
+                                      style: TextStyle(color: AppColors.body),
                                     ),
                                 ],
                               ),
@@ -278,7 +276,7 @@ class _AddBannerSheetState extends ConsumerState<_AddBannerSheet> {
               const SizedBox(height: 4),
               Text(
                 l.bannerSizeHint,
-                style: const TextStyle(color: AppColors.body, fontSize: 13),
+                style: TextStyle(color: AppColors.body, fontSize: 13),
               ),
               const SizedBox(height: 12),
               AspectRatio(

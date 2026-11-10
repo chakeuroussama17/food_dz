@@ -56,7 +56,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     final last = _index == _count - 1;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -138,7 +138,7 @@ class _Slide extends StatelessWidget {
               child: Text(
                 title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                   color: AppColors.inkSoft,
@@ -151,7 +151,7 @@ class _Slide extends StatelessWidget {
               child: Text(
                 body,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   height: 24 / 16,
                   color: AppColors.body,

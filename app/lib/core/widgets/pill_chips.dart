@@ -41,11 +41,11 @@ class PillChips<T> extends StatelessWidget {
                 ? AppColors.accent
                 : filledUnselected
                 ? AppColors.field
-                : Colors.white,
+                : AppColors.surface,
             shape: StadiumBorder(
               side: isSel || filledUnselected
                   ? BorderSide.none
-                  : const BorderSide(color: AppColors.border, width: 2),
+                  : BorderSide(color: AppColors.border, width: 2),
             ),
             clipBehavior: Clip.antiAlias,
             child: InkWell(

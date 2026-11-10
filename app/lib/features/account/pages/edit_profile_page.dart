@@ -22,7 +22,7 @@ class EditProfilePage extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final profile = ref.watch(profileProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(

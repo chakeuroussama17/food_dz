@@ -220,7 +220,7 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
               Material(
                 elevation: 3,
                 shadowColor: const Color(0x33000000),
-                color: Colors.white,
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppRadius.md),
                 child: TextField(
                   controller: _search,
@@ -228,14 +228,14 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
                   onChanged: _onQuery,
                   onSubmitted: _run,
                   textInputAction: TextInputAction.search,
-                  style: const TextStyle(fontSize: 14, color: AppColors.ink),
+                  style: TextStyle(fontSize: 14, color: AppColors.ink),
                   decoration: InputDecoration(
                     hintText: l.searchAddressHint,
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: AppColors.surface,
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(vertical: 13),
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.search_rounded,
                       color: AppColors.muted,
                     ),
@@ -278,7 +278,7 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
                 Padding(
                   padding: const EdgeInsets.only(top: 6),
                   child: Material(
-                    color: Colors.white,
+                    color: AppColors.surface,
                     elevation: 4,
                     shadowColor: const Color(0x33000000),
                     borderRadius: BorderRadius.circular(AppRadius.md),
@@ -290,7 +290,7 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
                         padding: EdgeInsets.zero,
                         itemCount: _results.length,
                         separatorBuilder: (_, _) =>
-                            const Divider(height: 1, color: AppColors.border),
+                            Divider(height: 1, color: AppColors.border),
                         itemBuilder: (_, i) => ListTile(
                           dense: true,
                           leading: const Icon(
@@ -301,7 +301,7 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
                             _results[i].label,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
                               color: AppColors.ink,
                             ),
@@ -322,7 +322,7 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
             icon: _locating
                 ? Icons.hourglass_top_rounded
                 : Icons.my_location_rounded,
-            background: Colors.white,
+            background: AppColors.surface,
             foreground: AppColors.primary,
             tooltip: l.useMyLocation,
             onPressed: _locating ? null : _locateMe,

@@ -19,7 +19,7 @@ class PersonalInfoPage extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final profile = ref.watch(profileProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -57,7 +57,7 @@ class PersonalInfoPage extends ConsumerWidget {
                             Expanded(
                               child: Text(
                                 p.fullName,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.inkSoft,

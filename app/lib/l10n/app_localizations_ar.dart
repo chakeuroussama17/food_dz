@@ -1654,4 +1654,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get moveDown => 'إلى الأسفل';
+
+  @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get themeSystem => 'تلقائي (حسب الهاتف)';
+
+  @override
+  String get themeLight => 'فاتح';
+
+  @override
+  String get themeDark => 'داكن';
 }

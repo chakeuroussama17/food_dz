@@ -84,7 +84,7 @@ class _OwnerStatementsPageState extends ConsumerState<OwnerStatementsPage> {
                         ? Center(
                             child: Text(
                               l.noReceipts,
-                              style: const TextStyle(color: AppColors.body),
+                              style: TextStyle(color: AppColors.body),
                             ),
                           )
                         : ListView.separated(
@@ -98,7 +98,7 @@ class _OwnerStatementsPageState extends ConsumerState<OwnerStatementsPage> {
                               return Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: AppColors.surface,
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Column(
@@ -109,7 +109,7 @@ class _OwnerStatementsPageState extends ConsumerState<OwnerStatementsPage> {
                                         Expanded(
                                           child: Text(
                                             s.number,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 16,
                                               color: AppColors.ink,
@@ -129,15 +129,13 @@ class _OwnerStatementsPageState extends ConsumerState<OwnerStatementsPage> {
                                       '${day.format(s.periodStart)} - '
                                       '${day.format(s.periodEnd)} · '
                                       '${l.ordersCount}: ${s.ordersCount}',
-                                      style: const TextStyle(
-                                        color: AppColors.body,
-                                      ),
+                                      style: TextStyle(color: AppColors.body),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       '${l.commissionDue} : '
                                       '${formatDzd(s.commissionTotal, lang)}',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.ink,
                                       ),

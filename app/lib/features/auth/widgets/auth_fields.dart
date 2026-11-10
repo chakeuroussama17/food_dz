@@ -53,7 +53,7 @@ class _PasswordFieldState extends State<PasswordField> {
         onPressed: () => setState(() => _obscure = !_obscure),
         icon: Icon(
           _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-          color: const Color(0xFFB4B9CA),
+          color: AppColors.muted,
           size: 20,
         ),
       ),
@@ -92,7 +92,7 @@ class RememberCheckbox extends StatelessWidget {
                 width: 20,
                 height: 20,
                 decoration: BoxDecoration(
-                  color: value ? AppColors.primary : Colors.white,
+                  color: value ? AppColors.primary : AppColors.surface,
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
                     color: value ? AppColors.primary : AppColors.checkboxBorder,
@@ -112,7 +112,7 @@ class RememberCheckbox extends StatelessWidget {
                 child: Text(
                   label,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 13, color: AppColors.subtle),
+                  style: TextStyle(fontSize: 13, color: AppColors.subtle),
                 ),
               ),
             ],
@@ -142,7 +142,7 @@ class AuthLinkRow extends StatelessWidget {
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Text(text, style: const TextStyle(fontSize: 16, color: AppColors.body)),
+        Text(text, style: TextStyle(fontSize: 16, color: AppColors.body)),
         TextButton(
           onPressed: onTap,
           style: TextButton.styleFrom(
@@ -273,7 +273,7 @@ class _CodeInputState extends State<CodeInput> {
       ),
       child: Text(
         i < value.length ? value[i] : '',
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w700,
           color: AppColors.inkSoft,

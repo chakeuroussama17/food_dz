@@ -94,10 +94,7 @@ class OrderCard extends StatelessWidget {
                       children: [
                         Text(
                           amount ?? '',
-                          style: const TextStyle(
-                            fontSize: 17,
-                            color: AppColors.ink,
-                          ),
+                          style: TextStyle(fontSize: 17, color: AppColors.ink),
                         ),
                         if (actions.isNotEmpty)
                           Wrap(spacing: 12, runSpacing: 8, children: actions),

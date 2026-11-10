@@ -9,7 +9,7 @@ void showAppSnack(BuildContext context, String message, {bool error = false}) {
     SnackBar(
       content: Text(message),
       behavior: SnackBarBehavior.floating,
-      backgroundColor: error ? AppColors.danger : AppColors.ink,
+      backgroundColor: error ? AppColors.danger : AppColors.pill,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
     ),

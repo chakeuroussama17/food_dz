@@ -160,7 +160,7 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                             children: [
                               Text(
                                 l.driverPendingTitle,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.ink,
                                 ),
@@ -168,7 +168,7 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                               const SizedBox(height: 4),
                               Text(
                                 l.driverPendingBody,
-                                style: const TextStyle(color: AppColors.body),
+                                style: TextStyle(color: AppColors.body),
                               ),
                             ],
                           ),
@@ -192,7 +192,7 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                           children: [
                             Text(
                               d.isOnline ? l.onlineLabel : l.offlineLabel,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.ink,
@@ -200,7 +200,7 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                             ),
                             Text(
                               d.isOnline ? l.youAreOnline : l.youAreOffline,
-                              style: const TextStyle(color: AppColors.body),
+                              style: TextStyle(color: AppColors.body),
                             ),
                           ],
                         ),
@@ -218,7 +218,7 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                 if (blocked) ...[
                   const SizedBox(height: 12),
                   DriverCard(
-                    color: const Color(0xFFFFE8E6),
+                    color: AppColors.dangerSoft,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -241,7 +241,7 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                               const SizedBox(height: 4),
                               Text(
                                 l.errCashOverdue,
-                                style: const TextStyle(color: AppColors.ink),
+                                style: TextStyle(color: AppColors.ink),
                               ),
                             ],
                           ),
@@ -325,14 +325,14 @@ class _CashListState extends ConsumerState<_CashList> {
         children: [
           Text(
             l.moneyToHandTotal(formatDzd(total, lang)),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.ink,
             ),
           ),
           for (final c in widget.items) ...[
-            const Divider(color: AppColors.border, height: 20),
+            Divider(color: AppColors.border, height: 20),
             Row(
               children: [
                 Expanded(
@@ -341,7 +341,7 @@ class _CashListState extends ConsumerState<_CashList> {
                     children: [
                       Text(
                         c.restaurantName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: AppColors.ink,
                         ),
@@ -357,7 +357,7 @@ class _CashListState extends ConsumerState<_CashList> {
                 ),
                 Text(
                   formatDzd(c.amount, lang),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: AppColors.ink,
                   ),
@@ -392,7 +392,7 @@ class _SectionTitle extends StatelessWidget {
     padding: const EdgeInsets.only(bottom: 10),
     child: Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w700,
         color: AppColors.ink,
@@ -483,13 +483,13 @@ class _Route extends StatelessWidget {
             children: [
               Text(
                 a,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: AppColors.ink,
                 ),
               ),
               if (b.isNotEmpty)
-                Text(b, style: const TextStyle(color: AppColors.body)),
+                Text(b, style: TextStyle(color: AppColors.body)),
             ],
           ),
         ),
@@ -530,15 +530,12 @@ class _AvailableList extends ConsumerWidget {
           return DriverCard(
             child: Row(
               children: [
-                const Icon(
-                  Icons.hourglass_empty_rounded,
-                  color: AppColors.muted,
-                ),
+                Icon(Icons.hourglass_empty_rounded, color: AppColors.muted),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     l.noAvailableOrders,
-                    style: const TextStyle(color: AppColors.body),
+                    style: TextStyle(color: AppColors.body),
                   ),
                 ),
               ],
@@ -566,7 +563,7 @@ class _AvailableList extends ConsumerWidget {
                           const SizedBox(width: 8),
                           Text(
                             DateFormat('HH:mm').format(o.placedAt),
-                            style: const TextStyle(color: AppColors.muted),
+                            style: TextStyle(color: AppColors.muted),
                           ),
                           const Spacer(),
                           Pill(
@@ -599,7 +596,7 @@ class _AvailableList extends ConsumerWidget {
                       ),
                       Text(
                         l.itemCount(o.itemCount),
-                        style: const TextStyle(color: AppColors.muted),
+                        style: TextStyle(color: AppColors.muted),
                       ),
                       const SizedBox(height: 12),
                       AppButton(

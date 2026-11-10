@@ -109,10 +109,7 @@ class _BodyState extends ConsumerState<_Body> {
                     r.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF676767),
-                    ),
+                    style: TextStyle(fontSize: 16, color: AppColors.body),
                   ),
                 ],
               ),
@@ -134,9 +131,9 @@ class _BodyState extends ConsumerState<_Body> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF4E5),
+              color: AppColors.primarySoft,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFFFD8A8)),
+              border: Border.all(color: AppColors.border),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +149,7 @@ class _BodyState extends ConsumerState<_Body> {
                     children: [
                       Text(
                         l.pendingApprovalTitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: AppColors.ink,
@@ -161,7 +158,7 @@ class _BodyState extends ConsumerState<_Body> {
                       const SizedBox(height: 4),
                       Text(
                         l.pendingApprovalBody,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           height: 1.4,
                           color: AppColors.body,
@@ -193,7 +190,7 @@ class _BodyState extends ConsumerState<_Body> {
                   children: [
                     Text(
                       r.isOpen ? l.openForOrders : l.closedForOrders,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                         color: AppColors.ink,
@@ -202,10 +199,7 @@ class _BodyState extends ConsumerState<_Body> {
                     const SizedBox(height: 2),
                     Text(
                       r.isActive ? l.openSwitchHint : l.cantOpenPending,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.muted,
-                      ),
+                      style: TextStyle(fontSize: 13, color: AppColors.muted),
                     ),
                   ],
                 ),
@@ -249,10 +243,7 @@ class _BodyState extends ConsumerState<_Body> {
                   Expanded(
                     child: Text(
                       l.myMenu,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.inkSoft,
-                      ),
+                      style: TextStyle(fontSize: 14, color: AppColors.inkSoft),
                     ),
                   ),
                   TextButton(
@@ -273,7 +264,7 @@ class _BodyState extends ConsumerState<_Body> {
               const SizedBox(height: 4),
               Text(
                 l.totalItems(items?.length ?? 0),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
                   color: AppColors.ink,
@@ -283,7 +274,7 @@ class _BodyState extends ConsumerState<_Body> {
                 const SizedBox(height: 4),
                 Text(
                   l.dishesAvailable(available, items.length),
-                  style: const TextStyle(fontSize: 14, color: AppColors.muted),
+                  style: TextStyle(fontSize: 14, color: AppColors.muted),
                 ),
               ],
               if (items != null && items.isEmpty) ...[
@@ -330,7 +321,7 @@ class _CashToReceiveCardState extends ConsumerState<CashToReceiveCard> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l.back, style: const TextStyle(color: AppColors.body)),
+            child: Text(l.back, style: TextStyle(color: AppColors.body)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -384,7 +375,7 @@ class _CashToReceiveCardState extends ConsumerState<CashToReceiveCard> {
                 Expanded(
                   child: Text(
                     l.cashToReceive,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: AppColors.ink,
@@ -402,7 +393,7 @@ class _CashToReceiveCardState extends ConsumerState<CashToReceiveCard> {
               ],
             ),
             for (final c in items) ...[
-              const Divider(color: AppColors.border, height: 20),
+              Divider(color: AppColors.border, height: 20),
               Row(
                 children: [
                   Expanded(
@@ -414,14 +405,14 @@ class _CashToReceiveCardState extends ConsumerState<CashToReceiveCard> {
                             if (c.driverName.isNotEmpty) c.driverName,
                             if (c.driverPhone.isNotEmpty) c.driverPhone,
                           ].join(' · '),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: AppColors.ink,
                           ),
                         ),
                         Text(
                           '#${c.code} · ${l.deliveredOnTime(when.format(c.deliveredAt))}',
-                          style: const TextStyle(color: AppColors.body),
+                          style: TextStyle(color: AppColors.body),
                         ),
                         if (c.handedAt != null)
                           Text(
@@ -433,7 +424,7 @@ class _CashToReceiveCardState extends ConsumerState<CashToReceiveCard> {
                   ),
                   Text(
                     formatDzd(c.amount, lang),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: AppColors.ink,
                     ),

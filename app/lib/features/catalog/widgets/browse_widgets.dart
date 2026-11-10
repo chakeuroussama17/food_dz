@@ -53,12 +53,12 @@ class _ErrorBox extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.wifi_off_rounded, color: AppColors.muted, size: 36),
+          Icon(Icons.wifi_off_rounded, color: AppColors.muted, size: 36),
           const SizedBox(height: 8),
           Text(
             l.loadError,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: AppColors.body),
+            style: TextStyle(color: AppColors.body),
           ),
           TextButton(
             onPressed: onRetry,
@@ -88,7 +88,7 @@ class SectionHeader extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: const TextStyle(fontSize: 20, color: AppColors.inkSoft),
+              style: TextStyle(fontSize: 20, color: AppColors.inkSoft),
             ),
           ),
           if (onSeeAll != null)
@@ -103,7 +103,7 @@ class SectionHeader extends StatelessWidget {
                 children: [
                   Text(l.seeAll, style: const TextStyle(fontSize: 16)),
                   const SizedBox(width: 4),
-                  const Icon(
+                  Icon(
                     Icons.chevron_right_rounded,
                     size: 20,
                     color: AppColors.muted,
@@ -129,7 +129,7 @@ class SearchFieldButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Material(
-        color: const Color(0xFFF6F6F6),
+        color: AppColors.field,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
@@ -139,16 +139,13 @@ class SearchFieldButton extends StatelessWidget {
             child: Row(
               children: [
                 const SizedBox(width: 20),
-                const Icon(Icons.search_rounded, color: AppColors.muted),
+                Icon(Icons.search_rounded, color: AppColors.muted),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     l.searchHint,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF676767),
-                    ),
+                    style: TextStyle(fontSize: 14, color: AppColors.body),
                   ),
                 ),
               ],
@@ -194,7 +191,7 @@ class CategoryThumb extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppColors.primarySoft,
       ),
@@ -230,7 +227,7 @@ class CategoryPill extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: selected ? _selected : Colors.white,
+          color: selected ? _selected : AppColors.surface,
           borderRadius: BorderRadius.circular(39),
           boxShadow: const [
             BoxShadow(
@@ -254,10 +251,13 @@ class CategoryPill extends StatelessWidget {
                   const SizedBox(width: 12),
                   Text(
                     label,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.inkSoft,
+                      // Dark text on the yellow selected pill, in both modes.
+                      color: selected
+                          ? const Color(0xFF32343E)
+                          : AppColors.inkSoft,
                     ),
                   ),
                 ],
@@ -321,17 +321,14 @@ class RestaurantCard extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              r.name,
-              style: const TextStyle(fontSize: 20, color: AppColors.ink),
-            ),
+            Text(r.name, style: TextStyle(fontSize: 20, color: AppColors.ink)),
             if (cats.isNotEmpty) ...[
               const SizedBox(height: 5),
               Text(
                 cats,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 14, color: AppColors.muted),
+                style: TextStyle(fontSize: 14, color: AppColors.muted),
               ),
             ],
             const SizedBox(height: 12),
@@ -368,7 +365,7 @@ class _Badge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: AppColors.ink.withValues(alpha: .8),
+        color: AppColors.pill.withValues(alpha: .8),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
@@ -391,7 +388,7 @@ class CartButton extends ConsumerWidget {
       clipBehavior: Clip.none,
       children: [
         Material(
-          color: AppColors.ink,
+          color: AppColors.pill,
           shape: const CircleBorder(),
           child: InkWell(
             customBorder: const CircleBorder(),

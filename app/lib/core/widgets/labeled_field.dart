@@ -58,7 +58,7 @@ class LabeledField extends StatelessWidget {
               if (optionalLabel != null)
                 TextSpan(
                   text: '  ($optionalLabel)',
-                  style: const TextStyle(color: AppColors.muted),
+                  style: TextStyle(color: AppColors.muted),
                 ),
             ],
           ),
@@ -78,7 +78,7 @@ class LabeledField extends StatelessWidget {
             autofillHints: autofillHints,
             onFieldSubmitted: onSubmitted,
             enabled: enabled,
-            style: const TextStyle(fontSize: 14, color: AppColors.inkSoft),
+            style: TextStyle(fontSize: 14, color: AppColors.inkSoft),
             decoration: InputDecoration(
               hintText: hint,
               counterText: '',

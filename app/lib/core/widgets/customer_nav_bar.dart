@@ -67,7 +67,7 @@ class CustomerNavBar extends ConsumerWidget {
         child: Container(
           height: 66,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(33),
             boxShadow: const [
               BoxShadow(
@@ -123,7 +123,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppColors.primary : const Color(0xFF8A8FA3);
+    final color = selected ? AppColors.primary : AppColors.muted;
     return Semantics(
       button: true,
       selected: selected,

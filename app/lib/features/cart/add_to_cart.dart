@@ -37,10 +37,7 @@ Future<bool> addToCartWithPrompt(
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(
-              l.cancel,
-              style: const TextStyle(color: AppColors.body),
-            ),
+            child: Text(l.cancel, style: TextStyle(color: AppColors.body)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),

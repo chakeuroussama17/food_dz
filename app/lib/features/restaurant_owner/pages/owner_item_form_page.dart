@@ -117,10 +117,7 @@ class _OwnerItemFormPageState extends ConsumerState<OwnerItemFormPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(
-              l.cancel,
-              style: const TextStyle(color: AppColors.body),
-            ),
+            child: Text(l.cancel, style: TextStyle(color: AppColors.body)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -158,7 +155,7 @@ class _OwnerItemFormPageState extends ConsumerState<OwnerItemFormPage> {
       );
     }
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -244,7 +241,7 @@ class _OwnerItemFormPageState extends ConsumerState<OwnerItemFormPage> {
                                   ),
                                   Text(
                                     l.available,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 13,
                                       color: AppColors.subtle,
                                     ),

@@ -66,7 +66,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
     final order = ref.watch(myOrderProvider(widget.orderId));
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -242,7 +242,7 @@ class _OrderBody extends ConsumerWidget {
                       ),
                       Text(
                         o.driverName!,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: AppColors.ink,
@@ -263,7 +263,7 @@ class _OrderBody extends ConsumerWidget {
               ],
             ),
           ),
-        const Divider(color: AppColors.border, height: 24),
+        Divider(color: AppColors.border, height: 24),
 
         // What was ordered.
         Text(
@@ -278,7 +278,7 @@ class _OrderBody extends ConsumerWidget {
               children: [
                 Text(
                   '${i.quantity}×',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: AppColors.ink,
                   ),
@@ -287,17 +287,17 @@ class _OrderBody extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     i.name,
-                    style: const TextStyle(color: AppColors.ink, fontSize: 15),
+                    style: TextStyle(color: AppColors.ink, fontSize: 15),
                   ),
                 ),
                 Text(
                   formatDzd(i.lineTotal, lang),
-                  style: const TextStyle(color: AppColors.body),
+                  style: TextStyle(color: AppColors.body),
                 ),
               ],
             ),
           ),
-        const Divider(color: AppColors.border, height: 24),
+        Divider(color: AppColors.border, height: 24),
         MoneyRow(label: l.subtotal, value: formatDzd(o.foodTotal, lang)),
         MoneyRow(
           label: l.deliveryFee,
@@ -315,13 +315,10 @@ class _OrderBody extends ConsumerWidget {
               color: AppColors.primary,
             ),
             const SizedBox(width: 8),
-            Text(
-              l.cashOnDelivery,
-              style: const TextStyle(color: AppColors.body),
-            ),
+            Text(l.cashOnDelivery, style: TextStyle(color: AppColors.body)),
           ],
         ),
-        const Divider(color: AppColors.border, height: 32),
+        Divider(color: AppColors.border, height: 32),
 
         // Where it goes.
         Text(
@@ -331,10 +328,10 @@ class _OrderBody extends ConsumerWidget {
         const SizedBox(height: 8),
         Text(
           [o.addressText, o.area].where((s) => s.isNotEmpty).join(', '),
-          style: const TextStyle(color: AppColors.ink, fontSize: 15),
+          style: TextStyle(color: AppColors.ink, fontSize: 15),
         ),
         if (o.addressDetails.isNotEmpty)
-          Text(o.addressDetails, style: const TextStyle(color: AppColors.body)),
+          Text(o.addressDetails, style: TextStyle(color: AppColors.body)),
         const SizedBox(height: 6),
         Text(
           o.customerPhone,
@@ -342,7 +339,7 @@ class _OrderBody extends ConsumerWidget {
           textAlign: Directionality.of(context) == TextDirection.rtl
               ? TextAlign.right
               : TextAlign.left,
-          style: const TextStyle(color: AppColors.body),
+          style: TextStyle(color: AppColors.body),
         ),
         if (o.notes.isNotEmpty) ...[
           const SizedBox(height: 12),
@@ -351,7 +348,7 @@ class _OrderBody extends ConsumerWidget {
             style: Theme.of(context).textTheme.labelMedium,
           ),
           const SizedBox(height: 4),
-          Text(o.notes, style: const TextStyle(color: AppColors.body)),
+          Text(o.notes, style: TextStyle(color: AppColors.body)),
         ],
         if (o.status == 'delivered') ...[
           const SizedBox(height: 24),

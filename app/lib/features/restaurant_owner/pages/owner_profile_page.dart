@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/widgets/theme_switch.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
@@ -26,7 +28,7 @@ class OwnerProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mine = ref.watch(myRestaurantProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       bottomNavigationBar: const OwnerBottomBar(current: OwnerTab.profile),
       body: SafeArea(
         child: Center(
@@ -271,6 +273,12 @@ class _FormState extends ConsumerState<_Form> {
                 iconColor: const Color(0xFF2AE1E1),
                 label: l.language,
                 trailing: const LanguageSwitch(),
+              ),
+              SettingsTile(
+                icon: Icons.dark_mode_outlined,
+                iconColor: const Color(0xFF7C6FD6),
+                label: l.appearance,
+                trailing: const ThemeSwitch(),
               ),
               SettingsTile(
                 icon: Icons.logout_rounded,

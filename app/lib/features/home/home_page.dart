@@ -255,8 +255,8 @@ class _Header extends ConsumerWidget {
                       onTap: () => context.go('/account'),
                       child: Container(
                         padding: const EdgeInsets.all(2),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
                           shape: BoxShape.circle,
                         ),
                         child: Avatar(
@@ -280,7 +280,7 @@ class _Header extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               Material(
-                color: Colors.white,
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(26),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(26),
@@ -290,14 +290,14 @@ class _Header extends ConsumerWidget {
                     child: Row(
                       children: [
                         const SizedBox(width: 16),
-                        const Icon(Icons.search_rounded, color: AppColors.ink),
+                        Icon(Icons.search_rounded, color: AppColors.ink),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             l.searchHint,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
                               color: AppColors.body,
                             ),
@@ -505,7 +505,10 @@ class _CategoryStrip extends StatelessWidget {
                       width: 68,
                       height: 68,
                       decoration: BoxDecoration(
-                        color: _tileColors[i % _tileColors.length],
+                        color: _tileColors[i % _tileColors.length].withValues(
+                          // Soft tint on the dark background.
+                          alpha: AppColors.isDark ? .16 : 1,
+                        ),
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
@@ -527,10 +530,7 @@ class _CategoryStrip extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.ink,
-                      ),
+                      style: TextStyle(fontSize: 12, color: AppColors.ink),
                     ),
                   ],
                 ),
@@ -612,7 +612,7 @@ class _LogoStrip extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
                           color: AppColors.inkSoft,
                         ),

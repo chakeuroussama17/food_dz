@@ -48,7 +48,7 @@ class _OwnerMenuPageState extends ConsumerState<OwnerMenuPage> {
     final cats = ref.watch(categoriesProvider).value ?? const <FoodCategory>[];
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       bottomNavigationBar: const OwnerBottomBar(current: OwnerTab.menu),
       body: SafeArea(
         child: Center(
@@ -79,7 +79,7 @@ class _OwnerMenuPageState extends ConsumerState<OwnerMenuPage> {
                                     Text(
                                       l.emptyMenu,
                                       textAlign: TextAlign.center,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 16,
                                         color: AppColors.body,
                                       ),
@@ -126,7 +126,7 @@ class _OwnerMenuPageState extends ConsumerState<OwnerMenuPage> {
                                 ),
                                 child: Text(
                                   l.totalItems(shown.length),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     color: AppColors.muted,
                                   ),

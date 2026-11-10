@@ -136,7 +136,7 @@ class _GalleryPageState extends State<GalleryPage> {
                             Expanded(
                               child: Text(
                                 dzd(650 * _qty),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 28,
                                   color: AppColors.ink,
                                 ),

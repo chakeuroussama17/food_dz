@@ -18,15 +18,19 @@ void main() {
     'home': '/home',
     'account': '/account',
     'address_map': '/account/addresses/new',
+    'cart': '/cart',
+    'restaurant': '/r/pizzeria-el-bahdja',
+    'orders': '/orders',
   };
 
-  for (final lang in ['fr', 'ar']) {
+  for (final (lang, dark) in [('fr', false), ('ar', false), ('fr', true)]) {
+    final mode = dark ? '_dark' : '';
     for (final entry in pages.entries) {
-      testWidgets('${entry.key} $lang', (tester) async {
+      testWidgets('${entry.key} $lang$mode', (tester) async {
         final repo = FakeAuthRepository()
           ..seedUser('k@mail.dz', 'secret123', name: 'Karim Benali')
           ..signInDirect('k@mail.dz');
-        await pumpFoodApp(tester, lang: lang, repo: repo);
+        await pumpFoodApp(tester, lang: lang, repo: repo, dark: dark);
         GoRouter.of(
           tester.element(find.byType(Scaffold).first),
         ).go(entry.value);
@@ -35,7 +39,7 @@ void main() {
         expect(tester.takeException(), isNull);
         await expectLater(
           find.byType(FoodApp),
-          matchesGoldenFile('redesign_${entry.key}_$lang.png'),
+          matchesGoldenFile('redesign_${entry.key}_$lang$mode.png'),
         );
       });
     }

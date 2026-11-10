@@ -403,8 +403,8 @@ class _LoadingPage extends StatelessWidget {
   const _LoadingPage();
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
-    backgroundColor: Colors.white,
+  Widget build(BuildContext context) => Scaffold(
+    backgroundColor: AppColors.surface,
     body: Center(child: CircularProgressIndicator(color: AppColors.primary)),
   );
 }

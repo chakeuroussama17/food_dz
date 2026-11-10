@@ -51,7 +51,7 @@ class AppButton extends StatelessWidget {
       AppButtonVariant.outline => (
         Colors.white,
         AppColors.ink,
-        const BorderSide(color: AppColors.border),
+        BorderSide(color: AppColors.border),
       ),
     };
 

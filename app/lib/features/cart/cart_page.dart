@@ -71,7 +71,7 @@ class _CartPageState extends ConsumerState<CartPage> {
     final result = await showModalBottomSheet<DeliveryDetails>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
       ),
@@ -99,7 +99,7 @@ class _CartPageState extends ConsumerState<CartPage> {
 
   Future<void> _showBreakdown(int subtotal, int fee) => showModalBottomSheet(
     context: context,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
     ),
@@ -240,7 +240,7 @@ class _CartPageState extends ConsumerState<CartPage> {
                             padding: const EdgeInsets.only(bottom: 8),
                             child: Text(
                               cart.restaurantName!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.muted,
                                 fontSize: 14,
                               ),
@@ -406,7 +406,7 @@ class _CheckoutPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    const label = TextStyle(
+    final label = TextStyle(
       fontSize: 14,
       color: AppColors.muted,
       letterSpacing: 0.4,
@@ -488,7 +488,7 @@ class _CheckoutPanel extends StatelessWidget {
                             const SizedBox(height: 4),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.call_outlined,
                                   size: 14,
                                   color: AppColors.muted,
@@ -505,7 +505,7 @@ class _CheckoutPanel extends StatelessWidget {
                                   ),
                                 ),
                                 const Spacer(),
-                                const Icon(
+                                Icon(
                                   Icons.payments_outlined,
                                   size: 14,
                                   color: AppColors.muted,
@@ -515,7 +515,7 @@ class _CheckoutPanel extends StatelessWidget {
                                   child: Text(
                                     l.cashOnDelivery,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 13,
                                       color: AppColors.body,
                                     ),
@@ -540,7 +540,7 @@ class _CheckoutPanel extends StatelessWidget {
                   total == null ? '…' : formatDzd(total!, lang),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 30, color: AppColors.ink),
+                  style: TextStyle(fontSize: 30, color: AppColors.ink),
                 ),
               ),
               InkWell(
@@ -557,7 +557,7 @@ class _CheckoutPanel extends StatelessWidget {
                           color: AppColors.primary,
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.chevron_right_rounded,
                         size: 18,
                         color: AppColors.ink,

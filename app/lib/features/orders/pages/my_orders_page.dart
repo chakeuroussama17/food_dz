@@ -25,7 +25,7 @@ class MyOrdersPage extends ConsumerWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         bottomNavigationBar: const CustomerNavBar(current: CustomerTab.orders),
         body: SafeArea(
           child: Center(
@@ -97,13 +97,9 @@ class _Message extends StatelessWidget {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(
-          Icons.receipt_long_outlined,
-          size: 52,
-          color: AppColors.muted,
-        ),
+        Icon(Icons.receipt_long_outlined, size: 52, color: AppColors.muted),
         const SizedBox(height: 12),
-        Text(text, style: const TextStyle(color: AppColors.body, fontSize: 15)),
+        Text(text, style: TextStyle(color: AppColors.body, fontSize: 15)),
         ?action,
       ],
     ),
@@ -128,7 +124,7 @@ class _OrderList extends ConsumerWidget {
       child: ListView.separated(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
         itemCount: orders.length,
-        separatorBuilder: (_, _) => const Divider(color: AppColors.border),
+        separatorBuilder: (_, _) => Divider(color: AppColors.border),
         itemBuilder: (context, i) {
           final o = orders[i];
           return OrderCard(
@@ -175,10 +171,7 @@ Future<void> cancelOrderWithConfirm(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: Text(
-            l.keepOrder,
-            style: const TextStyle(color: AppColors.body),
-          ),
+          child: Text(l.keepOrder, style: TextStyle(color: AppColors.body)),
         ),
         TextButton(
           onPressed: () => Navigator.pop(ctx, true),

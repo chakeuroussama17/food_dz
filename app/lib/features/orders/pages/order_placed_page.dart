@@ -22,7 +22,7 @@ class OrderPlacedPage extends ConsumerWidget {
     final order = ref.watch(myOrderProvider(orderId)).value;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -37,7 +37,7 @@ class OrderPlacedPage extends ConsumerWidget {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        const Sunburst(
+                        Sunburst(
                           radius: 70,
                           strokeWidth: 70,
                           dash: 4,
@@ -82,7 +82,7 @@ class OrderPlacedPage extends ConsumerWidget {
                     Text(
                       l.orderPlacedBody(formatDzd(order.total, lang)),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         height: 1.5,
                         color: AppColors.body,
@@ -99,7 +99,7 @@ class OrderPlacedPage extends ConsumerWidget {
                     onPressed: () => context.go('/home'),
                     child: Text(
                       l.backToHome,
-                      style: const TextStyle(color: AppColors.body),
+                      style: TextStyle(color: AppColors.body),
                     ),
                   ),
                 ],

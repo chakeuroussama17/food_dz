@@ -35,10 +35,7 @@ class AddressesPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(
-              l.cancel,
-              style: const TextStyle(color: AppColors.body),
-            ),
+            child: Text(l.cancel, style: TextStyle(color: AppColors.body)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -84,7 +81,7 @@ class AddressesPage extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final addresses = ref.watch(addressesProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -100,7 +97,7 @@ class AddressesPage extends ConsumerWidget {
                         ? Center(
                             child: Text(
                               l.noAddresses,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 16,
                                 color: AppColors.body,
                               ),
@@ -162,7 +159,7 @@ class _AddressCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Material(
-        color: const Color(0xFFF0F5FA),
+        color: AppColors.field,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
@@ -182,8 +179,8 @@ class _AddressCard extends StatelessWidget {
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -200,7 +197,7 @@ class _AddressCard extends StatelessWidget {
                         children: [
                           Text(
                             addressLabelText(l, a.label).toUpperCase(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: AppColors.inkSoft,
@@ -231,16 +228,13 @@ class _AddressCard extends StatelessWidget {
                       const SizedBox(height: 6),
                       Text(
                         a.addressText,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF6B6E82),
-                        ),
+                        style: TextStyle(fontSize: 14, color: AppColors.body),
                       ),
                       if (line2.isNotEmpty) ...[
                         const SizedBox(height: 2),
                         Text(
                           line2,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13,
                             color: AppColors.muted,
                           ),

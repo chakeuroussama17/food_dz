@@ -47,7 +47,7 @@ class ProductCard extends StatelessWidget {
               margin: const EdgeInsets.only(top: 40),
               padding: const EdgeInsetsDirectional.fromSTEB(12, 72, 12, 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppRadius.xl),
                 boxShadow: const [
                   BoxShadow(
@@ -87,7 +87,7 @@ class ProductCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           unavailableLabel ?? price,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: AppColors.ink,

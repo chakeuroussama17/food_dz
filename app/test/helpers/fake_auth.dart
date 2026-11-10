@@ -350,8 +350,10 @@ Future<FakeAuthRepository> pumpFoodApp(
   FakeAdminDriversRepository? adminDrivers,
   FakeBannersRepository? banners,
   Size size = const Size(375, 812),
+  bool dark = false,
 }) async {
   SharedPreferences.setMockInitialValues({
+    if (dark) 'theme_mode': 'dark',
     'locale': lang,
     'onboarding_done': onboardingDone,
     'location_asked': locationAsked,

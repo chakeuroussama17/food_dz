@@ -233,20 +233,18 @@ class _AdminNewReceiptPageState extends ConsumerState<AdminNewReceiptPage> {
                                           p.ordersCount,
                                           formatDzd(p.foodTotal, lang),
                                         ),
-                                        style: const TextStyle(
-                                          color: AppColors.body,
-                                        ),
+                                        style: TextStyle(color: AppColors.body),
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
                                         l.commissionDue,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: AppColors.muted,
                                         ),
                                       ),
                                       Text(
                                         formatDzd(p.commissionTotal, lang),
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 28,
                                           fontWeight: FontWeight.w800,
                                           color: AppColors.ink,
@@ -404,7 +402,7 @@ class _AdminReceiptPageState extends ConsumerState<AdminReceiptPage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   '${fmt.format(s.periodStart)} – ${fmt.format(s.periodEnd)} · ${l.issuedOn(fmt.format(s.issuedAt.toLocal()))}',
-                                  style: const TextStyle(color: AppColors.body),
+                                  style: TextStyle(color: AppColors.body),
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
@@ -412,14 +410,12 @@ class _AdminReceiptPageState extends ConsumerState<AdminReceiptPage> {
                                     s.ordersCount,
                                     formatDzd(s.foodTotal, lang),
                                   ),
-                                  style: const TextStyle(color: AppColors.body),
+                                  style: TextStyle(color: AppColors.body),
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
                                   l.commissionDue,
-                                  style: const TextStyle(
-                                    color: AppColors.muted,
-                                  ),
+                                  style: TextStyle(color: AppColors.muted),
                                 ),
                                 Text(
                                   formatDzd(s.commissionTotal, lang),

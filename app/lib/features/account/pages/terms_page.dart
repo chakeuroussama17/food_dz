@@ -18,7 +18,7 @@ class TermsPage extends StatelessWidget {
       (l.termsDeleteTitle, l.termsDeleteBody),
     ];
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -33,7 +33,7 @@ class TermsPage extends StatelessWidget {
                       for (final (title, body) in sections) ...[
                         Text(
                           title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
                             color: AppColors.ink,
@@ -42,7 +42,7 @@ class TermsPage extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           body,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             height: 1.5,
                             color: AppColors.body,

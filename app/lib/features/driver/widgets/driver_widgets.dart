@@ -28,7 +28,7 @@ class DriverScaffold extends ConsumerWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: tab.index,
         onDestinationSelected: (i) => context.go(paths[i]),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         indicatorColor: AppColors.primarySoft,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: [
@@ -126,7 +126,7 @@ class DriverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-    color: color ?? Colors.white,
+    color: color ?? AppColors.surface,
     borderRadius: BorderRadius.circular(20),
     clipBehavior: Clip.antiAlias,
     child: InkWell(
@@ -142,12 +142,14 @@ class AmountLine extends StatelessWidget {
     super.key,
     required this.label,
     required this.value,
-    this.color = AppColors.ink,
+    this.color,
     this.big = false,
   });
   final String label;
   final String value;
-  final Color color;
+
+  /// Default: the main text colour.
+  final Color? color;
   final bool big;
 
   @override
@@ -156,12 +158,12 @@ class AmountLine extends StatelessWidget {
     child: Row(
       children: [
         Expanded(
-          child: Text(label, style: const TextStyle(color: AppColors.body)),
+          child: Text(label, style: TextStyle(color: AppColors.body)),
         ),
         Text(
           value,
           style: TextStyle(
-            color: color,
+            color: color ?? AppColors.ink,
             fontWeight: FontWeight.w700,
             fontSize: big ? 18 : 15,
           ),
@@ -196,7 +198,7 @@ class SoundBanner extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: const TextStyle(color: AppColors.ink, fontSize: 14),
+                style: TextStyle(color: AppColors.ink, fontSize: 14),
               ),
             ),
           ],

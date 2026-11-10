@@ -30,7 +30,7 @@ class _RestaurantPageState extends ConsumerState<RestaurantPage> {
     final l = AppLocalizations.of(context);
     final detail = ref.watch(restaurantDetailProvider(widget.slug));
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -50,7 +50,7 @@ class _RestaurantPageState extends ConsumerState<RestaurantPage> {
                         ? Center(
                             child: Text(
                               l.restaurantNotFound,
-                              style: const TextStyle(color: AppColors.body),
+                              style: TextStyle(color: AppColors.body),
                             ),
                           )
                         : _content(d),

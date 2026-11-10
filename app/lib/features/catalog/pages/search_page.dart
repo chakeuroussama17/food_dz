@@ -88,7 +88,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       bottomNavigationBar: const CustomerNavBar(current: CustomerTab.search),
       body: SafeArea(
         child: Center(
@@ -108,14 +108,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                       _run(v);
                     },
                     textInputAction: TextInputAction.search,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.inkSoft,
-                    ),
+                    style: TextStyle(fontSize: 14, color: AppColors.inkSoft),
                     decoration: InputDecoration(
                       hintText: l.searchHint,
-                      fillColor: const Color(0xFFF6F6F6),
-                      prefixIcon: const Icon(
+                      fillColor: AppColors.field,
+                      prefixIcon: Icon(
                         Icons.search_rounded,
                         color: AppColors.muted,
                       ),
@@ -129,9 +126,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                                 _controller.clear();
                                 _run('');
                               },
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.cancel_rounded,
-                                color: Color(0xFFCDCDCF),
+                                color: AppColors.muted,
                               ),
                             ),
                     ),
@@ -165,13 +162,10 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               itemBuilder: (_, i) => ActionChip(
                 label: Text(recent[i]),
                 onPressed: () => _useKeyword(recent[i]),
-                backgroundColor: Colors.white,
-                side: const BorderSide(color: Color(0xFFEDEDED), width: 2),
+                backgroundColor: AppColors.surface,
+                side: BorderSide(color: AppColors.border, width: 2),
                 shape: const StadiumBorder(),
-                labelStyle: const TextStyle(
-                  fontSize: 16,
-                  color: AppColors.inkSoft,
-                ),
+                labelStyle: TextStyle(fontSize: 16, color: AppColors.inkSoft),
               ),
             ),
           ),
@@ -222,7 +216,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             child: Text(
               l.noResults(_query),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, color: AppColors.body),
+              style: TextStyle(fontSize: 16, color: AppColors.body),
             ),
           );
         }
@@ -266,10 +260,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),
-    child: Text(
-      text,
-      style: const TextStyle(fontSize: 20, color: AppColors.inkSoft),
-    ),
+    child: Text(text, style: TextStyle(fontSize: 20, color: AppColors.inkSoft)),
   );
 }
 
@@ -307,7 +298,7 @@ class _ResultRow extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 16, color: AppColors.ink),
+                    style: TextStyle(fontSize: 16, color: AppColors.ink),
                   ),
                   if (subtitle.isNotEmpty) ...[
                     const SizedBox(height: 4),
@@ -315,10 +306,7 @@ class _ResultRow extends StatelessWidget {
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.muted,
-                      ),
+                      style: TextStyle(fontSize: 13, color: AppColors.muted),
                     ),
                   ],
                 ],
@@ -327,7 +315,7 @@ class _ResultRow extends StatelessWidget {
             if (trailing != null)
               Text(
                 trailing!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: AppColors.ink,

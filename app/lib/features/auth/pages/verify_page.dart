@@ -146,10 +146,7 @@ class _VerifyPageState extends ConsumerState<VerifyPage> {
                           TextSpan(text: ' ${l.resendIn(_secondsLeft)}'),
                       ],
                     ),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.inkSoft,
-                    ),
+                    style: TextStyle(fontSize: 14, color: AppColors.inkSoft),
                   ),
                 ),
               ),

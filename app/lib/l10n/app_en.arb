@@ -503,5 +503,9 @@
   "bannerNoLink": "Nothing (picture only)",
   "deleteBannerConfirm": "Delete this banner?",
   "moveUp": "Move up",
-  "moveDown": "Move down"
+  "moveDown": "Move down",
+  "appearance": "Appearance",
+  "themeSystem": "Auto (like the phone)",
+  "themeLight": "Light",
+  "themeDark": "Dark"
 }

@@ -45,9 +45,7 @@ class OwnerBottomBar extends ConsumerWidget {
                   child: Icon(
                     icon,
                     size: 26,
-                    color: selected
-                        ? AppColors.primary
-                        : const Color(0xFFAFAFAF),
+                    color: selected ? AppColors.primary : AppColors.muted,
                   ),
                 ),
               ),
@@ -58,8 +56,8 @@ class OwnerBottomBar extends ConsumerWidget {
     }
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [BoxShadow(color: Color(0x14000000), blurRadius: 20)],
       ),
@@ -88,7 +86,7 @@ class OwnerBottomBar extends ConsumerWidget {
                   child: Tooltip(
                     message: l.addItem,
                     child: Material(
-                      color: const Color(0xFFFFF1EB),
+                      color: AppColors.primarySoft,
                       shape: const CircleBorder(
                         side: BorderSide(color: AppColors.primary),
                       ),
@@ -141,7 +139,7 @@ class DashCard extends StatelessWidget {
       width: double.infinity,
       padding: padding ?? const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(20),
       ),
       child: child,
@@ -182,10 +180,8 @@ class PhotoTile extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           borderRadius: radius,
-          color: has ? null : Colors.white,
-          border: has
-              ? null
-              : Border.all(color: const Color(0xFFE2E8F0), width: 1.5),
+          color: has ? null : AppColors.surface,
+          border: has ? null : Border.all(color: AppColors.border, width: 1.5),
           image: has
               ? DecorationImage(image: NetworkImage(url!), fit: BoxFit.cover)
               : null,
@@ -217,8 +213,8 @@ class PhotoTile extends StatelessWidget {
                   Container(
                     width: 40,
                     height: 40,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFEDE9FE),
+                    decoration: BoxDecoration(
+                      color: AppColors.primarySoft,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -232,10 +228,7 @@ class PhotoTile extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       l.add,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.muted,
-                      ),
+                      style: TextStyle(fontSize: 14, color: AppColors.muted),
                     ),
                   ],
                 ],

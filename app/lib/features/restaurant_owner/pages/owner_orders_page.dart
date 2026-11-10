@@ -92,8 +92,8 @@ class _OwnerOrdersPageState extends ConsumerState<OwnerOrdersPage> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(AppRadius.xl),
                       ),
@@ -151,7 +151,7 @@ class _SoundBanner extends StatelessWidget {
               Expanded(
                 child: Text(
                   text,
-                  style: const TextStyle(color: AppColors.ink, fontSize: 14),
+                  style: TextStyle(color: AppColors.ink, fontSize: 14),
                 ),
               ),
             ],
@@ -198,13 +198,9 @@ class _List extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.receipt_long_outlined,
-              size: 52,
-              color: AppColors.muted,
-            ),
+            Icon(Icons.receipt_long_outlined, size: 52, color: AppColors.muted),
             const SizedBox(height: 12),
-            Text(empty, style: const TextStyle(color: AppColors.body)),
+            Text(empty, style: TextStyle(color: AppColors.body)),
           ],
         ),
       );
@@ -218,7 +214,7 @@ class _List extends ConsumerWidget {
       child: ListView.separated(
         padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
         itemCount: list.length,
-        separatorBuilder: (_, _) => const Divider(color: AppColors.border),
+        separatorBuilder: (_, _) => Divider(color: AppColors.border),
         itemBuilder: (_, i) => OwnerOrderTile(order: list[i]),
       ),
     );
@@ -253,7 +249,7 @@ class OwnerOrderTile extends ConsumerWidget {
                     '“${o.notes}”',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.inkSoft,
                       fontStyle: FontStyle.italic,
                     ),
@@ -467,7 +463,7 @@ class _ReasonDialogState extends State<_ReasonDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(l.back, style: const TextStyle(color: AppColors.body)),
+          child: Text(l.back, style: TextStyle(color: AppColors.body)),
         ),
         TextButton(
           onPressed: () => _submit(l),
@@ -486,7 +482,7 @@ Future<void> showOwnerOrderSheet(BuildContext context, OwnerOrder o) =>
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
       ),
@@ -554,12 +550,12 @@ class _OrderSheet extends ConsumerWidget {
               style: const TextStyle(color: AppColors.danger),
             ),
           ],
-          const Divider(color: AppColors.border, height: 28),
+          Divider(color: AppColors.border, height: 28),
           Text(l.customer.toUpperCase(), style: label),
           const SizedBox(height: 6),
           Text(
             o.customerName,
-            style: const TextStyle(fontSize: 16, color: AppColors.ink),
+            style: TextStyle(fontSize: 16, color: AppColors.ink),
           ),
           const SizedBox(height: 4),
           InkWell(
@@ -592,20 +588,17 @@ class _OrderSheet extends ConsumerWidget {
           const SizedBox(height: 6),
           Text(
             [o.addressText, o.area].where((s) => s.isNotEmpty).join(', '),
-            style: const TextStyle(color: AppColors.ink),
+            style: TextStyle(color: AppColors.ink),
           ),
           if (o.addressDetails.isNotEmpty)
-            Text(
-              o.addressDetails,
-              style: const TextStyle(color: AppColors.body),
-            ),
+            Text(o.addressDetails, style: TextStyle(color: AppColors.body)),
           if (o.notes.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(l.notes.toUpperCase(), style: label),
             const SizedBox(height: 6),
-            Text(o.notes, style: const TextStyle(color: AppColors.ink)),
+            Text(o.notes, style: TextStyle(color: AppColors.ink)),
           ],
-          const Divider(color: AppColors.border, height: 28),
+          Divider(color: AppColors.border, height: 28),
           Text(l.orderItems.toUpperCase(), style: label),
           const SizedBox(height: 6),
           for (final i in o.items)
@@ -613,7 +606,7 @@ class _OrderSheet extends ConsumerWidget {
               label: '${i.quantity}× ${i.name}',
               value: formatDzd(i.lineTotal, lang),
             ),
-          const Divider(color: AppColors.border, height: 20),
+          Divider(color: AppColors.border, height: 20),
           MoneyRow(label: l.subtotal, value: formatDzd(o.foodTotal, lang)),
           MoneyRow(label: l.deliveryFee, value: formatDzd(o.deliveryFee, lang)),
           MoneyRow(
@@ -622,7 +615,7 @@ class _OrderSheet extends ConsumerWidget {
             strong: true,
           ),
           const SizedBox(height: 6),
-          Text(l.cashOnDelivery, style: const TextStyle(color: AppColors.body)),
+          Text(l.cashOnDelivery, style: TextStyle(color: AppColors.body)),
           const SizedBox(height: 20),
           Wrap(
             spacing: 12,

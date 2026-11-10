@@ -67,7 +67,7 @@ class _DriverOrderPageState extends ConsumerState<DriverOrderPage> {
     final photo = await showModalBottomSheet<PickedImage>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
       ),
@@ -90,7 +90,7 @@ class _DriverOrderPageState extends ConsumerState<DriverOrderPage> {
               onPressed: () => Navigator.pop(ctx, false),
               child: Text(
                 AppLocalizations.of(ctx).back,
-                style: const TextStyle(color: AppColors.body),
+                style: TextStyle(color: AppColors.body),
               ),
             ),
             TextButton(
@@ -150,7 +150,7 @@ class _DriverOrderPageState extends ConsumerState<DriverOrderPage> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: DriverCard(
-                                  color: const Color(0xFFFFE8E6),
+                                  color: AppColors.dangerSoft,
                                   child: Text(
                                     [
                                       l.cancelledByRestaurant,
@@ -208,15 +208,10 @@ class _DriverOrderPageState extends ConsumerState<DriverOrderPage> {
                                       ),
                                       child: Text(
                                         '${i.quantity}× ${i.name}',
-                                        style: const TextStyle(
-                                          color: AppColors.ink,
-                                        ),
+                                        style: TextStyle(color: AppColors.ink),
                                       ),
                                     ),
-                                  const Divider(
-                                    color: AppColors.border,
-                                    height: 20,
-                                  ),
+                                  Divider(color: AppColors.border, height: 20),
                                   AmountLine(
                                     label: l.cashToCollect,
                                     value: formatDzd(o.total, lang),
@@ -250,7 +245,7 @@ class _DriverOrderPageState extends ConsumerState<DriverOrderPage> {
                             child: Text(
                               l.waitRestaurant,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(color: AppColors.body),
+                              style: TextStyle(color: AppColors.body),
                             ),
                           ),
                         if (o.status == 'ready')
@@ -338,19 +333,19 @@ class _Stop extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             name,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,
               color: AppColors.ink,
             ),
           ),
           for (final x in lines.where((x) => x.trim().isNotEmpty))
-            Text(x, style: const TextStyle(color: AppColors.body)),
+            Text(x, style: TextStyle(color: AppColors.body)),
           if (notes.isNotEmpty) ...[
             const SizedBox(height: 6),
             Text(
               '“$notes”',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.inkSoft,
                 fontStyle: FontStyle.italic,
               ),
@@ -381,7 +376,7 @@ class _Stop extends StatelessWidget {
             Text(
               phone,
               textDirection: TextDirection.ltr,
-              style: const TextStyle(color: AppColors.muted, fontSize: 13),
+              style: TextStyle(color: AppColors.muted, fontSize: 13),
             ),
           ],
         ],
@@ -433,7 +428,7 @@ class _ProofPhotoSheetState extends ConsumerState<ProofPhotoSheet> {
           children: [
             Text(l.proofTitle, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
-            Text(l.proofHint, style: const TextStyle(color: AppColors.body)),
+            Text(l.proofHint, style: TextStyle(color: AppColors.body)),
             const SizedBox(height: 16),
             if (photo != null)
               ClipRRect(
@@ -502,7 +497,7 @@ class _ProofPhotoSheetState extends ConsumerState<ProofPhotoSheet> {
             Text(
               l.confirmDelivered(formatDzd(widget.total, lang)),
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontWeight: FontWeight.w700,
               ),

@@ -10,7 +10,9 @@ import 'core/config/env.dart';
 import 'core/i18n/locale_controller.dart';
 import 'core/push/push_service.dart';
 import 'features/auth/data/auth_providers.dart';
+import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_controller.dart';
 import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
@@ -36,12 +38,39 @@ Future<void> main() async {
   );
 }
 
-class FoodApp extends ConsumerWidget {
+class FoodApp extends ConsumerStatefulWidget {
   const FoodApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FoodApp> createState() => _FoodAppState();
+}
+
+class _FoodAppState extends ConsumerState<FoodApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// The phone switched between light and dark ("Auto" follows it).
+  @override
+  void didChangePlatformBrightness() => setState(() {});
+
+  @override
+  Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
+    final dark = resolveDark(
+      ref.watch(themeModeProvider),
+      WidgetsBinding.instance.platformDispatcher.platformBrightness,
+    );
+    // Set the palette before anything below reads a colour.
+    AppColors.setDark(dark);
 
     // Push alerts: register this phone once signed in (and again when the
     // language changes, so alerts come in the right language).
@@ -62,6 +91,8 @@ class FoodApp extends ConsumerWidget {
       if (prev?.languageCode != next.languageCode) startPush();
     });
     return MaterialApp.router(
+      // A new key rebuilds every page with the new palette.
+      key: ValueKey(dark),
       title: 'Food App',
       debugShowCheckedModeBanner: false,
       locale: locale,
@@ -72,7 +103,7 @@ class FoodApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: AppTheme.build(locale),
+      theme: AppTheme.build(locale, dark: dark),
       routerConfig: ref.watch(routerProvider),
     );
   }

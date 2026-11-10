@@ -35,7 +35,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
     final fee = ref.watch(deliveryFeeProvider).value;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -57,7 +57,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                         return Center(
                           child: Text(
                             l.restaurantNotFound,
-                            style: const TextStyle(color: AppColors.body),
+                            style: TextStyle(color: AppColors.body),
                           ),
                         );
                       }
@@ -139,7 +139,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                                     Expanded(
                                       child: Text(
                                         formatDzd(item.price * _qty, lang),
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 28,
                                           color: AppColors.ink,
                                         ),
@@ -208,8 +208,8 @@ class _RestaurantChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
-      shape: const StadiumBorder(side: BorderSide(color: Color(0xFFE9E9E9))),
+      color: AppColors.surface,
+      shape: StadiumBorder(side: BorderSide(color: AppColors.border)),
       child: InkWell(
         customBorder: const StadiumBorder(),
         onTap: onTap,
@@ -230,7 +230,7 @@ class _RestaurantChip extends StatelessWidget {
                 child: Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 14, color: AppColors.ink),
+                  style: TextStyle(fontSize: 14, color: AppColors.ink),
                 ),
               ),
             ],
