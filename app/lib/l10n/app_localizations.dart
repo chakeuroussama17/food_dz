@@ -2859,6 +2859,204 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Entre 3 et 60 minutes'**
   String get errAutoReject;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer mon compte'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer définitivement votre compte ? Vos adresses et votre photo seront effacées. Vos anciennes commandes restent anonymes pour la comptabilité.'**
+  String get deleteAccountConfirm;
+
+  /// No description provided for @accountDeleted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte supprimé'**
+  String get accountDeleted;
+
+  /// No description provided for @errDeleteActiveOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez une commande en cours. Réessayez quand elle est livrée.'**
+  String get errDeleteActiveOrders;
+
+  /// No description provided for @errDeleteNotCustomer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les comptes restaurant et livreur sont fermés par l\'administrateur. Contactez-le.'**
+  String get errDeleteNotCustomer;
+
+  /// No description provided for @locationServiceOff.
+  ///
+  /// In fr, this message translates to:
+  /// **'La localisation du téléphone est désactivée.'**
+  String get locationServiceOff;
+
+  /// No description provided for @locationBlocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Localisation refusée pour cette application. Autorisez-la dans les réglages.'**
+  String get locationBlocked;
+
+  /// No description provided for @locationUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Position introuvable. Réessayez dehors ou cherchez votre adresse sur la carte.'**
+  String get locationUnavailable;
+
+  /// No description provided for @turnOn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer'**
+  String get turnOn;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réglages'**
+  String get openSettings;
+
+  /// No description provided for @searchAddressHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Chercher une adresse, un quartier…'**
+  String get searchAddressHint;
+
+  /// No description provided for @navHome.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accueil'**
+  String get navHome;
+
+  /// No description provided for @navAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte'**
+  String get navAccount;
+
+  /// No description provided for @viewProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir le profil'**
+  String get viewProfile;
+
+  /// No description provided for @general.
+  ///
+  /// In fr, this message translates to:
+  /// **'Général'**
+  String get general;
+
+  /// No description provided for @helpCenter.
+  ///
+  /// In fr, this message translates to:
+  /// **'Centre d\'aide'**
+  String get helpCenter;
+
+  /// No description provided for @supportSoon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le numéro du service client sera bientôt disponible.'**
+  String get supportSoon;
+
+  /// No description provided for @becomePartner.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inscrire mon restaurant'**
+  String get becomePartner;
+
+  /// No description provided for @becomeDriver.
+  ///
+  /// In fr, this message translates to:
+  /// **'Devenir livreur'**
+  String get becomeDriver;
+
+  /// No description provided for @termsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conditions et confidentialité'**
+  String get termsTitle;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Version'**
+  String get appVersion;
+
+  /// No description provided for @promoCashTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payez à la livraison'**
+  String get promoCashTitle;
+
+  /// No description provided for @promoCashBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'En espèces, à l\'arrivée de votre commande. Sans carte.'**
+  String get promoCashBody;
+
+  /// No description provided for @promoFeeTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livraison {fee}'**
+  String promoFeeTitle(String fee);
+
+  /// No description provided for @promoFeeBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le même prix partout en ville.'**
+  String get promoFeeBody;
+
+  /// No description provided for @promoDiscover.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvert maintenant · Commandez →'**
+  String get promoDiscover;
+
+  /// No description provided for @termsOrdersTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes et paiement'**
+  String get termsOrdersTitle;
+
+  /// No description provided for @termsOrdersBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les prix sont ceux du restaurant au moment de la commande. Vous payez en espèces à la livraison (plats + frais de livraison). Une commande peut être annulée tant que le restaurant ne l\'a pas acceptée.'**
+  String get termsOrdersBody;
+
+  /// No description provided for @termsDataTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos données'**
+  String get termsDataTitle;
+
+  /// No description provided for @termsDataBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nous utilisons votre nom, téléphone et adresse uniquement pour livrer vos commandes. Le restaurant et le livreur les voient pour votre commande. Une photo de remise est prise à la livraison comme preuve.'**
+  String get termsDataBody;
+
+  /// No description provided for @termsDeleteTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer votre compte'**
+  String get termsDeleteTitle;
+
+  /// No description provided for @termsDeleteBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte → Supprimer mon compte. Vos adresses et votre photo sont effacées ; vos anciennes commandes restent anonymes pour la comptabilité.'**
+  String get termsDeleteBody;
+
+  /// No description provided for @openNowTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouverts maintenant'**
+  String get openNowTitle;
 }
 
 class _AppLocalizationsDelegate

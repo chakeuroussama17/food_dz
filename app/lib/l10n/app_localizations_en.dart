@@ -1515,4 +1515,114 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errAutoReject => 'Between 3 and 60 minutes';
+
+  @override
+  String get deleteAccount => 'Delete my account';
+
+  @override
+  String get deleteAccountConfirm =>
+      'Permanently delete your account? Your addresses and photo are erased. Past orders stay anonymous for accounting.';
+
+  @override
+  String get accountDeleted => 'Account deleted';
+
+  @override
+  String get errDeleteActiveOrders =>
+      'You have an order in progress. Try again once it is delivered.';
+
+  @override
+  String get errDeleteNotCustomer =>
+      'Restaurant and driver accounts are closed by the admin. Please contact them.';
+
+  @override
+  String get locationServiceOff => 'Your phone\'s location is turned off.';
+
+  @override
+  String get locationBlocked =>
+      'Location is blocked for this app. Allow it in settings.';
+
+  @override
+  String get locationUnavailable =>
+      'Couldn\'t find your position. Try outside, or search your address on the map.';
+
+  @override
+  String get turnOn => 'Turn on';
+
+  @override
+  String get openSettings => 'Settings';
+
+  @override
+  String get searchAddressHint => 'Search an address or area…';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navAccount => 'Account';
+
+  @override
+  String get viewProfile => 'View profile';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get helpCenter => 'Help center';
+
+  @override
+  String get supportSoon => 'The support number will be available soon.';
+
+  @override
+  String get becomePartner => 'Register my restaurant';
+
+  @override
+  String get becomeDriver => 'Become a driver';
+
+  @override
+  String get termsTitle => 'Terms & privacy';
+
+  @override
+  String get appVersion => 'Version';
+
+  @override
+  String get promoCashTitle => 'Pay on delivery';
+
+  @override
+  String get promoCashBody =>
+      'In cash, when your order arrives. No card needed.';
+
+  @override
+  String promoFeeTitle(String fee) {
+    return 'Delivery $fee';
+  }
+
+  @override
+  String get promoFeeBody => 'The same price everywhere in town.';
+
+  @override
+  String get promoDiscover => 'Open now · Order →';
+
+  @override
+  String get termsOrdersTitle => 'Orders and payment';
+
+  @override
+  String get termsOrdersBody =>
+      'Prices are the restaurant\'s at the time of ordering. You pay in cash on delivery (food + delivery fee). An order can be cancelled until the restaurant accepts it.';
+
+  @override
+  String get termsDataTitle => 'Your data';
+
+  @override
+  String get termsDataBody =>
+      'We use your name, phone and address only to deliver your orders. The restaurant and the driver see them for your order. A photo is taken at delivery as proof.';
+
+  @override
+  String get termsDeleteTitle => 'Deleting your account';
+
+  @override
+  String get termsDeleteBody =>
+      'Account → Delete my account. Your addresses and photo are erased; past orders stay anonymous for accounting.';
+
+  @override
+  String get openNowTitle => 'Open now';
 }

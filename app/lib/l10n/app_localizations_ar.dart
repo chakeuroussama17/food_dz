@@ -1512,4 +1512,112 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errAutoReject => 'بين 3 و60 دقيقة';
+
+  @override
+  String get deleteAccount => 'حذف حسابي';
+
+  @override
+  String get deleteAccountConfirm =>
+      'حذف حسابك نهائيًا؟ سيتم مسح عناوينك وصورتك. تبقى طلباتك السابقة مجهولة الهوية للمحاسبة.';
+
+  @override
+  String get accountDeleted => 'تم حذف الحساب';
+
+  @override
+  String get errDeleteActiveOrders => 'لديك طلب جارٍ. حاول مجددًا بعد توصيله.';
+
+  @override
+  String get errDeleteNotCustomer =>
+      'حسابات المطاعم والسائقين يغلقها المسؤول. تواصل معه.';
+
+  @override
+  String get locationServiceOff => 'خدمة الموقع في الهاتف متوقفة.';
+
+  @override
+  String get locationBlocked =>
+      'تم رفض الموقع لهذا التطبيق. اسمح به من الإعدادات.';
+
+  @override
+  String get locationUnavailable =>
+      'تعذّر تحديد موقعك. حاول في الخارج أو ابحث عن عنوانك في الخريطة.';
+
+  @override
+  String get turnOn => 'تفعيل';
+
+  @override
+  String get openSettings => 'الإعدادات';
+
+  @override
+  String get searchAddressHint => 'ابحث عن عنوان أو حي…';
+
+  @override
+  String get navHome => 'الرئيسية';
+
+  @override
+  String get navAccount => 'الحساب';
+
+  @override
+  String get viewProfile => 'عرض الملف الشخصي';
+
+  @override
+  String get general => 'عام';
+
+  @override
+  String get helpCenter => 'مركز المساعدة';
+
+  @override
+  String get supportSoon => 'رقم خدمة العملاء سيتوفر قريبًا.';
+
+  @override
+  String get becomePartner => 'سجّل مطعمك';
+
+  @override
+  String get becomeDriver => 'كن سائق توصيل';
+
+  @override
+  String get termsTitle => 'الشروط والخصوصية';
+
+  @override
+  String get appVersion => 'الإصدار';
+
+  @override
+  String get promoCashTitle => 'ادفع عند الاستلام';
+
+  @override
+  String get promoCashBody => 'نقدًا عند وصول طلبك. بدون بطاقة.';
+
+  @override
+  String promoFeeTitle(String fee) {
+    return 'التوصيل $fee';
+  }
+
+  @override
+  String get promoFeeBody => 'نفس السعر في كل المدينة.';
+
+  @override
+  String get promoDiscover => 'مفتوح الآن · اطلب ←';
+
+  @override
+  String get termsOrdersTitle => 'الطلبات والدفع';
+
+  @override
+  String get termsOrdersBody =>
+      'الأسعار هي أسعار المطعم وقت الطلب. تدفع نقدًا عند الاستلام (الأطباق + رسوم التوصيل). يمكن إلغاء الطلب ما دام المطعم لم يقبله.';
+
+  @override
+  String get termsDataTitle => 'بياناتك';
+
+  @override
+  String get termsDataBody =>
+      'نستعمل اسمك وهاتفك وعنوانك فقط لتوصيل طلباتك. يراها المطعم والسائق لطلبك. تُلتقط صورة عند التسليم كدليل.';
+
+  @override
+  String get termsDeleteTitle => 'حذف حسابك';
+
+  @override
+  String get termsDeleteBody =>
+      'الحساب ← حذف حسابي. تُمسح عناوينك وصورتك؛ تبقى طلباتك السابقة مجهولة الهوية للمحاسبة.';
+
+  @override
+  String get openNowTitle => 'مفتوحة الآن';
 }

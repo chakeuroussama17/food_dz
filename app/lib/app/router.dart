@@ -10,6 +10,7 @@ import '../features/account/pages/address_form_page.dart';
 import '../features/account/pages/addresses_page.dart';
 import '../features/account/pages/edit_profile_page.dart';
 import '../features/account/pages/personal_info_page.dart';
+import '../features/account/pages/terms_page.dart';
 import '../features/auth/data/auth_providers.dart';
 import '../features/auth/pages/forgot_password_page.dart';
 import '../features/auth/pages/login_page.dart';
@@ -211,6 +212,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(path: '/cart', builder: (_, _) => const CartPage()),
+      GoRoute(path: '/terms', builder: (_, _) => const TermsPage()),
       GoRoute(
         path: '/orders',
         builder: (_, _) => const MyOrdersPage(),

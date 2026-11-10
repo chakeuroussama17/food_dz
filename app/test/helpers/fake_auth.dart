@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:food_app/core/i18n/locale_controller.dart';
+import 'package:food_app/core/location/geocoding.dart';
 import 'package:food_app/core/pdf/business_info.dart';
 import 'package:food_app/core/utils/pick_image.dart';
 import 'package:food_app/features/admin/data/admin_repository.dart';
@@ -35,6 +36,29 @@ export 'fake_data.dart';
 export 'fake_driver.dart';
 export 'fake_orders.dart';
 export 'fake_owner_orders.dart';
+
+/// Address search without the network.
+class FakeGeocoder implements Geocoder {
+  final places = <Place>[
+    const Place(
+      label: '12, Rue Didouche Mourad, Alger Centre, Alger, Algérie',
+      area: 'Alger Centre',
+      lat: 36.7703,
+      lng: 3.0560,
+    ),
+  ];
+
+  @override
+  Future<List<Place>> search(String query, {required String lang}) async =>
+      query.trim().length < 3 ? const [] : places;
+
+  @override
+  Future<Place?> reverse(
+    double lat,
+    double lng, {
+    required String lang,
+  }) async => places.first;
+}
 
 class FakeBusinessInfoRepository implements BusinessInfoRepository {
   @override
@@ -172,8 +196,9 @@ class FakeAuthRepository implements AuthRepository {
     required String name,
     required String email,
     required String password,
+    String? phone,
   }) async {
-    calls.add('signUp:$email');
+    calls.add('signUp:$email${phone == null ? '' : ':$phone'}');
     if (_users.containsKey(email)) {
       throw const AuthError(AuthFailure.userExists);
     }
@@ -295,6 +320,7 @@ Future<FakeAuthRepository> pumpFoodApp(
         driverRepositoryProvider.overrideWithValue(
           driver ?? FakeDriverRepository(),
         ),
+        geocoderProvider.overrideWithValue(FakeGeocoder()),
         businessInfoRepositoryProvider.overrideWithValue(
           FakeBusinessInfoRepository(),
         ),

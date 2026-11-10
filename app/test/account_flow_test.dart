@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:food_app/features/auth/pages/login_page.dart';
 import 'package:food_app/features/account/data/account_repository.dart';
 import 'package:food_app/features/account/pages/account_page.dart';
 import 'package:food_app/features/account/pages/addresses_page.dart';
@@ -18,7 +19,7 @@ Future<FakeAccountRepository> openAccount(
   await t.enterText(find.byType(TextFormField).at(1), 'secret123');
   await t.tap(find.text('LOG IN').last);
   await t.pumpAndSettle();
-  await t.tap(find.byIcon(Icons.notes_rounded));
+  await t.tap(find.text('Account').last); // bottom bar
   await t.pumpAndSettle();
   return account;
 }
@@ -58,14 +59,42 @@ void main() {
     await openAccount(t);
     expect(find.byType(AccountPage), findsOneWidget);
     expect(find.text('Karim Benali'), findsOneWidget);
-    expect(find.text('k@mail.dz'), findsOneWidget);
+    expect(find.text('View profile'), findsOneWidget);
+    // Shortcut cards and the general links.
+    for (final x in ['Orders', 'Addresses', 'Help center', 'Log out']) {
+      expect(find.text(x), findsWidgets, reason: x);
+    }
+  });
+
+  testWidgets('delete account: asks first, then logs out', (t) async {
+    final account = await openAccount(t);
+    await tap(t, find.text('Delete my account'));
+    expect(find.textContaining('Permanently delete'), findsOneWidget);
+    await tap(t, find.text('Back'));
+    expect(account.deleted, 0);
+
+    await tap(t, find.text('Delete my account'));
+    await tap(t, find.text('Delete my account').last);
+    expect(account.deleted, 1);
+    expect(find.byType(LoginPage), findsOneWidget);
+  });
+
+  testWidgets('delete account refused while an order is in progress', (
+    t,
+  ) async {
+    final account = await openAccount(t);
+    account.deleteFails = DeleteAccountFailure.activeOrders;
+    await tap(t, find.text('Delete my account'));
+    await tap(t, find.text('Delete my account').last);
+    expect(find.textContaining('order in progress'), findsOneWidget);
+    expect(find.byType(AccountPage), findsOneWidget);
   });
 
   testWidgets('edit profile: invalid phone refused, valid one saved', (
     t,
   ) async {
     final account = await openAccount(t);
-    await tap(t, find.text('Personal info'));
+    await tap(t, find.text('View profile'));
     await tap(t, find.text('EDIT'));
     await t.enterText(input('Phone'), '021 12 34 56');
     await tap(t, find.text('SAVE'));
@@ -77,6 +106,25 @@ void main() {
     expect(account.profile.phone, '0661123456'); // normalised
     expect(account.profile.fullName, 'Karim B.');
     expect(find.text('0661123456'), findsOneWidget); // back on Personal info
+  });
+
+  testWidgets('map search fills the address and the area', (t) async {
+    final account = await openAccount(t);
+    await tap(t, find.text('Addresses'));
+    await tap(t, find.text('ADD NEW ADDRESS'));
+    await t.enterText(find.byType(TextField).first, 'didouche');
+    await t.pump(const Duration(milliseconds: 700)); // debounce
+    await t.pumpAndSettle();
+    await tap(t, find.textContaining('Rue Didouche Mourad'));
+    expect(
+      (t.widget(input('Address')) as TextFormField).controller!.text,
+      '12, Rue Didouche Mourad',
+    );
+    await tap(t, find.text('SAVE LOCATION'));
+    final a = account.addressList.single;
+    expect(a.area, 'Alger Centre');
+    expect(a.lat, closeTo(36.7703, 1e-6));
+    expect(a.lng, closeTo(3.0560, 1e-6));
   });
 
   testWidgets('add an address: first one becomes the default', (t) async {

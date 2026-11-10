@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +30,21 @@ double distanceKm(double lat1, double lng1, double lat2, double lng2) {
 String formatKm(double km) =>
     km < 10 ? km.toStringAsFixed(1) : km.round().toString();
 
-enum LocationResult { granted, denied, unavailable }
+enum LocationResult {
+  granted,
+
+  /// "Don't allow" this time.
+  denied,
+
+  /// Refused for good: only the phone settings can allow it now.
+  deniedForever,
+
+  /// The phone's location (GPS) is turned off.
+  serviceOff,
+
+  /// No position (no signal, browser error…).
+  unavailable,
+}
 
 /// The customer's last known position (kept between visits) and whether we
 /// already showed the "Access location" screen.
@@ -69,22 +84,29 @@ class LocationController extends Notifier<LocationState> {
     await markAsked();
     try {
       if (!await Geolocator.isLocationServiceEnabled()) {
-        return LocationResult.unavailable;
+        return LocationResult.serviceOff;
       }
       var perm = await Geolocator.checkPermission();
       if (perm == LocationPermission.denied) {
         perm = await Geolocator.requestPermission();
       }
-      if (perm == LocationPermission.denied ||
-          perm == LocationPermission.deniedForever) {
-        return LocationResult.denied;
+      if (perm == LocationPermission.deniedForever) {
+        return LocationResult.deniedForever;
       }
-      final pos = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.medium,
-          timeLimit: Duration(seconds: 15),
-        ),
-      );
+      if (perm == LocationPermission.denied) return LocationResult.denied;
+      Position? pos;
+      try {
+        pos = await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.medium,
+            timeLimit: Duration(seconds: 15),
+          ),
+        );
+      } catch (_) {
+        // Slow GPS (indoors): use the phone's last known position.
+        if (!kIsWeb) pos = await Geolocator.getLastKnownPosition();
+      }
+      if (pos == null) return LocationResult.unavailable;
       await setPosition(GeoPoint(pos.latitude, pos.longitude));
       return LocationResult.granted;
     } catch (_) {

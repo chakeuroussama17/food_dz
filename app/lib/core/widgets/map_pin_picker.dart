@@ -3,7 +3,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'dart:async';
+
 import '../../l10n/app_localizations.dart';
+import '../location/geocoding.dart';
+import '../location/location_help.dart';
 import '../location/location_service.dart';
 import '../theme/app_colors.dart';
 import 'circle_icon_button.dart';
@@ -29,10 +33,14 @@ class MapPinPicker extends ConsumerStatefulWidget {
     this.topStart,
     this.topPadding = 0,
     this.zoom = 16,
+    this.onPlace,
   });
 
   final LatLng initial;
   final ValueChanged<LatLng> onChanged;
+
+  /// A place picked in the search box (to fill the address fields).
+  final ValueChanged<Place>? onPlace;
   final Widget? topStart;
 
   /// Extra space at the top (status bar) for [topStart].
@@ -45,12 +53,57 @@ class MapPinPicker extends ConsumerStatefulWidget {
 
 class _MapPinPickerState extends ConsumerState<MapPinPicker> {
   final _map = MapController();
+  final _search = TextEditingController();
+  final _focus = FocusNode();
+  Timer? _debounce;
+  List<Place> _results = const [];
+  bool _searching = false;
   bool _locating = false;
 
   @override
   void dispose() {
+    _debounce?.cancel();
+    _search.dispose();
+    _focus.dispose();
     _map.dispose();
     super.dispose();
+  }
+
+  /// Searches 600 ms after the last key (the free service allows about one
+  /// request per second).
+  void _onQuery(String q) {
+    _debounce?.cancel();
+    setState(() {});
+    if (q.trim().length < 3) {
+      setState(() => _results = const []);
+      return;
+    }
+    _debounce = Timer(const Duration(milliseconds: 600), () => _run(q));
+  }
+
+  Future<void> _run(String q) async {
+    final lang = Localizations.localeOf(context).languageCode;
+    setState(() => _searching = true);
+    try {
+      final r = await ref.read(geocoderProvider).search(q, lang: lang);
+      if (mounted && _search.text == q) setState(() => _results = r);
+    } catch (_) {
+      if (mounted) setState(() => _results = const []);
+    } finally {
+      if (mounted) setState(() => _searching = false);
+    }
+  }
+
+  void _pick(Place p) {
+    final ll = LatLng(p.lat, p.lng);
+    _map.move(ll, 17);
+    widget.onChanged(ll);
+    widget.onPlace?.call(p);
+    _focus.unfocus();
+    setState(() {
+      _results = const [];
+      _search.clear();
+    });
   }
 
   Future<void> _locateMe() async {
@@ -64,8 +117,10 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
       final ll = LatLng(p.lat, p.lng);
       _map.move(ll, 17);
       widget.onChanged(ll);
+    } else if (r == LocationResult.granted) {
+      showAppSnack(context, l.locationUnavailable, error: true);
     } else {
-      showAppSnack(context, l.locationDenied, error: true);
+      showLocationProblem(context, r);
     }
   }
 
@@ -154,6 +209,112 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
             top: widget.topPadding + 16,
             child: widget.topStart!,
           ),
+        // Address search over the map.
+        PositionedDirectional(
+          start: widget.topStart != null ? 24 + 45 + 12 : 16,
+          end: 16,
+          top: widget.topPadding + 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Material(
+                elevation: 3,
+                shadowColor: const Color(0x33000000),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(AppRadius.md),
+                child: TextField(
+                  controller: _search,
+                  focusNode: _focus,
+                  onChanged: _onQuery,
+                  onSubmitted: _run,
+                  textInputAction: TextInputAction.search,
+                  style: const TextStyle(fontSize: 14, color: AppColors.ink),
+                  decoration: InputDecoration(
+                    hintText: l.searchAddressHint,
+                    filled: true,
+                    fillColor: Colors.white,
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13),
+                    prefixIcon: const Icon(
+                      Icons.search_rounded,
+                      color: AppColors.muted,
+                    ),
+                    suffixIcon: _searching
+                        ? const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: SizedBox.square(
+                              dimension: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          )
+                        : (_search.text.isEmpty
+                              ? null
+                              : IconButton(
+                                  icon: const Icon(Icons.close_rounded),
+                                  onPressed: () {
+                                    _search.clear();
+                                    setState(() => _results = const []);
+                                  },
+                                )),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      borderSide: const BorderSide(color: AppColors.primary),
+                    ),
+                  ),
+                ),
+              ),
+              if (_results.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Material(
+                    color: Colors.white,
+                    elevation: 4,
+                    shadowColor: const Color(0x33000000),
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    clipBehavior: Clip.antiAlias,
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 260),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: _results.length,
+                        separatorBuilder: (_, _) =>
+                            const Divider(height: 1, color: AppColors.border),
+                        itemBuilder: (_, i) => ListTile(
+                          dense: true,
+                          leading: const Icon(
+                            Icons.place_outlined,
+                            color: AppColors.primary,
+                          ),
+                          title: Text(
+                            _results[i].label,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: AppColors.ink,
+                            ),
+                          ),
+                          onTap: () => _pick(_results[i]),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
         PositionedDirectional(
           end: 16,
           bottom: 16,

@@ -24,6 +24,7 @@ Future<void> type(WidgetTester t, String label, String text) =>
 
 Future<void> tapText(WidgetTester t, String text) async {
   await t.ensureVisible(find.text(text).last);
+  await t.pumpAndSettle(); // let the scroll land before tapping
   await t.tap(find.text(text).last);
   await t.pumpAndSettle();
 }
@@ -75,7 +76,7 @@ void main() {
     await type(tester, 'Password', 'secret123');
     await tapText(tester, 'LOG IN');
     expect(find.byType(HomePage), findsOneWidget);
-    expect(find.text('Pizzeria El Bahdja'), findsOneWidget);
+    expect(find.text('Pizzeria El Bahdja'), findsWidgets);
   });
 
   testWidgets('unconfirmed account at login is sent to the code page', (
@@ -97,6 +98,7 @@ void main() {
 
     await type(tester, 'Name', 'Amina');
     await type(tester, 'Email', 'amina@mail.dz');
+    await type(tester, 'Phone', '0661 23 45 67');
     await type(tester, 'Password', 'password1');
     await type(tester, 'Re-type password', 'password2');
     await tapText(tester, 'SIGN UP');
@@ -116,7 +118,7 @@ void main() {
     await tester.enterText(find.byType(TextField).first, '123456');
     await tester.pumpAndSettle();
     expect(find.byType(HomePage), findsOneWidget);
-    expect(find.text('Pizzeria El Bahdja'), findsOneWidget);
+    expect(find.text('Pizzeria El Bahdja'), findsWidgets);
     expect(repo.calls, contains('verifySignup:amina@mail.dz:123456'));
   });
 
@@ -128,12 +130,13 @@ void main() {
     await tapText(tester, 'SIGN UP');
     await type(tester, 'Name', 'Oussama');
     await type(tester, 'Email', 'oussama@mail.dz');
+    await type(tester, 'Phone', '0661 23 45 67');
     await type(tester, 'Password', 'password1');
     await type(tester, 'Re-type password', 'password1');
     await tapText(tester, 'SIGN UP');
     expect(find.byType(VerifyPage), findsNothing);
     expect(find.byType(HomePage), findsOneWidget);
-    expect(find.text('Pizzeria El Bahdja'), findsOneWidget);
+    expect(find.text('Pizzeria El Bahdja'), findsWidgets);
   });
 
   testWidgets('sign up with an existing email shows an error', (tester) async {
@@ -142,6 +145,7 @@ void main() {
     await tapText(tester, 'SIGN UP');
     await type(tester, 'Name', 'Karim');
     await type(tester, 'Email', 'k@mail.dz');
+    await type(tester, 'Phone', '0661 23 45 67');
     await type(tester, 'Password', 'password1');
     await type(tester, 'Re-type password', 'password1');
     await tapText(tester, 'SIGN UP');
@@ -176,8 +180,7 @@ void main() {
     await type(tester, 'Email', 'k@mail.dz');
     await type(tester, 'Password', 'secret123');
     await tapText(tester, 'LOG IN');
-    await tester.tap(find.byIcon(Icons.notes_rounded)); // profile menu
-    await tester.pumpAndSettle();
+    await tapText(tester, 'Account'); // bottom bar
     await tapText(tester, 'Log out');
     expect(find.byType(LoginPage), findsOneWidget);
   });

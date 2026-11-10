@@ -70,7 +70,7 @@ void main() {
     );
 
     // Place an order through the app, then the driver delivers it.
-    await tap(t, find.text('Pizzeria El Bahdja'));
+    await tap(t, find.text('Pizzeria El Bahdja').last);
     await tap(t, find.byIcon(Icons.add_rounded).first);
     await tap(t, find.byIcon(Icons.shopping_bag_outlined).first);
     await tap(t, find.text('PLACE ORDER'));

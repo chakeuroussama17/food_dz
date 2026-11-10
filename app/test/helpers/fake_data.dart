@@ -237,6 +237,17 @@ class FakeAccountRepository implements AccountRepository {
   Future<void> deleteAddress(String id) async =>
       addressList.removeWhere((a) => a.id == id);
 
+  /// Calls to [deleteMyAccount]; set [deleteFails] to simulate a refusal.
+  int deleted = 0;
+  DeleteAccountFailure? deleteFails;
+
+  @override
+  Future<void> deleteMyAccount() async {
+    final f = deleteFails;
+    if (f != null) throw DeleteAccountError(f);
+    deleted++;
+  }
+
   @override
   Future<void> setDefaultAddress(String id) async {
     for (var i = 0; i < addressList.length; i++) {

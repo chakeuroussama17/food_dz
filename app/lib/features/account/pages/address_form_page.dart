@@ -108,6 +108,13 @@ class _AddressFormPageState extends ConsumerState<AddressFormPage> {
               child: MapPinPicker(
                 initial: _pin,
                 onChanged: (p) => _pin = p,
+                onPlace: (place) => setState(() {
+                  // First part of the found address ("12, Rue Didouche
+                  // Mourad"); the user can correct it.
+                  final parts = place.label.split(',').map((s) => s.trim());
+                  _address.text = parts.take(2).join(', ');
+                  if (place.area.isNotEmpty) _area.text = place.area;
+                }),
                 topPadding: MediaQuery.paddingOf(context).top,
                 topStart: CircleIconButton.back(context, dark: true),
               ),

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/i18n/locale_controller.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/customer_nav_bar.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/app_image.dart';
 import '../../../core/widgets/page_header.dart';
@@ -88,16 +89,14 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: const CustomerNavBar(current: CustomerTab.search),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: Column(
               children: [
-                PageHeader(
-                  title: l.search,
-                  trailing: CartButton(onTap: () => context.push('/cart')),
-                ),
+                PageHeader(title: l.search, showBack: false),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextField(

@@ -22,13 +22,14 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   final _form = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _email = TextEditingController();
+  final _phone = TextEditingController();
   final _password = TextEditingController();
   final _retype = TextEditingController();
   bool _loading = false;
 
   @override
   void dispose() {
-    for (final c in [_name, _email, _password, _retype]) {
+    for (final c in [_name, _email, _phone, _password, _retype]) {
       c.dispose();
     }
     super.dispose();
@@ -45,6 +46,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
             name: _name.text,
             email: _email.text,
             password: _password.text,
+            phone: normalizeDzPhone(_phone.text),
           );
       // Signed in straight away: the router redirect takes over (/home).
       if (signedIn || !mounted) return;
@@ -94,6 +96,21 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                 autofillHints: const [AutofillHints.email],
                 validator: (v) =>
                     isValidEmail(v ?? '') ? null : l.errEmailInvalid,
+              ),
+              const SizedBox(height: 24),
+              // Mandatory: the restaurant and the driver call this number.
+              LabeledField(
+                label: l.phone,
+                controller: _phone,
+                hint: '0550 12 34 56',
+                keyboardType: TextInputType.phone,
+                textInputAction: TextInputAction.next,
+                textDirection: TextDirection.ltr,
+                autofillHints: const [AutofillHints.telephoneNumber],
+                maxLength: 20,
+                validator: (v) => normalizeDzPhone(v ?? '') == null
+                    ? l.errPhoneInvalid
+                    : null,
               ),
               const SizedBox(height: 24),
               PasswordField(

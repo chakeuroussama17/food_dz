@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/customer_nav_bar.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/snack.dart';
 import '../../../core/widgets/widgets.dart';
@@ -25,13 +26,14 @@ class MyOrdersPage extends ConsumerWidget {
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
+        bottomNavigationBar: const CustomerNavBar(current: CustomerTab.orders),
         body: SafeArea(
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: [
-                  PageHeader(title: l.myOrders),
+                  PageHeader(title: l.myOrders, showBack: false),
                   TabBar(
                     labelColor: AppColors.primary,
                     unselectedLabelColor: AppColors.muted,

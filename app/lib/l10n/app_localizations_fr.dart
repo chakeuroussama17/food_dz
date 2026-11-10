@@ -1526,4 +1526,116 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get errAutoReject => 'Entre 3 et 60 minutes';
+
+  @override
+  String get deleteAccount => 'Supprimer mon compte';
+
+  @override
+  String get deleteAccountConfirm =>
+      'Supprimer définitivement votre compte ? Vos adresses et votre photo seront effacées. Vos anciennes commandes restent anonymes pour la comptabilité.';
+
+  @override
+  String get accountDeleted => 'Compte supprimé';
+
+  @override
+  String get errDeleteActiveOrders =>
+      'Vous avez une commande en cours. Réessayez quand elle est livrée.';
+
+  @override
+  String get errDeleteNotCustomer =>
+      'Les comptes restaurant et livreur sont fermés par l\'administrateur. Contactez-le.';
+
+  @override
+  String get locationServiceOff =>
+      'La localisation du téléphone est désactivée.';
+
+  @override
+  String get locationBlocked =>
+      'Localisation refusée pour cette application. Autorisez-la dans les réglages.';
+
+  @override
+  String get locationUnavailable =>
+      'Position introuvable. Réessayez dehors ou cherchez votre adresse sur la carte.';
+
+  @override
+  String get turnOn => 'Activer';
+
+  @override
+  String get openSettings => 'Réglages';
+
+  @override
+  String get searchAddressHint => 'Chercher une adresse, un quartier…';
+
+  @override
+  String get navHome => 'Accueil';
+
+  @override
+  String get navAccount => 'Compte';
+
+  @override
+  String get viewProfile => 'Voir le profil';
+
+  @override
+  String get general => 'Général';
+
+  @override
+  String get helpCenter => 'Centre d\'aide';
+
+  @override
+  String get supportSoon =>
+      'Le numéro du service client sera bientôt disponible.';
+
+  @override
+  String get becomePartner => 'Inscrire mon restaurant';
+
+  @override
+  String get becomeDriver => 'Devenir livreur';
+
+  @override
+  String get termsTitle => 'Conditions et confidentialité';
+
+  @override
+  String get appVersion => 'Version';
+
+  @override
+  String get promoCashTitle => 'Payez à la livraison';
+
+  @override
+  String get promoCashBody =>
+      'En espèces, à l\'arrivée de votre commande. Sans carte.';
+
+  @override
+  String promoFeeTitle(String fee) {
+    return 'Livraison $fee';
+  }
+
+  @override
+  String get promoFeeBody => 'Le même prix partout en ville.';
+
+  @override
+  String get promoDiscover => 'Ouvert maintenant · Commandez →';
+
+  @override
+  String get termsOrdersTitle => 'Commandes et paiement';
+
+  @override
+  String get termsOrdersBody =>
+      'Les prix sont ceux du restaurant au moment de la commande. Vous payez en espèces à la livraison (plats + frais de livraison). Une commande peut être annulée tant que le restaurant ne l\'a pas acceptée.';
+
+  @override
+  String get termsDataTitle => 'Vos données';
+
+  @override
+  String get termsDataBody =>
+      'Nous utilisons votre nom, téléphone et adresse uniquement pour livrer vos commandes. Le restaurant et le livreur les voient pour votre commande. Une photo de remise est prise à la livraison comme preuve.';
+
+  @override
+  String get termsDeleteTitle => 'Supprimer votre compte';
+
+  @override
+  String get termsDeleteBody =>
+      'Compte → Supprimer mon compte. Vos adresses et votre photo sont effacées ; vos anciennes commandes restent anonymes pour la comptabilité.';
+
+  @override
+  String get openNowTitle => 'Ouverts maintenant';
 }

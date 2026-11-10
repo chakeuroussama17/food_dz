@@ -97,6 +97,17 @@ abstract interface class AccountRepository {
   Future<void> updateAddress(String id, AddressInput input);
   Future<void> deleteAddress(String id);
   Future<void> setDefaultAddress(String id);
+
+  /// Deletes the customer's account (photos, addresses, push tokens).
+  /// Throws [DeleteAccountError].
+  Future<void> deleteMyAccount();
+}
+
+enum DeleteAccountFailure { activeOrders, notCustomer, network }
+
+class DeleteAccountError implements Exception {
+  const DeleteAccountError(this.failure);
+  final DeleteAccountFailure failure;
 }
 
 class SupabaseAccountRepository implements AccountRepository {
@@ -155,7 +166,7 @@ class SupabaseAccountRepository implements AccountRepository {
     await bucket.uploadBinary(
       path,
       bytes,
-      fileOptions: FileOptions(contentType: contentType, upsert: true),
+      fileOptions: FileOptions(contentType: contentType),
     );
     final url = bucket.getPublicUrl(path);
     await _db.from('profiles').update({'avatar_url': url}).eq('id', _user.id);
@@ -198,6 +209,30 @@ class SupabaseAccountRepository implements AccountRepository {
   @override
   Future<void> setDefaultAddress(String id) =>
       _db.rpc('set_default_address', params: {'p_address_id': id});
+
+  @override
+  Future<void> deleteMyAccount() async {
+    final uid = _user.id;
+    try {
+      // Profile photos first (files can't be removed from SQL).
+      try {
+        final bucket = _db.storage.from('avatars');
+        final files = await bucket.list(path: uid);
+        if (files.isNotEmpty) {
+          await bucket.remove([for (final f in files) '$uid/${f.name}']);
+        }
+      } catch (_) {}
+      await _db.rpc('delete_my_account');
+    } on PostgrestException catch (e) {
+      throw DeleteAccountError(
+        e.message.contains('active_orders')
+            ? DeleteAccountFailure.activeOrders
+            : DeleteAccountFailure.notCustomer,
+      );
+    } catch (_) {
+      throw const DeleteAccountError(DeleteAccountFailure.network);
+    }
+  }
 }
 
 final accountRepositoryProvider = Provider<AccountRepository>((ref) {

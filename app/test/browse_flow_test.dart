@@ -47,14 +47,14 @@ void main() {
     await signedInApp(t);
     expect(find.textContaining('Hey Karim'), findsOneWidget);
     expect(find.text('Pizza'), findsWidgets);
-    expect(find.text('Pizzeria El Bahdja'), findsOneWidget);
-    expect(find.text('Burger House'), findsOneWidget);
+    expect(find.text('Pizzeria El Bahdja'), findsWidgets);
+    expect(find.text('Burger House'), findsWidgets);
     await t.scrollUntilVisible(
-      find.text('Dar Lgharbi'),
+      find.text('Closed'),
       300,
       scrollable: mainScroll.first,
     );
-    expect(find.text('Closed'), findsOneWidget); // Dar Lgharbi
+    expect(find.text('Closed'), findsOneWidget); // Dar Lgharbi's card
     expect(find.text('200 DA'.replaceAll(' ', ' ')), findsWidgets);
     expect(t.takeException(), isNull);
   });
@@ -64,14 +64,14 @@ void main() {
     expect(find.byType(LocationAccessPage), findsOneWidget);
     await tap(t, find.text('Not now'));
     expect(find.byType(LocationAccessPage), findsNothing);
-    expect(find.text('Pizzeria El Bahdja'), findsOneWidget);
+    expect(find.text('Pizzeria El Bahdja'), findsWidgets);
   });
 
   testWidgets('restaurant page: chips filter dishes, unavailable is greyed', (
     t,
   ) async {
     await signedInApp(t);
-    await tap(t, find.text('Burger House'));
+    await tap(t, find.text('Burger House').last);
     expect(find.byType(RestaurantPage), findsOneWidget);
     expect(find.text('All (2)'), findsOneWidget);
     expect(find.text('Smash Burger'), findsOneWidget);
@@ -82,7 +82,7 @@ void main() {
 
   testWidgets('add to cart from the grid updates the badge', (t) async {
     await signedInApp(t);
-    await tap(t, find.text('Pizzeria El Bahdja'));
+    await tap(t, find.text('Pizzeria El Bahdja').last);
     await tap(t, find.byIcon(Icons.add_rounded).first);
     expect(find.text('Added to cart'), findsOneWidget);
     expect(cartBadge('1'), findsOneWidget);
@@ -92,7 +92,7 @@ void main() {
     t,
   ) async {
     await signedInApp(t);
-    await tap(t, find.text('Pizzeria El Bahdja'));
+    await tap(t, find.text('Pizzeria El Bahdja').last);
     await tap(t, find.text('Pizza Thon'));
     expect(find.byType(ItemPage), findsOneWidget);
     await tap(t, find.bySemanticsLabel('+'));
@@ -109,11 +109,11 @@ void main() {
     t,
   ) async {
     await signedInApp(t);
-    await tap(t, find.text('Pizzeria El Bahdja'));
+    await tap(t, find.text('Pizzeria El Bahdja').last);
     await tap(t, find.byIcon(Icons.add_rounded).first);
     await t.pageBack();
     await t.pumpAndSettle();
-    await tap(t, find.text('Burger House'));
+    await tap(t, find.text('Burger House').last);
     await tap(t, find.byIcon(Icons.add_rounded).first);
     expect(find.textContaining('Start a new cart?'), findsOneWidget);
     await tap(t, find.text('Cancel'));
@@ -132,7 +132,7 @@ void main() {
       300,
       scrollable: mainScroll.first,
     );
-    await tap(t, find.text('Dar Lgharbi'));
+    await tap(t, find.text('Dar Lgharbi').last);
     expect(find.text('Closed'), findsOneWidget);
   });
 
@@ -161,7 +161,8 @@ void main() {
 
   testWidgets('home renders in Arabic, right-to-left', (t) async {
     await signedInApp(t, lang: 'ar');
-    expect(find.text('كل الأصناف'), findsOneWidget);
+    expect(find.text('بيتزا'), findsWidgets); // category tile
+    expect(find.text('الرئيسية'), findsOneWidget); // bottom bar
     expect(t.takeException(), isNull);
   });
 }

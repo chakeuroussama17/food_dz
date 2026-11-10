@@ -55,6 +55,7 @@ abstract interface class AuthRepository {
     required String name,
     required String email,
     required String password,
+    String? phone,
   });
   Future<void> verifySignupCode({required String email, required String code});
   Future<void> resendSignupCode(String email);
@@ -107,13 +108,14 @@ class SupabaseAuthRepository implements AuthRepository {
     required String name,
     required String email,
     required String password,
+    String? phone,
   }) async {
     var signedIn = false;
     await _guard(() async {
       final res = await _auth.signUp(
         email: email.trim(),
         password: password,
-        data: {'full_name': name.trim()},
+        data: {'full_name': name.trim(), 'phone': ?phone},
       );
       // With email confirmation on, Supabase hides whether the email is
       // taken: it returns a user with no identities instead of an error.
@@ -248,12 +250,14 @@ class UnconfiguredAuthRepository implements AuthRepository {
   Future<void> signIn({
     required String email,
     required String password,
+    String? phone,
   }) async => _fail();
   @override
   Future<bool> signUp({
     required String name,
     required String email,
     required String password,
+    String? phone,
   }) async => _fail();
   @override
   Future<void> verifySignupCode({

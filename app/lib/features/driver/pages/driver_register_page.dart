@@ -57,6 +57,7 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
               name: _name.text,
               email: _email.text,
               password: _password.text,
+              phone: normalizeDzPhone(_phone.text),
             );
         if (!signedIn) {
           session.setRegisteringRestaurant(false);

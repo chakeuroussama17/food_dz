@@ -74,7 +74,7 @@ Future<void> tap(WidgetTester t, Finder f) async {
 
 /// Home → pizzeria → 2 × Margherita (700) + 1 × Thon (900) → cart.
 Future<void> fillCartAndOpen(WidgetTester t) async {
-  await tap(t, find.text('Pizzeria El Bahdja'));
+  await tap(t, find.text('Pizzeria El Bahdja').last);
   await tap(t, find.byIcon(Icons.add_rounded).at(0));
   await tap(t, find.byIcon(Icons.add_rounded).at(0));
   await tap(t, find.byIcon(Icons.add_rounded).at(1));
@@ -215,9 +215,8 @@ void main() {
     await tap(t, find.text('PLACE ORDER'));
     await tap(t, find.text('Back to home'));
 
-    // Account → My orders.
-    await tap(t, find.byIcon(Icons.notes_rounded).first);
-    await tap(t, find.text('My orders'));
+    // Bottom bar → Orders.
+    await tap(t, find.text('Orders').last);
     expect(find.byType(MyOrdersPage), findsOneWidget);
     expect(find.text('Pizzeria El Bahdja'), findsOneWidget);
     expect(find.text('Order sent'), findsOneWidget);

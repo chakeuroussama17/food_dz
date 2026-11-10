@@ -726,5 +726,45 @@
   "errCamera": "Impossible d'ouvrir l'appareil photo. Autorisez la caméra dans les réglages, ou choisissez une photo dans la galerie.",
   "reasonNoAnswer": "Le restaurant n'a pas répondu à temps",
   "autoRejectSetting": "Refus automatique si le restaurant ne répond pas (minutes)",
-  "errAutoReject": "Entre 3 et 60 minutes"
+  "errAutoReject": "Entre 3 et 60 minutes",
+  "deleteAccount": "Supprimer mon compte",
+  "deleteAccountConfirm": "Supprimer définitivement votre compte ? Vos adresses et votre photo seront effacées. Vos anciennes commandes restent anonymes pour la comptabilité.",
+  "accountDeleted": "Compte supprimé",
+  "errDeleteActiveOrders": "Vous avez une commande en cours. Réessayez quand elle est livrée.",
+  "errDeleteNotCustomer": "Les comptes restaurant et livreur sont fermés par l'administrateur. Contactez-le.",
+  "locationServiceOff": "La localisation du téléphone est désactivée.",
+  "locationBlocked": "Localisation refusée pour cette application. Autorisez-la dans les réglages.",
+  "locationUnavailable": "Position introuvable. Réessayez dehors ou cherchez votre adresse sur la carte.",
+  "turnOn": "Activer",
+  "openSettings": "Réglages",
+  "searchAddressHint": "Chercher une adresse, un quartier…",
+  "navHome": "Accueil",
+  "navAccount": "Compte",
+  "viewProfile": "Voir le profil",
+  "general": "Général",
+  "helpCenter": "Centre d'aide",
+  "supportSoon": "Le numéro du service client sera bientôt disponible.",
+  "becomePartner": "Inscrire mon restaurant",
+  "becomeDriver": "Devenir livreur",
+  "termsTitle": "Conditions et confidentialité",
+  "appVersion": "Version",
+  "promoCashTitle": "Payez à la livraison",
+  "promoCashBody": "En espèces, à l'arrivée de votre commande. Sans carte.",
+  "promoFeeTitle": "Livraison {fee}",
+  "@promoFeeTitle": {
+    "placeholders": {
+      "fee": {
+        "type": "String"
+      }
+    }
+  },
+  "promoFeeBody": "Le même prix partout en ville.",
+  "promoDiscover": "Ouvert maintenant · Commandez →",
+  "termsOrdersTitle": "Commandes et paiement",
+  "termsOrdersBody": "Les prix sont ceux du restaurant au moment de la commande. Vous payez en espèces à la livraison (plats + frais de livraison). Une commande peut être annulée tant que le restaurant ne l'a pas acceptée.",
+  "termsDataTitle": "Vos données",
+  "termsDataBody": "Nous utilisons votre nom, téléphone et adresse uniquement pour livrer vos commandes. Le restaurant et le livreur les voient pour votre commande. Une photo de remise est prise à la livraison comme preuve.",
+  "termsDeleteTitle": "Supprimer votre compte",
+  "termsDeleteBody": "Compte → Supprimer mon compte. Vos adresses et votre photo sont effacées ; vos anciennes commandes restent anonymes pour la comptabilité.",
+  "openNowTitle": "Ouverts maintenant"
 }

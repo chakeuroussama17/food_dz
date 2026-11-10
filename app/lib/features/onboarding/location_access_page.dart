@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/location/location_help.dart';
 import '../../core/location/location_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/app_button.dart';
-import '../../core/widgets/snack.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Location Access: illustration, ACCESS LOCATION button with a pin icon,
@@ -29,13 +29,12 @@ class _LocationAccessPageState extends ConsumerState<LocationAccessPage> {
   }
 
   Future<void> _access() async {
-    final l = AppLocalizations.of(context);
     setState(() => _busy = true);
     final r = await ref.read(locationProvider.notifier).locate();
     if (!mounted) return;
     setState(() => _busy = false);
     if (r != LocationResult.granted) {
-      showAppSnack(context, l.locationDenied, error: true);
+      showLocationProblem(context, r);
     }
     _close();
   }
