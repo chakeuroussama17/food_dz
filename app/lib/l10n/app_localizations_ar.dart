@@ -1620,4 +1620,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get openNowTitle => 'مفتوحة الآن';
+
+  @override
+  String get homeBanners => 'لافتات الصفحة الرئيسية';
+
+  @override
+  String get addBanner => 'إضافة لافتة';
+
+  @override
+  String get noBanners =>
+      'لا توجد لافتات. أضف صورًا (إعلانات، أخبار): تظهر متحركة أعلى الصفحة الرئيسية للزبائن.';
+
+  @override
+  String get bannerSizeHint => 'المقاس المنصوح به: 1200 × 500 بكسل.';
+
+  @override
+  String get choosePicture => 'اختيار صورة';
+
+  @override
+  String get bannerTitle => 'العنوان';
+
+  @override
+  String get bannerOpens => 'عند اللمس، افتح';
+
+  @override
+  String get bannerNoLink => 'لا شيء (صورة فقط)';
+
+  @override
+  String get deleteBannerConfirm => 'حذف هذه اللافتة؟';
+
+  @override
+  String get moveUp => 'إلى الأعلى';
+
+  @override
+  String get moveDown => 'إلى الأسفل';
 }

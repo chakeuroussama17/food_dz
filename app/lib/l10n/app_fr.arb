@@ -766,5 +766,16 @@
   "termsDataBody": "Nous utilisons votre nom, téléphone et adresse uniquement pour livrer vos commandes. Le restaurant et le livreur les voient pour votre commande. Une photo de remise est prise à la livraison comme preuve.",
   "termsDeleteTitle": "Supprimer votre compte",
   "termsDeleteBody": "Compte → Supprimer mon compte. Vos adresses et votre photo sont effacées ; vos anciennes commandes restent anonymes pour la comptabilité.",
-  "openNowTitle": "Ouverts maintenant"
+  "openNowTitle": "Ouverts maintenant",
+  "homeBanners": "Bannières de l'accueil",
+  "addBanner": "Ajouter une bannière",
+  "noBanners": "Aucune bannière. Ajoutez des images (pubs, nouveautés) : elles défilent en haut de l'accueil des clients.",
+  "bannerSizeHint": "Format large conseillé : 1200 × 500 pixels.",
+  "choosePicture": "Choisir une image",
+  "bannerTitle": "Titre",
+  "bannerOpens": "Au toucher, ouvrir",
+  "bannerNoLink": "Rien (image seule)",
+  "deleteBannerConfirm": "Supprimer cette bannière ?",
+  "moveUp": "Monter",
+  "moveDown": "Descendre"
 }

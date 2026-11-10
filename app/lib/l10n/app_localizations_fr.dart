@@ -1638,4 +1638,38 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get openNowTitle => 'Ouverts maintenant';
+
+  @override
+  String get homeBanners => 'Bannières de l\'accueil';
+
+  @override
+  String get addBanner => 'Ajouter une bannière';
+
+  @override
+  String get noBanners =>
+      'Aucune bannière. Ajoutez des images (pubs, nouveautés) : elles défilent en haut de l\'accueil des clients.';
+
+  @override
+  String get bannerSizeHint => 'Format large conseillé : 1200 × 500 pixels.';
+
+  @override
+  String get choosePicture => 'Choisir une image';
+
+  @override
+  String get bannerTitle => 'Titre';
+
+  @override
+  String get bannerOpens => 'Au toucher, ouvrir';
+
+  @override
+  String get bannerNoLink => 'Rien (image seule)';
+
+  @override
+  String get deleteBannerConfirm => 'Supprimer cette bannière ?';
+
+  @override
+  String get moveUp => 'Monter';
+
+  @override
+  String get moveDown => 'Descendre';
 }

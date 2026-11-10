@@ -1625,4 +1625,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openNowTitle => 'Open now';
+
+  @override
+  String get homeBanners => 'Home banners';
+
+  @override
+  String get addBanner => 'Add banner';
+
+  @override
+  String get noBanners =>
+      'No banners yet. Add pictures (ads, news): they slide at the top of the customer home.';
+
+  @override
+  String get bannerSizeHint => 'Recommended wide format: 1200 × 500 pixels.';
+
+  @override
+  String get choosePicture => 'Choose a picture';
+
+  @override
+  String get bannerTitle => 'Title';
+
+  @override
+  String get bannerOpens => 'When tapped, open';
+
+  @override
+  String get bannerNoLink => 'Nothing (picture only)';
+
+  @override
+  String get deleteBannerConfirm => 'Delete this banner?';
+
+  @override
+  String get moveUp => 'Move up';
+
+  @override
+  String get moveDown => 'Move down';
 }

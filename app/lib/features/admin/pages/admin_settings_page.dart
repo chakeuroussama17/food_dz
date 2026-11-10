@@ -241,6 +241,12 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
           SettingsGroup(
             children: [
               SettingsTile(
+                icon: Icons.view_carousel_outlined,
+                iconColor: AppColors.primary,
+                label: l.homeBanners,
+                onTap: () => context.push('/admin/banners'),
+              ),
+              SettingsTile(
                 icon: Icons.people_outline_rounded,
                 iconColor: const Color(0xFF413DFB),
                 label: l.customers,

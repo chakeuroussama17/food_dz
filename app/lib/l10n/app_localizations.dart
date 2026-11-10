@@ -3057,6 +3057,72 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ouverts maintenant'**
   String get openNowTitle;
+
+  /// No description provided for @homeBanners.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bannières de l\'accueil'**
+  String get homeBanners;
+
+  /// No description provided for @addBanner.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une bannière'**
+  String get addBanner;
+
+  /// No description provided for @noBanners.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune bannière. Ajoutez des images (pubs, nouveautés) : elles défilent en haut de l\'accueil des clients.'**
+  String get noBanners;
+
+  /// No description provided for @bannerSizeHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Format large conseillé : 1200 × 500 pixels.'**
+  String get bannerSizeHint;
+
+  /// No description provided for @choosePicture.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir une image'**
+  String get choosePicture;
+
+  /// No description provided for @bannerTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Titre'**
+  String get bannerTitle;
+
+  /// No description provided for @bannerOpens.
+  ///
+  /// In fr, this message translates to:
+  /// **'Au toucher, ouvrir'**
+  String get bannerOpens;
+
+  /// No description provided for @bannerNoLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rien (image seule)'**
+  String get bannerNoLink;
+
+  /// No description provided for @deleteBannerConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cette bannière ?'**
+  String get deleteBannerConfirm;
+
+  /// No description provided for @moveUp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Monter'**
+  String get moveUp;
+
+  /// No description provided for @moveDown.
+  ///
+  /// In fr, this message translates to:
+  /// **'Descendre'**
+  String get moveDown;
 }
 
 class _AppLocalizationsDelegate

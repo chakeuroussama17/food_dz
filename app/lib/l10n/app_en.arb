@@ -492,5 +492,16 @@
   "termsDataBody": "We use your name, phone and address only to deliver your orders. The restaurant and the driver see them for your order. A photo is taken at delivery as proof.",
   "termsDeleteTitle": "Deleting your account",
   "termsDeleteBody": "Account → Delete my account. Your addresses and photo are erased; past orders stay anonymous for accounting.",
-  "openNowTitle": "Open now"
+  "openNowTitle": "Open now",
+  "homeBanners": "Home banners",
+  "addBanner": "Add banner",
+  "noBanners": "No banners yet. Add pictures (ads, news): they slide at the top of the customer home.",
+  "bannerSizeHint": "Recommended wide format: 1200 × 500 pixels.",
+  "choosePicture": "Choose a picture",
+  "bannerTitle": "Title",
+  "bannerOpens": "When tapped, open",
+  "bannerNoLink": "Nothing (picture only)",
+  "deleteBannerConfirm": "Delete this banner?",
+  "moveUp": "Move up",
+  "moveDown": "Move down"
 }

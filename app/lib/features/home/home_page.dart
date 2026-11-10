@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/location/location_service.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/utils/money.dart';
 import '../../core/widgets/app_image.dart';
 import '../../core/widgets/customer_nav_bar.dart';
 import '../../l10n/app_localizations.dart';
@@ -15,6 +14,7 @@ import '../account/widgets/account_widgets.dart';
 import '../catalog/data/catalog_models.dart';
 import '../catalog/data/catalog_repository.dart';
 import '../catalog/widgets/browse_widgets.dart';
+import '../banners/banners_repository.dart';
 
 /// Customer home: orange header (address, photo, greeting, search), promo
 /// carousel, category tiles, restaurant logos, open restaurants.
@@ -41,6 +41,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     ref.invalidate(restaurantsProvider(null));
     ref.invalidate(deliveryFeeProvider);
     ref.invalidate(addressesProvider);
+    ref.invalidate(homeBannersProvider);
     await ref.read(restaurantsProvider(null).future).catchError((_) {
       return <RestaurantSummary>[];
     });
@@ -68,12 +69,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           slivers: [
             const SliverToBoxAdapter(child: _Header()),
             SliverToBoxAdapter(
-              child: _Section(
-                delay: 0,
-                child: _PromoCarousel(
-                  restaurants: restaurants.value ?? const [],
-                ),
-              ),
+              child: _Section(delay: 0, child: const _BannerCarousel()),
             ),
             SliverToBoxAdapter(
               child: _Section(
@@ -320,29 +316,28 @@ class _Header extends ConsumerWidget {
   }
 }
 
-/// Promo banners that slide by themselves (every 4 s), with dots.
-class _PromoCarousel extends ConsumerStatefulWidget {
-  const _PromoCarousel({required this.restaurants});
-  final List<RestaurantSummary> restaurants;
+/// The admin's banners (ads and news), sliding by themselves every 4 s,
+/// with dots. Hidden when there are none.
+class _BannerCarousel extends ConsumerStatefulWidget {
+  const _BannerCarousel();
 
   @override
-  ConsumerState<_PromoCarousel> createState() => _PromoCarouselState();
+  ConsumerState<_BannerCarousel> createState() => _BannerCarouselState();
 }
 
-class _PromoCarouselState extends ConsumerState<_PromoCarousel> {
+class _BannerCarouselState extends ConsumerState<_BannerCarousel> {
   final _pages = PageController(viewportFraction: .92);
   Timer? _timer;
   int _index = 0;
+  int _count = 0;
 
   @override
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 4), (_) {
-      if (!_pages.hasClients) return;
-      final count = _slideCount;
-      if (count < 2) return;
+      if (!_pages.hasClients || _count < 2) return;
       _pages.animateToPage(
-        (_index + 1) % count,
+        (_index + 1) % _count,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeOutCubic,
       );
@@ -356,163 +351,104 @@ class _PromoCarouselState extends ConsumerState<_PromoCarousel> {
     super.dispose();
   }
 
-  RestaurantSummary? get _featured => widget.restaurants
-      .where((r) => r.isOpen && (r.coverUrl ?? '').isNotEmpty)
-      .firstOrNull;
-
-  int get _slideCount => _featured == null ? 2 : 3;
-
   @override
   Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final lang = Localizations.localeOf(context).languageCode;
-    final fee = ref.watch(deliveryFeeProvider).value;
-    final featured = _featured;
-    final slides = <Widget>[
-      _PromoSlide(
-        colors: const [Color(0xFF181C2E), Color(0xFF3B4161)],
-        emoji: '💵',
-        title: l.promoCashTitle,
-        body: l.promoCashBody,
-      ),
-      _PromoSlide(
-        colors: const [Color(0xFF1DB954), Color(0xFF6BD68F)],
-        emoji: '🛵',
-        title: fee == null
-            ? l.deliveryFee
-            : l.promoFeeTitle(formatDzd(fee, lang)),
-        body: l.promoFeeBody,
-      ),
-      if (featured != null)
-        _PromoSlide(
-          colors: const [Color(0xFF7B2FF7), Color(0xFFB57BFF)],
-          imageUrl: featured.coverUrl,
-          title: featured.name,
-          body: l.promoDiscover,
-          onTap: () => context.push('/r/${featured.slug}'),
-        ),
-    ];
+    final banners = ref.watch(homeBannersProvider).value ?? const [];
+    _count = banners.length;
+    if (banners.isEmpty) return const SizedBox(height: 4);
+    if (_index >= banners.length) _index = 0;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 150,
-            child: PageView(
-              controller: _pages,
-              onPageChanged: (i) => setState(() => _index = i),
-              children: slides,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      child: LayoutBuilder(
+        builder: (context, box) {
+          // Same shape as the recommended picture (1200 × 500).
+          final height = (box.maxWidth * .92 - 12) / bannerAspectRatio;
+          return Column(
             children: [
-              for (var i = 0; i < slides.length; i++)
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  margin: const EdgeInsets.symmetric(horizontal: 3),
-                  width: i == _index ? 22 : 7,
-                  height: 7,
-                  decoration: BoxDecoration(
-                    color: i == _index ? AppColors.primary : AppColors.border,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
+              SizedBox(
+                height: height,
+                child: PageView.builder(
+                  controller: _pages,
+                  itemCount: banners.length,
+                  onPageChanged: (i) => setState(() => _index = i),
+                  itemBuilder: (context, i) => _BannerSlide(banner: banners[i]),
                 ),
+              ),
+              if (banners.length > 1) ...[
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 0; i < banners.length; i++)
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                        width: i == _index ? 22 : 7,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          color: i == _index
+                              ? AppColors.primary
+                              : AppColors.border,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 }
 
-class _PromoSlide extends StatelessWidget {
-  const _PromoSlide({
-    required this.colors,
-    required this.title,
-    required this.body,
-    this.emoji,
-    this.imageUrl,
-    this.onTap,
-  });
-
-  final List<Color> colors;
-  final String title;
-  final String body;
-  final String? emoji;
-  final String? imageUrl;
-  final VoidCallback? onTap;
+class _BannerSlide extends StatelessWidget {
+  const _BannerSlide({required this.banner});
+  final HomeBanner banner;
 
   @override
   Widget build(BuildContext context) {
+    final slug = banner.restaurantSlug;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: Material(
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(20),
         clipBehavior: Clip.antiAlias,
+        color: AppColors.placeholder,
         child: InkWell(
-          onTap: onTap,
-          child: Ink(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: colors,
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 18, 8, 18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            height: 1.2,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          body,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.white.withValues(alpha: .9),
-                          ),
-                        ),
-                      ],
+          onTap: slug == null ? null : () => context.push('/r/$slug'),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              AppImage(url: banner.imageUrl, radius: 0),
+              if (banner.title.isNotEmpty)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0x00000000), Color(0x99000000)],
+                      ),
+                    ),
+                    child: Text(
+                      banner.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
-                if (imageUrl != null)
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: AppImage(
-                      url: imageUrl,
-                      width: 120,
-                      height: 120,
-                      radius: 18,
-                    ),
-                  )
-                else if (emoji != null)
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 20),
-                    child: Text(emoji!, style: const TextStyle(fontSize: 64)),
-                  ),
-              ],
-            ),
+            ],
           ),
         ),
       ),

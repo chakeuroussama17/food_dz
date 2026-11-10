@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:food_app/core/i18n/locale_controller.dart';
 import 'package:food_app/core/location/geocoding.dart';
+import 'package:food_app/features/banners/banners_repository.dart';
+import 'package:food_app/features/admin/pages/admin_banners_page.dart';
 import 'package:food_app/core/pdf/business_info.dart';
 import 'package:food_app/core/utils/pick_image.dart';
 import 'package:food_app/features/admin/data/admin_repository.dart';
@@ -36,6 +38,73 @@ export 'fake_data.dart';
 export 'fake_driver.dart';
 export 'fake_orders.dart';
 export 'fake_owner_orders.dart';
+
+/// In-memory banners.
+class FakeBannersRepository implements BannersRepository {
+  final list = <AdminBanner>[];
+  var _n = 0;
+
+  @override
+  Future<List<HomeBanner>> homeBanners() async => [
+    for (final b in list.where((b) => b.isActive))
+      HomeBanner(
+        id: b.id,
+        imageUrl: b.imageUrl,
+        title: b.title,
+        restaurantSlug: b.restaurantId == null ? null : 'pizzeria-el-bahdja',
+      ),
+  ];
+
+  @override
+  Future<List<AdminBanner>> adminList() async => [...list];
+
+  @override
+  Future<void> add(
+    PickedImage image, {
+    String title = '',
+    String? restaurantId,
+  }) async {
+    _n++;
+    list.add(
+      AdminBanner(
+        id: 'bn$_n',
+        imageUrl: 'https://example.com/b$_n.png',
+        title: title,
+        restaurantId: restaurantId,
+        isActive: true,
+      ),
+    );
+  }
+
+  @override
+  Future<void> update(
+    String id, {
+    required String title,
+    required String? restaurantId,
+    required bool isActive,
+  }) async {
+    final i = list.indexWhere((b) => b.id == id);
+    list[i] = AdminBanner(
+      id: id,
+      imageUrl: list[i].imageUrl,
+      title: title,
+      restaurantId: restaurantId,
+      isActive: isActive,
+    );
+  }
+
+  @override
+  Future<void> move(String id, int delta) async {
+    final i = list.indexWhere((b) => b.id == id);
+    final j = i + delta;
+    if (j < 0 || j >= list.length) return;
+    final b = list.removeAt(i);
+    list.insert(j, b);
+  }
+
+  @override
+  Future<void> delete(String id) async => list.removeWhere((b) => b.id == id);
+}
 
 /// Address search without the network.
 class FakeGeocoder implements Geocoder {
@@ -279,6 +348,7 @@ Future<FakeAuthRepository> pumpFoodApp(
   FakeAlertSound? sound,
   FakeDriverRepository? driver,
   FakeAdminDriversRepository? adminDrivers,
+  FakeBannersRepository? banners,
   Size size = const Size(375, 812),
 }) async {
   SharedPreferences.setMockInitialValues({
@@ -321,6 +391,12 @@ Future<FakeAuthRepository> pumpFoodApp(
           driver ?? FakeDriverRepository(),
         ),
         geocoderProvider.overrideWithValue(FakeGeocoder()),
+        bannersRepositoryProvider.overrideWithValue(
+          banners ?? FakeBannersRepository(),
+        ),
+        pickBannerImageProvider.overrideWithValue(
+          () async => PickedImage(fakePng, 'png'),
+        ),
         businessInfoRepositoryProvider.overrideWithValue(
           FakeBusinessInfoRepository(),
         ),

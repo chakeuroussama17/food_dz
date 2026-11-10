@@ -28,6 +28,7 @@ import '../features/driver/pages/driver_order_page.dart';
 import '../features/driver/pages/driver_other_pages.dart';
 import '../features/driver/pages/driver_register_page.dart';
 import '../features/admin/pages/admin_drivers_page.dart';
+import '../features/admin/pages/admin_banners_page.dart';
 import '../features/home/home_page.dart';
 import '../features/onboarding/location_access_page.dart';
 import '../features/onboarding/onboarding_page.dart';
@@ -266,6 +267,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (_, _) => const AdminCustomersPage(),
           ),
           GoRoute(path: 'drivers', builder: (_, _) => const AdminDriversPage()),
+          GoRoute(path: 'banners', builder: (_, _) => const AdminBannersPage()),
         ],
       ),
       // Drivers.
