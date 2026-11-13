@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/widgets/theme_switch.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -13,14 +11,12 @@ import '../../../core/widgets/map_pin_picker.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/widgets/snack.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../account/widgets/account_widgets.dart';
-import '../../auth/data/auth_providers.dart';
 import '../../catalog/widgets/browse_widgets.dart';
 import '../data/owner_repository.dart';
 import '../widgets/owner_widgets.dart';
 
 /// Restaurant profile: cover + logo, name, description, phone, address,
-/// area, preparation time, map pin. Also language and log out.
+/// area, preparation time, map pin. Opened from the Account tab.
 class OwnerProfilePage extends ConsumerWidget {
   const OwnerProfilePage({super.key});
 
@@ -29,14 +25,13 @@ class OwnerProfilePage extends ConsumerWidget {
     final mine = ref.watch(myRestaurantProvider);
     return Scaffold(
       backgroundColor: AppColors.surface,
-      bottomNavigationBar: const OwnerBottomBar(current: OwnerTab.profile),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: AsyncBody(
               value: mine,
-              onRetry: () => ref.invalidate(myRestaurantProvider),
+              onRetry: () => ref.invalidate(myRestaurantsProvider),
               builder: (r) =>
                   r == null ? const SizedBox.shrink() : _Form(restaurant: r),
             ),
@@ -92,6 +87,26 @@ class _FormState extends ConsumerState<_Form> {
           .uploadImage(r.id, img.bytes, img.extension);
       if (!mounted) return;
       setState(() => kind == 'logo' ? _logo = url : _cover = url);
+      // Saved at once (with the details as last saved), so the new photo
+      // shows everywhere even without pressing Save.
+      await ref
+          .read(ownerRepositoryProvider)
+          .updateDetails(
+            r.id,
+            RestaurantDetailsInput(
+              name: r.name,
+              description: r.description,
+              phone: r.phone,
+              address: r.address,
+              area: r.area,
+              prepMinutes: r.prepMinutes,
+              lat: r.lat,
+              lng: r.lng,
+              coverUrl: _cover,
+              logoUrl: _logo,
+            ),
+          );
+      ref.invalidate(myRestaurantsProvider);
     } on ImageTooLarge {
       if (mounted) showAppSnack(context, l.errPhotoTooLarge, error: true);
     } catch (_) {
@@ -123,7 +138,7 @@ class _FormState extends ConsumerState<_Form> {
               logoUrl: _logo,
             ),
           );
-      ref.invalidate(myRestaurantProvider);
+      ref.invalidate(myRestaurantsProvider);
       if (mounted) showAppSnack(context, l.saved);
     } catch (_) {
       if (mounted) showAppSnack(context, l.errGeneric, error: true);
@@ -139,7 +154,7 @@ class _FormState extends ConsumerState<_Form> {
       key: _form,
       child: ListView(
         children: [
-          PageHeader(title: l.restaurantProfile, showBack: false),
+          PageHeader(title: l.restaurantProfile),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
@@ -258,35 +273,6 @@ class _FormState extends ConsumerState<_Form> {
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 16),
-          SettingsGroup(
-            children: [
-              SettingsTile(
-                icon: Icons.request_quote_outlined,
-                iconColor: AppColors.primary,
-                label: l.myStatements,
-                onTap: () => context.push('/restaurant/statements'),
-              ),
-              SettingsTile(
-                icon: Icons.translate_rounded,
-                iconColor: const Color(0xFF2AE1E1),
-                label: l.language,
-                trailing: const LanguageSwitch(),
-              ),
-              SettingsTile(
-                icon: Icons.dark_mode_outlined,
-                iconColor: const Color(0xFF7C6FD6),
-                label: l.appearance,
-                trailing: const ThemeSwitch(),
-              ),
-              SettingsTile(
-                icon: Icons.logout_rounded,
-                iconColor: const Color(0xFFFB4A59),
-                label: l.logOut,
-                onTap: () => signOutAndStopPush(ref),
-              ),
-            ],
           ),
           const SizedBox(height: 24),
         ],

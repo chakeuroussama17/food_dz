@@ -39,7 +39,7 @@ class NominatimGeocoder implements Geocoder {
 
   Map<String, String> get _headers => {
     // Nominatim asks apps to identify themselves (browsers send their own).
-    if (!kIsWeb) 'User-Agent': 'FoodDZ/0.1 (dz.foodapp.food_app)',
+    if (!kIsWeb) 'User-Agent': 'foodfennec/0.1 (dz.foodapp.food_app)',
   };
 
   static String _area(Map<String, dynamic>? a) {

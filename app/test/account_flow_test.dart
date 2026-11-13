@@ -96,15 +96,36 @@ void main() {
     final account = await openAccount(t);
     await tap(t, find.text('View profile'));
     await tap(t, find.text('EDIT'));
+    Future<void> save() async {
+      await t.scrollUntilVisible(
+        find.text('SAVE'),
+        300,
+        scrollable: _vertical.first,
+      );
+      await tap(t, find.text('SAVE'));
+    }
+
     await t.enterText(input('Phone'), '021 12 34 56');
-    await tap(t, find.text('SAVE'));
+    await save();
+    await t.drag(_vertical.first, const Offset(0, 3000)); // back to the top
+    await t.pumpAndSettle();
     expect(find.textContaining('Invalid number'), findsOneWidget);
 
     await t.enterText(input('Phone'), '+213 661 12 34 56');
     await t.enterText(input('Full name'), 'Karim B.');
-    await tap(t, find.text('SAVE'));
+    // Gender and commune (wilaya, birth date: optional).
+    await t.scrollUntilVisible(
+      find.byKey(const Key('choice:male')),
+      300,
+      scrollable: _vertical.first,
+    );
+    await t.enterText(input('Commune'), 'Kouba');
+    await tap(t, find.byKey(const Key('choice:male')));
+    await save();
     expect(account.profile.phone, '0661123456'); // normalised
     expect(account.profile.fullName, 'Karim B.');
+    expect(account.profile.gender, 'male');
+    expect(account.profile.commune, 'Kouba');
     expect(find.text('0661123456'), findsOneWidget); // back on Personal info
   });
 

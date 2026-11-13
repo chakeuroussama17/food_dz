@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/snack.dart';
 import '../../../l10n/app_localizations.dart';
 import '../data/driver_live.dart';
+import '../data/driver_position.dart';
 import '../data/driver_repository.dart';
 
 enum DriverTab { home, deliveries, account }
@@ -22,6 +23,7 @@ class DriverScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     ref.watch(driverLiveProvider);
+    ref.watch(driverTrackerProvider); // position for the customer
     const paths = ['/driver', '/driver/deliveries', '/driver/account'];
     return Scaffold(
       backgroundColor: AppColors.canvas,
@@ -91,6 +93,10 @@ String driverErrorText(AppLocalizations l, DriverFailure f) => switch (f) {
   DriverFailure.notApproved => l.errNotApproved,
   DriverFailure.notAllowed => l.errOrderChanged,
   DriverFailure.invalidPhone => l.errPhoneInvalid,
+  DriverFailure.invalidName => l.errRiderNameInvalid,
+  DriverFailure.activeOrders => l.errDeleteActiveOrders,
+  DriverFailure.cashPending => l.errRiderCashPending,
+  DriverFailure.suspended => l.errAccountSuspended,
   DriverFailure.network => l.errNetwork,
   _ => l.errGeneric,
 };

@@ -13,6 +13,12 @@ class Profile {
     required this.email,
     this.phone,
     this.avatarUrl,
+    this.birthDate,
+    this.gender,
+    this.wilaya,
+    this.commune,
+    this.referral,
+    this.promptAnswered = true,
   });
 
   final String id;
@@ -20,6 +26,63 @@ class Profile {
   final String email;
   final String? phone;
   final String? avatarUrl;
+  final DateTime? birthDate;
+
+  /// 'male' or 'female'.
+  final String? gender;
+
+  /// 1–58.
+  final int? wilaya;
+  final String? commune;
+
+  /// friend, social, search, restaurant, ad, other.
+  final String? referral;
+
+  /// The "complete your profile" card was answered or skipped.
+  final bool promptAnswered;
+
+  Profile copyWith({
+    String? fullName,
+    String? phone,
+    String? avatarUrl,
+    ProfileDetails? details,
+    bool? promptAnswered,
+  }) => Profile(
+    id: id,
+    fullName: fullName ?? this.fullName,
+    email: email,
+    phone: phone ?? this.phone,
+    avatarUrl: avatarUrl ?? this.avatarUrl,
+    birthDate: details?.birthDate ?? birthDate,
+    gender: details?.gender ?? gender,
+    wilaya: details?.wilaya ?? wilaya,
+    commune: details?.commune ?? commune,
+    referral: details?.referral ?? referral,
+    promptAnswered: promptAnswered ?? this.promptAnswered,
+  );
+}
+
+/// The extra details (null = unchanged).
+class ProfileDetails {
+  const ProfileDetails({
+    this.birthDate,
+    this.gender,
+    this.wilaya,
+    this.commune,
+    this.referral,
+  });
+  final DateTime? birthDate;
+  final String? gender;
+  final int? wilaya;
+  final String? commune;
+  final String? referral;
+}
+
+enum DetailsFailure { invalidBirthDate, invalid, network }
+
+class DetailsError implements Exception {
+  const DetailsError(this.failure);
+  final DetailsFailure failure;
 }
 
 enum AddressLabel { home, work, other }
@@ -89,6 +152,14 @@ abstract interface class AccountRepository {
   Future<Profile> myProfile();
   Future<void> updateProfile({required String fullName, String? phone});
 
+  /// Birth date, gender, wilaya, commune, how they heard about us.
+  /// [complete]: the "complete your profile" card was answered.
+  /// Throws [DetailsError].
+  Future<void> updateDetails(ProfileDetails d, {bool complete = false});
+
+  /// "Later" on the "complete your profile" card.
+  Future<void> skipProfilePrompt();
+
   /// Uploads a profile photo and stores its public URL. Returns the URL.
   Future<String> uploadAvatar(Uint8List bytes, String extension);
 
@@ -123,17 +194,38 @@ class SupabaseAccountRepository implements AccountRepository {
   @override
   Future<Profile> myProfile() async {
     final u = _user;
-    final row = await _db
-        .from('profiles')
-        .select('id, full_name, phone, avatar_url')
-        .eq('id', u.id)
-        .single();
+    Map<String, dynamic> row;
+    try {
+      row = await _db
+          .from('profiles')
+          .select(
+            'id, full_name, phone, avatar_url, birth_date, gender, wilaya, '
+            'commune, referral_source, profile_prompt_at',
+          )
+          .eq('id', u.id)
+          .single();
+    } on PostgrestException {
+      // Before the customer-data SQL is applied.
+      row = await _db
+          .from('profiles')
+          .select('id, full_name, phone, avatar_url')
+          .eq('id', u.id)
+          .single();
+      row['profile_prompt_at'] = 'n/a';
+    }
+    final birth = row['birth_date'] as String?;
     return Profile(
       id: u.id,
       email: u.email ?? '',
       fullName: (row['full_name'] as String?) ?? '',
       phone: row['phone'] as String?,
       avatarUrl: row['avatar_url'] as String?,
+      birthDate: birth == null ? null : DateTime.tryParse(birth),
+      gender: row['gender'] as String?,
+      wilaya: (row['wilaya'] as num?)?.toInt(),
+      commune: row['commune'] as String?,
+      referral: row['referral_source'] as String?,
+      promptAnswered: row['profile_prompt_at'] != null,
     );
   }
 
@@ -150,6 +242,43 @@ class SupabaseAccountRepository implements AccountRepository {
     await _db.auth.updateUser(
       UserAttributes(data: {'full_name': fullName.trim()}),
     );
+  }
+
+  @override
+  Future<void> updateDetails(ProfileDetails d, {bool complete = false}) async {
+    String? date(DateTime? t) => t == null
+        ? null
+        : '${t.year.toString().padLeft(4, '0')}-'
+              '${t.month.toString().padLeft(2, '0')}-'
+              '${t.day.toString().padLeft(2, '0')}';
+    try {
+      await _db.rpc(
+        'update_my_details',
+        params: {
+          'p_birth_date': date(d.birthDate),
+          'p_gender': d.gender,
+          'p_wilaya': d.wilaya,
+          'p_commune': d.commune,
+          'p_referral': d.referral,
+          'p_complete': complete,
+        },
+      );
+    } on PostgrestException catch (e) {
+      throw DetailsError(
+        e.message.contains('invalid_birth_date')
+            ? DetailsFailure.invalidBirthDate
+            : DetailsFailure.invalid,
+      );
+    } catch (_) {
+      throw const DetailsError(DetailsFailure.network);
+    }
+  }
+
+  @override
+  Future<void> skipProfilePrompt() async {
+    try {
+      await _db.rpc('skip_profile_prompt');
+    } catch (_) {}
   }
 
   @override

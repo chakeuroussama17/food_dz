@@ -24,7 +24,7 @@ const _pizza = FoodCategory(
 class FakeCatalogRepository implements CatalogRepository {
   final cats = [_burger, _pizza];
 
-  final restaurantsList = const [
+  final restaurantsList = <RestaurantSummary>[
     RestaurantSummary(
       id: 'r1',
       slug: 'pizzeria-el-bahdja',
@@ -57,7 +57,7 @@ class FakeCatalogRepository implements CatalogRepository {
     ),
   ];
 
-  final items = const [
+  final items = <MenuItem>[
     MenuItem(
       id: 'i1',
       restaurantId: 'r1',
@@ -152,6 +152,12 @@ class FakeCatalogRepository implements CatalogRepository {
   @override
   Future<int> deliveryFee() async => 200;
 
+  /// Older tests check exact totals: no tax unless a test asks.
+  double taxRateValue = 0;
+
+  @override
+  Future<double> taxRate() async => taxRateValue;
+
   /// Price overrides for [itemsByIds] (simulates a restaurant changing a
   /// price after the dish was added to the cart).
   final priceChanges = <String, int>{};
@@ -192,7 +198,38 @@ class FakeAccountRepository implements AccountRepository {
       email: profile.email,
       phone: phone,
       avatarUrl: profile.avatarUrl,
+      birthDate: profile.birthDate,
+      gender: profile.gender,
+      wilaya: profile.wilaya,
+      commune: profile.commune,
+      referral: profile.referral,
+      promptAnswered: profile.promptAnswered,
     );
+  }
+
+  final detailCalls = <String>[];
+
+  @override
+  Future<void> updateDetails(ProfileDetails d, {bool complete = false}) async {
+    final b = d.birthDate;
+    if (b != null &&
+        (b.isAfter(DateTime.now().subtract(const Duration(days: 13 * 365))) ||
+            b.year < DateTime.now().year - 100)) {
+      throw const DetailsError(DetailsFailure.invalidBirthDate);
+    }
+    detailCalls.add(
+      'details:${b?.year}:${d.gender}:${d.wilaya}:${d.commune}:${d.referral}:$complete',
+    );
+    profile = profile.copyWith(
+      details: d,
+      promptAnswered: complete || profile.promptAnswered,
+    );
+  }
+
+  @override
+  Future<void> skipProfilePrompt() async {
+    detailCalls.add('skip');
+    profile = profile.copyWith(promptAnswered: true);
   }
 
   @override
@@ -279,13 +316,99 @@ class FakeOwnerRepository implements OwnerRepository {
   var _n = 0;
   RestaurantRegistration? lastRegistration;
 
+  /// More outlets of the same account (after [restaurant]).
+  final otherOutlets = <OwnedRestaurant>[];
+
   @override
-  Future<OwnedRestaurant?> myRestaurant() async => restaurant;
+  Future<List<OwnedRestaurant>> myRestaurants() async => [
+    ?restaurant,
+    ...otherOutlets,
+  ];
+
+  /// Team per outlet id.
+  final teams = <String, List<TeamMember>>{};
+
+  /// Emails of accounts that exist (can be added to a team).
+  final knownEmails = <String, String>{};
+
+  @override
+  Future<List<TeamMember>> team(String restaurantId) async => [
+    ...?teams[restaurantId],
+  ];
+
+  @override
+  Future<void> addMember(String restaurantId, String email, String role) async {
+    final e = email.trim().toLowerCase();
+    final name = knownEmails[e];
+    if (name == null) throw const TeamError(TeamFailure.userNotFound);
+    final t = teams.putIfAbsent(restaurantId, () => []);
+    if (t.any((m) => m.email == e)) {
+      throw const TeamError(TeamFailure.alreadyMember);
+    }
+    t.add(TeamMember(userId: 'u-$e', name: name, email: e, role: role));
+  }
+
+  @override
+  Future<void> setMemberRole(
+    String restaurantId,
+    String userId,
+    String role,
+  ) async {
+    final t = teams[restaurantId]!;
+    final i = t.indexWhere((m) => m.userId == userId);
+    final m = t[i];
+    if (m.role == 'owner' &&
+        role != 'owner' &&
+        t.where((x) => x.role == 'owner').length == 1) {
+      throw const TeamError(TeamFailure.lastOwner);
+    }
+    t[i] = TeamMember(
+      userId: m.userId,
+      name: m.name,
+      email: m.email,
+      role: role,
+    );
+  }
+
+  @override
+  Future<void> removeMember(String restaurantId, String userId) async {
+    final t = teams[restaurantId]!;
+    final m = t.firstWhere((x) => x.userId == userId);
+    if (m.role == 'owner' && t.where((x) => x.role == 'owner').length == 1) {
+      throw const TeamError(TeamFailure.lastOwner);
+    }
+    t.remove(m);
+  }
+
+  /// Set to make account deletion fail.
+  DeleteRestaurantFailure? deleteFailure;
+  bool deleted = false;
+
+  @override
+  Future<void> deleteMyAccount() async {
+    final f = deleteFailure;
+    if (f != null) throw DeleteRestaurantError(f);
+    deleted = true;
+    restaurant = null;
+  }
 
   @override
   Future<String> register(RestaurantRegistration r) async {
-    if (restaurant != null) throw Exception('account already has a role');
     lastRegistration = r;
+    if (restaurant != null) {
+      // An owner adding another outlet.
+      otherOutlets.add(
+        OwnedRestaurant(
+          id: 'own${otherOutlets.length + 2}',
+          slug: 'outlet-${otherOutlets.length + 2}',
+          name: r.name.trim(),
+          phone: r.phone,
+          address: r.address,
+          area: r.area,
+        ),
+      );
+      return 'own${otherOutlets.length + 1}';
+    }
     restaurant = OwnedRestaurant(
       id: 'own1',
       slug: 'chez-omar',
@@ -341,8 +464,11 @@ class FakeOwnerRepository implements OwnerRepository {
   );
 
   @override
-  Future<void> addItem(String restaurantId, MenuItemInput input) async =>
-      dishes.add(_make('m${_n++}', input));
+  Future<String> addItem(String restaurantId, MenuItemInput input) async {
+    final id = 'm${_n++}';
+    dishes.add(_make(id, input));
+    return id;
+  }
 
   @override
   Future<void> updateItem(String itemId, MenuItemInput input) async {

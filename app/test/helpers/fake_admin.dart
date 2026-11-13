@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:food_app/core/files/file_output.dart';
+
 import 'package:food_app/features/admin/data/admin_models.dart';
 import 'package:food_app/features/admin/data/admin_repository.dart';
 import 'package:food_app/features/admin/pages/admin_receipt_pages.dart';
@@ -15,6 +17,15 @@ class FakePdfOutput implements PdfOutput {
 
   @override
   Future<void> print(Uint8List bytes, String name) async => printed.add(name);
+}
+
+/// Keeps exported files instead of downloading / sharing them.
+class FakeFileOutput implements FileOutput {
+  final saved = <String, Uint8List>{};
+
+  @override
+  Future<void> save(Uint8List bytes, String filename, String mimeType) async =>
+      saved[filename] = bytes;
 }
 
 /// Delivered order used by the fake statements logic.
@@ -178,10 +189,29 @@ class FakeAdminRepository implements AdminRepository {
     AdminOrderItem('Smash Burger', 850, 1, 850),
   ];
 
+  CustomerInsights insights = const CustomerInsights();
+
   @override
-  Future<List<AdminCustomer>> customers({String search = ''}) async => const [
-    AdminCustomer(id: 'c1', fullName: 'Karim', email: 'k@mail.dz'),
-  ];
+  Future<CustomerInsights> customerInsights() async => insights;
+
+  /// Replaces the default single customer when not empty.
+  List<AdminCustomer> customerList = const [];
+
+  @override
+  Future<List<AdminCustomer>> customers({
+    String search = '',
+    int limit = 50,
+  }) async => customerList.isNotEmpty
+      ? customerList
+            .where(
+              (c) =>
+                  search.isEmpty ||
+                  '${c.fullName} ${c.email}'.toLowerCase().contains(
+                    search.toLowerCase(),
+                  ),
+            )
+            .toList()
+      : const [AdminCustomer(id: 'c1', fullName: 'Karim', email: 'k@mail.dz')];
 
   Iterable<FakeDelivered> _billable(String rid, DateRange r) => delivered.where(
     (d) => d.restaurantId == rid && d.statementId == null && _in(d.day, r),

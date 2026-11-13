@@ -1,7 +1,7 @@
-# Food App (Algeria): MVP
+# foodfennec (Algeria): v1.0
 
-Food delivery for one restaurant, one driver and one customer, end to end.
-Flutter (web + Android/iOS) on Supabase. Arabic (RTL), French and English.
+Food delivery in Algeria: customers, restaurants (app + partner portal),
+riders and an admin. Flutter (web + Android/iOS) on Supabase. Arabic (RTL), French and English.
 Prices are in DZD, whole numbers. Cash on delivery only.
 
 ```
@@ -30,6 +30,23 @@ Without `env.json` the app still starts. Only screens that need data won't work.
 The component gallery is at `/dev/gallery`. Use it to compare the shared
 widgets with the Figma screens and to check Arabic RTL with the
 language switch at the top right.
+
+## Partner portal (web, restaurants)
+
+A second app in the same Flutter project, for restaurant owners and
+managers on a computer: dashboard, orders, reports, invoices, outlets and
+team. Same accounts and database as the app.
+
+```bash
+cd app
+flutter run -d chrome -t lib/portal_main.dart --dart-define-from-file=env.json
+flutter build web -t lib/portal_main.dart -o build/portal --dart-define-from-file=env.json
+```
+
+Roles per outlet (`restaurant_members`): **owner** (everything, team,
+closing the account), **manager** (orders, menu, details, reports,
+invoices) and **staff** (orders only, in the app). Staff can't use the
+portal.
 
 ## Local backend (Supabase)
 
@@ -299,3 +316,11 @@ there is no network request for fonts.
   git-ignored anyway.
 - Server secrets (Resend API key, service role key) only go in Supabase:
   `supabase secrets set RESEND_API_KEY=...`. Never put them in the Flutter app.
+
+## Releases
+
+- **Android**: every push to `main` builds an APK and publishes it as a
+  GitHub Release (`.github/workflows/android.yml`).
+- **Web**: every push to `main` publishes the customer app and the partner
+  portal (`/portal/`) on GitHub Pages (`.github/workflows/web.yml`).
+  One-time setup: Settings > Pages > Source: "GitHub Actions".

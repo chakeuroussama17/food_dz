@@ -29,6 +29,12 @@ void main() {
       // state of the animation.
       GoRouter.of(tester.element(find.byType(Scaffold).first)).go('/');
       await tester.pump();
+      // Let the logo images decode (they load outside the fake clock).
+      await tester.runAsync(() async {
+        for (final e in find.byType(Image).evaluate()) {
+          await precacheImage((e.widget as Image).image, e);
+        }
+      });
       await tester.pump(const Duration(milliseconds: 950));
       await expectLater(
         find.byType(FoodApp),

@@ -8,6 +8,8 @@ import '../../../core/widgets/widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../cart/add_to_cart.dart';
 import '../../cart/cart_controller.dart';
+import '../../cart/options_picker.dart';
+import '../widgets/opening_text.dart';
 import '../data/catalog_repository.dart';
 import '../widgets/browse_widgets.dart';
 
@@ -26,6 +28,9 @@ class ItemPage extends ConsumerStatefulWidget {
 class _ItemPageState extends ConsumerState<ItemPage> {
   int _qty = 1;
   bool _adding = false;
+
+  /// Chosen option ids; set from the dish's defaults on first build.
+  Set<String>? _sel;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +67,12 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                         );
                       }
                       final r = d.restaurant;
+                      final sel = _sel ??= defaultChoices(item);
+                      final chosen = chosenFrom(item, sel);
+                      final valid = optionsValid(item, chosen);
+                      final unit =
+                          item.price +
+                          chosen.fold<int>(0, (s, c) => s + c.price);
                       final canOrder = r.isOpen && item.isAvailable;
                       return Column(
                         children: [
@@ -117,7 +128,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                                   const SizedBox(height: 20),
                                   Text(
                                     !r.isOpen
-                                        ? l.restaurantClosedNote
+                                        ? closedText(l, lang, r.nextOpenAt)
                                         : l.unavailable,
                                     style: const TextStyle(
                                       color: AppColors.danger,
@@ -125,6 +136,12 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                                     ),
                                   ),
                                 ],
+                                if (item.optionGroups.isNotEmpty)
+                                  OptionsPicker(
+                                    item: item,
+                                    selected: sel,
+                                    onChanged: (s) => setState(() => _sel = s),
+                                  ),
                               ],
                             ),
                           ),
@@ -138,7 +155,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        formatDzd(item.price * _qty, lang),
+                                        formatDzd(unit * _qty, lang),
                                         style: TextStyle(
                                           fontSize: 28,
                                           color: AppColors.ink,
@@ -157,7 +174,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                                 AppButton(
                                   label: l.addToCart,
                                   loading: _adding,
-                                  onPressed: !canOrder
+                                  onPressed: !canOrder || !valid
                                       ? null
                                       : () async {
                                           setState(() => _adding = true);
@@ -168,6 +185,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                                             restaurantName: r.name,
                                             restaurantOpen: r.isOpen,
                                             quantity: _qty,
+                                            options: chosen,
                                           );
                                           if (!context.mounted) return;
                                           setState(() => _adding = false);

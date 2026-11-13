@@ -128,13 +128,13 @@ class _OwnerStatementsPageState extends ConsumerState<OwnerStatementsPage> {
                                     Text(
                                       '${day.format(s.periodStart)} - '
                                       '${day.format(s.periodEnd)} · '
-                                      '${l.ordersCount}: ${s.ordersCount}',
+                                      '${l.ordersCount(s.ordersCount)}',
                                       style: TextStyle(color: AppColors.body),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       '${l.commissionDue} : '
-                                      '${formatDzd(s.commissionTotal, lang)}',
+                                      '${formatDzd(s.amountDue, lang)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.ink,

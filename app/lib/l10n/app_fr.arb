@@ -1,6 +1,6 @@
 {
   "@@locale": "fr",
-  "appName": "Food App",
+  "appName": "foodfennec",
   "language": "Langue",
   "langAr": "العربية",
   "langFr": "Français",
@@ -251,7 +251,7 @@
   "ownRestaurant": "Vous avez un restaurant ?",
   "registerIt": "Inscrivez-le",
   "registerRestaurantTitle": "Votre restaurant",
-  "registerRestaurantSubtitle": "Rejoignez Food et recevez des commandes",
+  "registerRestaurantSubtitle": "Rejoignez foodfennec et recevez des commandes",
   "yourAccount": "Votre compte",
   "restaurantSection": "Le restaurant",
   "restaurantName": "Nom du restaurant",
@@ -781,5 +781,1086 @@
   "appearance": "Apparence",
   "themeSystem": "Auto (comme le téléphone)",
   "themeLight": "Clair",
-  "themeDark": "Sombre"
+  "themeDark": "Sombre",
+  "insights": "Tendances",
+  "todayTitle": "Aujourd'hui",
+  "compareYesterday": "Comparé à hier à la même heure",
+  "kpiSales": "Ventes",
+  "kpiOrders": "Commandes",
+  "kpiAvgBasket": "Panier moyen",
+  "kpiPrep": "Préparation moy.",
+  "kpiAcceptance": "Taux d'acceptation",
+  "kpiNet": "Net après commission",
+  "minutesShort": "{n} min",
+  "@minutesShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "last7Days": "7 derniers jours",
+  "seeInsights": "Voir les tendances",
+  "shortcuts": "Raccourcis",
+  "ordersTable": "Tableau des commandes",
+  "liveOrders": "Commandes en direct",
+  "dishesNoPhoto": "{n} plats sans photo : les photos font vendre",
+  "@dishesNoPhoto": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dishesUnavailable": "{n} plats indisponibles",
+  "@dishesUnavailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "menuHealthGood": "Menu complet, bravo !",
+  "rangeYesterday": "Hier",
+  "range7": "7 jours",
+  "range30": "30 jours",
+  "range90": "90 jours",
+  "rangeMonth": "Ce mois",
+  "rangeCustom": "Dates…",
+  "filterAll": "Toutes",
+  "filterInProgress": "En cours",
+  "searchOrdersHint": "Code, client, plat…",
+  "exportCsv": "Exporter CSV",
+  "csvReady": "Fichier CSV prêt",
+  "noOrdersPeriod": "Aucune commande sur cette période",
+  "tableTotals": "Total de la sélection",
+  "csvCode": "Code",
+  "csvDate": "Date",
+  "csvTime": "Heure",
+  "csvStatus": "Statut",
+  "csvCustomer": "Client",
+  "csvArea": "Quartier",
+  "csvItems": "Articles",
+  "csvItemCount": "Nb articles",
+  "csvFood": "Plats (DA)",
+  "csvDeliveryFee": "Livraison (DA)",
+  "csvTotal": "Total (DA)",
+  "csvCommission": "Commission (DA)",
+  "csvNet": "Net (DA)",
+  "csvDriver": "Livreur",
+  "csvPrepMinutes": "Préparation (min)",
+  "csvReason": "Motif",
+  "comparedPrevious": "Comparé aux {n} jours précédents",
+  "@comparedPrevious": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "salesChartTitle": "Ventes par jour",
+  "tapBarHint": "Touchez une barre pour voir le détail",
+  "hoursChartTitle": "Heures de pointe",
+  "weekdayChartTitle": "Jours de la semaine",
+  "topDishesTitle": "Plats les plus vendus",
+  "outcomesTitle": "Issue des commandes",
+  "soldTimes": "{n} vendus",
+  "@soldTimes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tipsTitle": "Conseils pour vendre plus",
+  "tipSalesUp": "Vos ventes ont augmenté de {n}% par rapport à la période précédente. Continuez !",
+  "@tipSalesUp": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tipSalesDown": "Ventes en baisse de {n}%. Vérifiez vos heures d'ouverture et ajoutez des photos à vos plats.",
+  "@tipSalesDown": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tipRefusals": "{n} commandes refusées ou sans réponse : {amount} de ventes perdues. Fermez le restaurant quand vous ne pouvez pas servir.",
+  "@tipRefusals": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "tipSlowResponse": "Vous mettez {n} min en moyenne pour accepter. Les clients attendent, et une commande sans réponse est refusée automatiquement.",
+  "@tipSlowResponse": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tipSlowPrep": "La préparation prend {n} min, vous annoncez {announced} min. Mettez à jour le temps dans votre profil ou accélérez.",
+  "@tipSlowPrep": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "announced": {
+        "type": "int"
+      }
+    }
+  },
+  "tipPeakHour": "Heure de pointe : {hour} ({share}% des commandes). Préparez vos ingrédients avant.",
+  "@tipPeakHour": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      },
+      "share": {
+        "type": "int"
+      }
+    }
+  },
+  "tipTopDish": "« {dish} » fait {share}% de vos ventes. Gardez-le toujours disponible, avec une belle photo.",
+  "@tipTopDish": {
+    "placeholders": {
+      "dish": {
+        "type": "String"
+      },
+      "share": {
+        "type": "int"
+      }
+    }
+  },
+  "tipQuietDay": "{day} est votre jour le plus calme : bon moment pour une offre ou un nouveau plat.",
+  "@tipQuietDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "tipNoOrders": "Pas encore de commandes sur cette période. Ouvrez aux heures des repas et complétez votre menu avec des photos.",
+  "myBusiness": "Mon activité",
+  "accountApproved": "Approuvé",
+  "accountPending": "En attente",
+  "deleteRestaurantConfirm": "Votre compte sera supprimé et votre restaurant retiré de l'application. Vos commandes et relevés restent archivés pour la comptabilité. Cette action est définitive.",
+  "errDeleteCashPending": "Confirmez d'abord l'argent reçu des livreurs.",
+  "errDeleteUnpaidCommission": "Des commissions restent à régler. Contactez l'administrateur.",
+  "restaurantDetailsHint": "Photos, adresse, téléphone, temps de préparation",
+  "outlets": "Points de vente",
+  "roleOwner": "Propriétaire",
+  "roleManager": "Gérant",
+  "roleStaff": "Employé",
+  "csvOutlet": "Point de vente",
+  "portalTitle": "Portail partenaire",
+  "portalTagline": "Gérez vos restaurants, commandes et ventes au même endroit.",
+  "portalLoginTitle": "Connexion au portail partenaire",
+  "portalNotPartner": "Ce portail est réservé aux restaurants partenaires. Inscrivez d'abord votre restaurant dans l'application.",
+  "navReports": "Rapports",
+  "navInvoices": "Factures",
+  "navMenu": "Gestion du menu",
+  "navHours": "Horaires d'ouverture",
+  "navReviews": "Avis et notes",
+  "navMarketing": "Marketing",
+  "navNotifications": "Centre de notifications",
+  "navTeam": "Équipe",
+  "soon": "Bientôt",
+  "comingSoonTitle": "Bientôt disponible",
+  "comingSoonBody": "Cette section arrive à la prochaine étape. En attendant, utilisez l'application.",
+  "outletsAll": "Tous les points de vente",
+  "outletsCount": "{n}/{total} points de vente",
+  "@outletsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardSubtitle": "Vue d'ensemble de vos commandes et de vos points de vente",
+  "ordersToday": "Commandes aujourd'hui",
+  "cancelledToday": "Annulées ou refusées aujourd'hui",
+  "closedOutletsNow": "Points de vente fermés",
+  "salesToday": "Ventes aujourd'hui",
+  "updatedAt": "Mis à jour à {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "businessSummary": "Résumé de l’activité",
+  "thisWeek": "Cette semaine",
+  "lastWeek": "Semaine dernière",
+  "comparison": "Comparaison",
+  "previousPeriod": "Période précédente",
+  "totalLabel": "Total",
+  "cancelledLabel": "Annulées",
+  "waitingOrders": "En attente de votre réponse",
+  "noWaitingOrders": "Aucune commande en attente.",
+  "ordersSubtitle": "Détails des commandes en temps réel",
+  "placedAtCol": "Passée le",
+  "acceptedIn": "Acceptée en {time}",
+  "@acceptedIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "orderDetailsTitle": "Détails de la commande",
+  "secondsShort": "{n} s",
+  "@secondsShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "reportsSubtitle": "Analysez vos performances",
+  "tabSales": "Ventes",
+  "tabOperations": "Opérations",
+  "tabCustomers": "Clients",
+  "previousMonth": "Mois précédent",
+  "salesByDayHint": "Ventes et commandes par jour : votre activité monte-t-elle ou baisse-t-elle ?",
+  "downloadReport": "Télécharger le rapport",
+  "salesByHour": "Ventes par heure",
+  "salesByHourHint": "Ventes par heure et jour de la semaine : vos heures calmes et chargées.",
+  "avgResponse": "Temps moyen d'acceptation",
+  "cancellationRate": "Taux d'annulation",
+  "lostSales": "Ventes perdues",
+  "refusalReasons": "Refus et annulations par motif",
+  "prepByDay": "Temps de préparation par jour",
+  "newVsReturning": "Nouveaux vs clients fidèles",
+  "newVsReturningHint": "Part des commandes venant de nouveaux clients et de clients qui reviennent.",
+  "ordersFromNew": "Commandes de nouveaux clients",
+  "ordersFromReturning": "Commandes de clients fidèles",
+  "moreReturningTitle": "Plus de clients fidèles ?",
+  "moreReturningBody": "Les clients reviennent pour la qualité et la rapidité : gardez vos meilleurs plats disponibles, répondez vite et annoncez des temps de préparation honnêtes.",
+  "moreNewTitle": "Plus de nouveaux clients ?",
+  "moreNewBody": "De belles photos et des descriptions complètes donnent envie d'essayer. Une bannière sur l'accueil (demandez à l'administrateur) vous montre à tous.",
+  "topAreas": "Quartiers principaux",
+  "uniqueCustomers": "Clients",
+  "invoicesSubtitle": "Téléchargez vos relevés de commission",
+  "noInvoices": "Aucune facture pour le moment",
+  "outletsSubtitle": "Vos restaurants, leur statut et votre rôle",
+  "addOutlet": "Ajouter un point de vente",
+  "outletAdded": "Point de vente ajouté. Il sera visible après validation par l'administrateur.",
+  "yourRole": "Votre rôle : {role}",
+  "@yourRole": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "teamSubtitle": "Donnez à votre équipe son propre accès, avec les bons droits",
+  "addMember": "Ajouter un membre",
+  "memberEmail": "E-mail du compte",
+  "memberEmailHint": "La personne doit d'abord créer un compte dans l'application avec cet e-mail.",
+  "roleOwnerDesc": "Tout, y compris l'équipe et la fermeture du compte",
+  "roleManagerDesc": "Commandes, menu, informations, rapports et factures",
+  "roleStaffDesc": "Commandes uniquement : accepter, refuser, prête, argent reçu",
+  "removeMember": "Retirer",
+  "removeMemberConfirm": "Retirer {name} de ce point de vente ?",
+  "@removeMemberConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "memberAdded": "Membre ajouté",
+  "errUserNotFound": "Aucun compte avec cet e-mail. Demandez-lui de s'inscrire d'abord dans l'application.",
+  "errOtherRole": "Ce compte est livreur ou administrateur et ne peut pas rejoindre un restaurant.",
+  "errAlreadyMember": "Déjà dans l'équipe.",
+  "errLastOwner": "Un point de vente doit garder au moins un propriétaire.",
+  "onlyOwnersTeam": "Seuls les propriétaires peuvent modifier l'équipe.",
+  "colName": "Nom",
+  "colEmail": "E-mail",
+  "colRole": "Rôle",
+  "colSince": "Depuis",
+  "portalStaffOnly": "Votre accès employé fonctionne dans l'application. Demandez à un propriétaire un accès gérant pour utiliser le portail.",
+  "errOptionsChanged": "Les options de ce plat ont changé. Choisissez-les à nouveau.",
+  "chooseUpTo": "Jusqu'à {n} au choix",
+  "@chooseUpTo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "optionRequired": "Obligatoire",
+  "outOfStock": "Épuisé",
+  "opensTodayAt": "Fermé · ouvre aujourd'hui à {time}",
+  "@opensTodayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "opensTomorrowAt": "Fermé · ouvre demain à {time}",
+  "@opensTomorrowAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "opensOnAt": "Fermé · ouvre {day} à {time}",
+  "@opensOnAt": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "menuSubtitle": "Plats, prix, photos et options de vos plats",
+  "addOptionGroup": "Ajouter un groupe d'options",
+  "editOptionGroup": "Modifier le groupe d'options",
+  "dishesTab": "Plats",
+  "optionGroupsTab": "Groupes d'options",
+  "searchDishesHint": "Rechercher un plat…",
+  "bulkDone": "{n} plats modifiés",
+  "@bulkDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "bulkDeleteConfirm": "Supprimer {n} plats ? Cette action est définitive.",
+  "@bulkDeleteConfirm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "selectedCount": "{n} sélectionnés",
+  "@selectedCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "bulkShow": "Rendre disponible",
+  "bulkHide": "Masquer",
+  "bulkPrices": "Modifier les prix",
+  "priceIncrease": "Augmenter",
+  "priceDecrease": "Baisser",
+  "pricesRounded": "Les nouveaux prix sont arrondis à 10 DA.",
+  "apply": "Appliquer",
+  "uploadDishPhoto": "Ajouter une photo du plat",
+  "photosSellHint": "Les plats avec une belle photo se vendent mieux.",
+  "noOptionGroupsHint": "Créez d'abord des groupes d'options (tailles, suppléments) dans l'onglet Groupes d'options.",
+  "optionGroupsPickHint": "Choisissez les options proposées avec ce plat.",
+  "noOptionGroups": "Aucun groupe d'options. Créez par exemple « Taille » (Petite, Grande) ou « Suppléments » (Fromage, Œuf).",
+  "ruleRequiredOne": "Obligatoire · 1 choix",
+  "ruleRequiredRange": "Obligatoire · {min} à {max} choix",
+  "@ruleRequiredRange": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "ruleOptionalUpTo": "Facultatif · jusqu'à {max}",
+  "@ruleOptionalUpTo": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteGroupConfirm": "Supprimer le groupe « {name} » ? Il sera retiré de tous les plats.",
+  "@deleteGroupConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "free": "Gratuit",
+  "usedByNoDish": "Utilisé par aucun plat",
+  "usedBy": "Utilisé par : {names}",
+  "@usedBy": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "groupName": "Nom du groupe",
+  "groupNameHint": "ex. Taille, Sauce, Suppléments",
+  "requiredHint": "Le client doit choisir avant de commander",
+  "minChoices": "Minimum de choix",
+  "maxChoices": "Maximum de choix",
+  "choices": "Choix",
+  "choiceNameHint": "ex. Grande",
+  "extraPriceHint": "Supplément",
+  "addChoice": "Ajouter un choix",
+  "dishesUsingGroup": "Plats proposant ces options",
+  "errGroupRule": "Il faut au moins autant de choix que le minimum.",
+  "hoursSubtitle": "Vos horaires, jours fériés et horaires spéciaux",
+  "weeklyHours": "Horaires d'ouverture",
+  "specialDays": "Jours fériés et horaires spéciaux",
+  "openNowLabel": "Ouvert maintenant",
+  "closedNowLabel": "Fermé maintenant",
+  "switchOffHint": "Commandes désactivées par l'interrupteur",
+  "takingOrders": "Les clients peuvent commander",
+  "ordersSwitch": "Recevoir des commandes",
+  "weeklyHoursHint": "Les clients ne peuvent commander que pendant ces heures (et quand l'interrupteur est activé). Sans horaires : ouvert dès que l'interrupteur est activé.",
+  "closedAllDay": "Fermé toute la journée",
+  "addHours": "Ajouter des heures",
+  "copyToAllDays": "Copier sur tous les jours",
+  "specialDaysHint": "Jours fériés, Aïd, Ramadan… Ces dates remplacent les horaires habituels.",
+  "addSpecialDay": "Ajouter une date",
+  "noSpecialDays": "Aucune date à venir",
+  "pickDate": "Choisir la date",
+  "opensLabel": "Ouvre",
+  "closesLabel": "Ferme",
+  "specialDayNote": "Note",
+  "specialDayNoteHint": "ex. Aïd el-Fitr",
+  "rateDriverTitle": "Comment était la livraison ?",
+  "rateFoodTitle": "Comment était le repas ?",
+  "ratingWhatWrong": "Qu'est-ce qui n'allait pas ?",
+  "ratingCommentHint": "Ajouter un commentaire (facultatif)",
+  "ratingSubmit": "Envoyer ma note",
+  "ratingLater": "Plus tard",
+  "ratingThanks": "Merci pour votre avis !",
+  "ratingWord1": "Très mauvais",
+  "ratingWord2": "Mauvais",
+  "ratingWord3": "Moyen",
+  "ratingWord4": "Bien",
+  "ratingWord5": "Excellent",
+  "errRatingClosed": "La période de notation (7 jours) est terminée.",
+  "errRatingLocked": "Cette note ne peut plus être modifiée.",
+  "rateFoodCard": "Notez le repas",
+  "rateDriverCard": "Notez la livraison",
+  "ratingDaysLeft": "Encore {n} jours pour noter",
+  "@ratingDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ratingLastDay": "Dernier jour pour noter",
+  "yourRating": "Votre note",
+  "rateAction": "Noter",
+  "editRating": "Modifier",
+  "ratingEditHint": "Modifiable pendant 24 h",
+  "ratingReplyFrom": "Réponse du restaurant",
+  "errAccountBlocked": "Votre compte est suspendu. Contactez le support.",
+  "rsnCold": "Plat froid",
+  "rsnMissingItem": "Article manquant",
+  "rsnWrongOrder": "Mauvaise commande",
+  "rsnSmallPortion": "Portion trop petite",
+  "rsnBadTaste": "Mauvais goût",
+  "rsnBadPackaging": "Emballage abîmé",
+  "rsnLate": "En retard",
+  "rsnRude": "Impoli",
+  "rsnCareless": "Manipulation négligée",
+  "rsnNoContact": "Injoignable",
+  "rsnWrongPlace": "Mauvaise adresse",
+  "rsnFakeOrder": "Fausse commande",
+  "rsnNoAnswer": "Ne répond pas",
+  "rsnWrongAddress": "Adresse incorrecte",
+  "rsnRefusedToPay": "A refusé de payer",
+  "rsnOther": "Autre",
+  "reviewsTitle": "Avis",
+  "newRestaurant": "Nouveau",
+  "noReviewsYet": "Pas encore d’avis",
+  "restaurantReply": "Réponse du restaurant",
+  "seeMoreReviews": "Voir plus d'avis",
+  "ratingsCount": "{n} notes",
+  "@ratingsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewsSubtitle": "Ce que disent vos clients de vos plats",
+  "averageRating": "Note moyenne",
+  "ratingDistribution": "Répartition des notes",
+  "topComplaints": "Problèmes les plus cités",
+  "filterNeedsReply": "Sans réponse",
+  "starsFilter": "{n} étoiles",
+  "@starsFilter": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "replyAction": "Répondre",
+  "replyDialogHint": "Votre réponse est publique et ne pourra plus être modifiée.",
+  "replyHint": "Merci, nous espérons vous revoir…",
+  "sendReply": "Publier la réponse",
+  "replyPublished": "Réponse publiée",
+  "flagReview": "Signaler cet avis",
+  "flagReviewHint": "Expliquez pourquoi (insulte, ne concerne pas votre cuisine, mauvais restaurant…). L'administrateur décidera.",
+  "flagSend": "Envoyer",
+  "flagSent": "Envoyé à l'administrateur",
+  "flagWaiting": "En attente de l'administrateur",
+  "flagKept": "L'administrateur a conservé cet avis",
+  "errAlreadyReplied": "Cet avis a déjà une réponse.",
+  "errAlreadyFlagged": "Déjà signalé.",
+  "noReviewsPeriod": "Aucun avis sur cette période",
+  "reviewOrderRef": "Commande #{code}",
+  "@reviewOrderRef": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "myRating": "Ma note",
+  "driverRatingHint": "Votre moyenne apparaît après 5 notes.",
+  "driverReasonsTitle": "Ce que les clients ont signalé",
+  "reportCustomer": "Signaler ce client",
+  "reportCustomerHint": "Seul l'administrateur voit ce signalement. Le client n'est pas prévenu.",
+  "reportNoteHint": "Détails (facultatif)",
+  "reportSend": "Envoyer",
+  "reportSent": "Signalement envoyé à l'administrateur",
+  "reportedLabel": "Signalé",
+  "errAlreadyReported": "Vous avez déjà signalé cette commande.",
+  "errTooManyReports": "Trop de signalements aujourd'hui.",
+  "errCustomerGone": "Ce client n'a plus de compte.",
+  "navRatings": "Avis",
+  "adminRatingsTitle": "Avis et signalements",
+  "tabFlagged": "Avis signalés",
+  "tabReports": "Signalements clients",
+  "avg30d": "30 derniers jours",
+  "low30d": "Notes ≤ 2 (30 j)",
+  "hideReview": "Masquer",
+  "keepReview": "Conserver",
+  "decisionHidden": "Masqué",
+  "decisionKept": "Conservé",
+  "flaggedReason": "Motif du signalement",
+  "noFlagged": "Aucun avis signalé",
+  "noReports": "Aucun signalement",
+  "reportOpen": "À traiter",
+  "reportWarned": "Averti",
+  "reportBlocked": "Bloqué",
+  "reportDismissed": "Classé",
+  "actionWarn": "Avertir",
+  "actionBlock": "Bloquer le client",
+  "actionUnblock": "Débloquer",
+  "actionDismiss": "Classer sans suite",
+  "adminNoteHint": "Note interne (facultatif)",
+  "customerReportsCount": "{n} signalements pour ce client",
+  "@customerReportsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "reportedByRestaurant": "Signalé par le restaurant",
+  "reportedByDriver": "Signalé par le livreur",
+  "customerBlockedNote": "Client bloqué : ne peut plus commander",
+  "rangeDaysSuffix": "jours",
+  "riderReadyTitle": "Prêt à rouler ?",
+  "riderReadySub": "Passez en ligne pour recevoir des courses",
+  "riderModeTitle": "Livrer autour de vous",
+  "riderModeBody": "Récupérez les commandes des restaurants proches et livrez-les. Les frais de livraison sont pour vous.",
+  "startRiding": "Commencer",
+  "doneForToday": "J'arrête pour aujourd'hui",
+  "statDeliveries": "Courses",
+  "statEarnings": "Gains du jour",
+  "jobsNearYou": "Courses autour de vous",
+  "continueDelivery": "Continuer la course",
+  "stepToRestaurant": "En route vers le restaurant",
+  "stepReady": "La commande est prête",
+  "stepReadySub": "Vérifiez chaque article avant de partir",
+  "checkItems": "Vérifier les articles",
+  "checkItemsTitle": "Vérifiez chaque article",
+  "checkItemsHint": "Touchez chaque article une fois qu’il est dans le sac.",
+  "headToCustomer": "Récupérée, en route !",
+  "stepToCustomer": "En route vers le client",
+  "stepArrived": "Vous êtes arrivé",
+  "collectCash": "Encaissez {amount}",
+  "@collectCash": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "statDistance": "Distance",
+  "statItems": "Articles",
+  "statCash": "À encaisser",
+  "wellDone": "Bravo {name} !",
+  "@wellDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deliveryNumber": "Livraison #{code}",
+  "@deliveryNumber": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "youEarned": "+{amount} gagnés",
+  "@youEarned": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "readyNextJob": "Prêt pour la prochaine course ?",
+  "nextJob": "Course suivante",
+  "checkIn": "Je suis au restaurant",
+  "atRestaurant": "Vous êtes au restaurant",
+  "missingItemCall": "Article manquant ou erroné ? Appelez le restaurant",
+  "recenterMap": "Recentrer",
+  "followRider": "Suivez votre livreur",
+  "riderUpdatedAt": "Position à {time}",
+  "@riderUpdatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "riderKmAway": "À {km} km de chez vous",
+  "@riderKmAway": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "riderEditProfile": "Modifier mon profil",
+  "riderEditHint": "Nom, téléphone, véhicule et photo",
+  "riderSince": "Livreur depuis {date}",
+  "@riderSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "levelRookie": "Débutant",
+  "levelPro": "Pro",
+  "levelExpert": "Expert",
+  "levelLegend": "Légende",
+  "levelLabel": "Niveau {level}",
+  "@levelLabel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "levelNext": "Encore {n} livraisons pour devenir {level}",
+  "@levelNext": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "levelNeedsRating": "Gardez au moins {stars} étoiles pour devenir {level}",
+  "@levelNeedsRating": {
+    "placeholders": {
+      "stars": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "levelTop": "Niveau maximum atteint, bravo !",
+  "statTotalDeliveries": "Livraisons",
+  "statTotalEarned": "Gagnés",
+  "statRating": "Note",
+  "ratingDetails": "Voir le détail",
+  "allTime": "Depuis le début",
+  "fiveStarStreak": "{n} notes 5 étoiles d’affilée",
+  "@fiveStarStreak": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "coachTitle": "Conseils pour progresser",
+  "coachLate": "Prenez des courses proches de vous et partez dès que la commande est prête.",
+  "coachRude": "Un bonjour et un sourire changent tout.",
+  "coachCareless": "Gardez le sac à plat et les boissons debout.",
+  "coachNoContact": "Appelez le client 2 minutes avant d’arriver.",
+  "coachWrongPlace": "Vérifiez le point sur la carte et l’étage avant de partir.",
+  "coachAllGood": "Aucun problème signalé. Continuez comme ça !",
+  "ratingPrivateNote": "Les clients notent la livraison en privé : vous voyez les chiffres, jamais qui a noté.",
+  "sectionPreferences": "Préférences",
+  "dangerZone": "Zone sensible",
+  "riderDeleteTitle": "Supprimer mon compte livreur",
+  "riderDeleteBody": "Votre profil, votre photo et votre note seront supprimés. Les commandes passées restent pour la comptabilité des restaurants, sans votre nom. C’est définitif.",
+  "riderDeleteCheckNoDelivery": "Aucune livraison en cours",
+  "riderDeleteCheckCash": "Tout l’argent remis aux restaurants",
+  "riderDeleteConfirm": "Je comprends, c’est définitif",
+  "errRiderNameInvalid": "Entrez votre nom (2 à 60 caractères)",
+  "errRiderCashPending": "Remettez d’abord l’argent des repas aux restaurants.",
+  "goToCheckout": "Passer à la caisse",
+  "orderSummary": "Récapitulatif",
+  "promoCode": "Code promo",
+  "promoHint": "Entrez votre code",
+  "applyPromo": "Appliquer",
+  "removePromo": "Retirer",
+  "promoApplied": "Code {code} appliqué",
+  "@promoApplied": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "discount": "Réduction",
+  "taxLine": "Taxe ({rate})",
+  "@taxLine": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentMethod": "Mode de paiement",
+  "payCashHint": "Payez le livreur à la réception",
+  "payCard": "Carte CIB / Edahabia",
+  "payCcp": "CCP / BaridiMob",
+  "comingSoon": "Bientôt",
+  "placeOrderTotal": "Commander · {amount}",
+  "@placeOrderTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payOnDeliveryNote": "Vous ne payez qu’à la livraison.",
+  "youSave": "Vous économisez {amount}",
+  "@youSave": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "errPromoInvalid": "Code invalide",
+  "errPromoNotHere": "Ce code n’est pas valable pour ce restaurant",
+  "errPromoNotStarted": "Ce code n’est pas encore actif",
+  "errPromoExpired": "Ce code a expiré",
+  "errPromoMinOrder": "Le montant minimum de commande n’est pas atteint",
+  "errPromoUsedUp": "Ce code a atteint sa limite",
+  "errPromoAlreadyUsed": "Vous avez déjà utilisé ce code",
+  "errPaymentUnavailable": "Ce mode de paiement arrive bientôt",
+  "navPromos": "Codes promo",
+  "promoNew": "Nouveau code",
+  "promoEdit": "Modifier le code",
+  "promoKindPercent": "Pourcentage",
+  "promoKindAmount": "Montant fixe",
+  "promoValuePercent": "Réduction (%)",
+  "promoValueAmount": "Réduction (DA)",
+  "promoMaxDiscount": "Réduction max (DA)",
+  "promoMinOrder": "Commande minimum (DA)",
+  "promoMaxUses": "Utilisations max (total)",
+  "promoPerCustomer": "Max par client",
+  "promoEnds": "Expire le",
+  "promoNoEnd": "Sans date de fin",
+  "promoRestaurant": "Restaurant",
+  "promoAllRestaurants": "Tous les restaurants",
+  "promoFundedBy": "Payé par",
+  "fundedPlatform": "La plateforme",
+  "fundedRestaurant": "Le restaurant",
+  "promoUses": "{n} utilisations",
+  "@promoUses": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "promoGiven": "{amount} offerts",
+  "@promoGiven": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "promoActive": "Actif",
+  "promoInactive": "Désactivé",
+  "promoNote": "Note interne",
+  "promoMin": "dès {amount}",
+  "@promoMin": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "errPromoCode": "Code : 3 à 20 lettres ou chiffres",
+  "errPromoTaken": "Ce code existe déjà",
+  "errPromoValue": "Vérifiez les valeurs (pourcentage 1 à 90)",
+  "noPromos": "Aucun code pour le moment",
+  "amountDue": "Montant dû",
+  "taxCollected": "Taxe collectée",
+  "platformDiscounts": "Réductions payées par la plateforme",
+  "taxLabel": "Taxe",
+  "copy": "Copier",
+  "copied": "Copié",
+  "qrTitle": "QR code du restaurant",
+  "qrHint": "Affiche à imprimer, scans",
+  "qrScanToOrder": "Scannez pour commander",
+  "qrDownloadPoster": "Télécharger l’affiche (PDF)",
+  "qrCopyLink": "Copier le lien",
+  "qrStatsTitle": "Scans de votre QR code",
+  "qrScans30": "Scans (30 jours)",
+  "qrPeople": "Personnes",
+  "qrOrdersAfter": "Commandes après un scan",
+  "qrScansTotal": "{total} scans au total · {app} avec l’app · {web} avec l’appareil photo",
+  "@qrScansTotal": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "app": {
+        "type": "int"
+      },
+      "web": {
+        "type": "int"
+      }
+    }
+  },
+  "qrTip": "Collez l’affiche sur la vitrine, la caisse et les tables, et mettez-la dans les sacs de livraison. Un scan ouvre directement votre page dans foodfennec.",
+  "scanTitle": "Scanner un QR code",
+  "scanHint": "Visez le QR code d’un restaurant foodfennec",
+  "scanNotOurs": "Ce QR code n’est pas un code foodfennec",
+  "scanCameraDenied": "Autorisez l’appareil photo dans les réglages pour scanner.",
+  "scanCameraError": "Impossible d’ouvrir l’appareil photo.",
+  "qrLinkSetting": "Lien des QR codes",
+  "qrLinkLabel": "Adresse du site",
+  "qrLinkHelp": "Les QR codes ouvrent cette adresse + /r/nom-du-restaurant. Réglez votre vrai domaine avant d’imprimer les affiches. Le scanner de l’app fonctionne quel que soit le domaine.",
+  "errQrLink": "Adresse invalide (ex. https://foodfennec.com)",
+  "wilaya": "Wilaya",
+  "chooseWilaya": "Choisissez votre wilaya",
+  "errWilaya": "Choisissez votre wilaya",
+  "commune": "Commune",
+  "communeHint": "Ex. Bab Ezzouar",
+  "errCommune": "Indiquez votre commune",
+  "birthDate": "Date de naissance",
+  "chooseDate": "Choisir une date",
+  "errBirthDate": "Date de naissance invalide (13 ans minimum)",
+  "gender": "Genre",
+  "genderMale": "Homme",
+  "genderFemale": "Femme",
+  "howDidYouHear": "Comment avez-vous connu foodfennec ?",
+  "refFriend": "Un ami",
+  "refSocial": "Réseaux sociaux",
+  "refSearch": "Recherche Google",
+  "refRestaurant": "Un restaurant",
+  "refAd": "Publicité",
+  "refOther": "Autre",
+  "completeProfileTitle": "Complétez votre profil",
+  "completeProfileBody": "30 secondes pour recevoir des offres qui vous ressemblent.",
+  "completeProfileAction": "Compléter",
+  "completeProfilePrivacy": "Ces informations restent privées : elles nous aident à améliorer foodfennec.",
+  "later": "Plus tard",
+  "thanksProfile": "Merci ! Profil mis à jour.",
+  "cancelOrderTitle": "Annuler la commande ?",
+  "cancelRequestTitle": "Demander l’annulation",
+  "cancelFreeExplain": "Le restaurant n’a pas encore accepté : l’annulation est immédiate et gratuite.",
+  "cancelRequestExplain": "Le restaurant prépare déjà votre commande. Il recevra votre demande et décidera : si la cuisine a commencé, il peut refuser.",
+  "cancelWhy": "Pourquoi ?",
+  "cancelReasonChangedMind": "J’ai changé d’avis",
+  "cancelReasonTooLong": "C’est trop long",
+  "cancelReasonWrongAddress": "Mauvaise adresse",
+  "cancelReasonWrongItems": "Erreur dans la commande",
+  "cancelReasonDuplicate": "Commande en double",
+  "cancelReasonOther": "Autre raison",
+  "cancelNoteHint": "Un mot pour le restaurant (facultatif)",
+  "sendCancelRequest": "Envoyer la demande",
+  "cancelRequestSent": "Demande envoyée : le restaurant va répondre.",
+  "cancelRequestPending": "Demande d’annulation envoyée. Le restaurant va répondre.",
+  "cancelRequestRefused": "Le restaurant a refusé l’annulation : votre commande est déjà en préparation et continue.",
+  "cancelRequestExpired": "Trop tard pour annuler : le livreur a déjà récupéré la commande.",
+  "cancelledByYou": "Annulée à votre demande · {reason}",
+  "@cancelledByYou": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "errCancelAlreadyRequested": "Vous avez déjà demandé l’annulation",
+  "errCancelRequestRefused": "Le restaurant a déjà refusé l’annulation",
+  "customerWantsCancel": "Le client demande l’annulation",
+  "cancelRequestOwnerHint": "Acceptez si la cuisine n’a pas commencé.",
+  "acceptCancel": "Accepter l’annulation",
+  "refuseCancel": "Refuser",
+  "cancelAcceptedMsg": "Commande annulée à la demande du client",
+  "cancelRefusedMsg": "Annulation refusée : la commande continue",
+  "accountSuspendedTitle": "Compte suspendu",
+  "accountSuspendedUntil": "Vous pourrez de nouveau utiliser foodfennec le {date}.",
+  "@accountSuspendedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "accountBannedTitle": "Compte bloqué",
+  "accountBannedBody": "Votre compte a été bloqué. Contactez-nous si vous pensez que c’est une erreur.",
+  "sanctionReasonTitle": "Motif",
+  "contactSupport": "Contacter le support",
+  "warningTitle": "Avertissement",
+  "warningBody": "Si cela se reproduit, votre compte pourra être suspendu.",
+  "understood": "J’ai compris",
+  "errAccountSuspended": "Votre compte est suspendu",
+  "sanctionFakeOrders": "Fausses commandes",
+  "sanctionNoShow": "Absent à la livraison",
+  "sanctionRefusedToPay": "Refus de payer",
+  "sanctionAbuse": "Comportement irrespectueux",
+  "sanctionFraud": "Fraude",
+  "sanctionTooManyCancellations": "Trop d’annulations",
+  "sanctionUnsafeDriving": "Conduite dangereuse",
+  "sanctionCashNotReturned": "Argent non remis au restaurant",
+  "sanctionOther": "Non-respect des règles",
+  "sanctionWarning": "Avertissement",
+  "sanctionSuspension": "Suspension",
+  "sanctionBan": "Blocage",
+  "suspendedPill": "Suspendu",
+  "bannedPill": "Bloqué",
+  "warnAction": "Avertir",
+  "suspendAction": "Suspendre",
+  "banAction": "Bloquer",
+  "liftAction": "Lever",
+  "removeAction": "Retirer",
+  "warnTitle": "Envoyer un avertissement",
+  "suspendTitle": "Suspendre le compte",
+  "banTitle": "Bloquer le compte",
+  "warnExplain": "La personne le verra une fois en ouvrant l’app. Elle peut continuer à l’utiliser.",
+  "suspendExplain": "Plus de commandes (client) ni de livraisons (livreur) jusqu’à la fin.",
+  "banExplain": "Bloqué jusqu’à ce que vous leviez le blocage.",
+  "suspendFor": "Durée",
+  "daysCount": "{n, plural, =1{1 jour} other{{n} jours}}",
+  "@daysCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "messageToUser": "Message à la personne",
+  "messageToUserHint": "Ex. Merci de ne commander que si vous êtes disponible.",
+  "adminNoteLabel": "Note interne (admin)",
+  "sanctionHistory": "Historique",
+  "noSanctions": "Aucune sanction",
+  "sanctionsTitle": "Sanctions",
+  "sanctionLifted": "Sanction levée",
+  "untilDate": "jusqu’au {date}",
+  "@untilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "liftedOn": "levée le {date}",
+  "@liftedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "seen": "vu",
+  "allCustomers": "Tous",
+  "watchlistTab": "À surveiller ({n})",
+  "@watchlistTab": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "watchlistHelp": "Clients ayant annulé (ou demandé à annuler) 3 fois ou plus en 30 jours.",
+  "watchlistEmpty": "Personne à surveiller",
+  "cancels30d": "{n} annulations en 30 j",
+  "@cancels30d": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "openReports": "{n} signalements",
+  "@openReports": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "statCustomers": "Clients",
+  "statNew7d": "Nouveaux (7 jours)",
+  "statActive7d": "Actifs 7 j · {today} aujourd’hui",
+  "@statActive7d": {
+    "placeholders": {
+      "today": {
+        "type": "int"
+      }
+    }
+  },
+  "statOrdered": "Ont déjà commandé",
+  "statProfileDone": "Profil complété",
+  "ageGroups": "Âge",
+  "heardFrom": "Connu via",
+  "platformLabel": "Plateforme",
+  "unknownValue": "Non renseigné",
+  "ageLabel": "Âge",
+  "memberSince": "Inscrit le",
+  "deviceAndActivity": "Appareil et activité",
+  "lastSeen": "Dernière visite",
+  "activeDays30": "Jours actifs (30 j)",
+  "deviceLabel": "Appareil",
+  "ordersTotal": "Commandes",
+  "cancels30dLabel": "Annulations (30 j)",
+  "spentLabel": "Dépensé",
+  "lastOrder": "Dernière commande"
 }

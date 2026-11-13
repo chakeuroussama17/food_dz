@@ -9,6 +9,9 @@ import '../../../l10n/app_localizations.dart';
 import '../../catalog/widgets/browse_widgets.dart';
 import '../data/admin_drivers.dart';
 import '../widgets/admin_widgets.dart';
+import '../../sanctions/sanction_widgets.dart';
+import '../../sanctions/sanctions_repository.dart';
+import 'admin_customers_page.dart' show showCustomerSheet;
 
 /// Drivers: approve / deactivate, online now, current order, deliveries.
 class AdminDriversPage extends ConsumerStatefulWidget {
@@ -47,6 +50,7 @@ class _AdminDriversPageState extends ConsumerState<AdminDriversPage> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final list = ref.watch(adminDriversProvider);
+    final restricted = ref.watch(restrictionsProvider).value ?? const {};
     final lang = Localizations.localeOf(context).languageCode;
     return AdminScaffold(
       section: AdminSection.drivers,
@@ -90,6 +94,13 @@ class _AdminDriversPageState extends ConsumerState<AdminDriversPage> {
                                 ),
                               ),
                             ),
+                            if (restricted[d.id] != null)
+                              Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                  end: 6,
+                                ),
+                                child: RestrictionPill(kind: restricted[d.id]!),
+                              ),
                             if (d.cashBlocked)
                               Padding(
                                 padding: const EdgeInsetsDirectional.only(
@@ -143,21 +154,40 @@ class _AdminDriversPageState extends ConsumerState<AdminDriversPage> {
                             ),
                           ),
                         const SizedBox(height: 10),
-                        Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: d.isApproved
-                              ? AppButton(
-                                  label: l.deactivate,
-                                  variant: AppButtonVariant.dangerOutline,
-                                  loading: busy,
-                                  onPressed: busy ? null : () => _set(d, false),
-                                )
-                              : AppButton(
-                                  label: l.approve,
-                                  variant: AppButtonVariant.small,
-                                  loading: busy,
-                                  onPressed: busy ? null : () => _set(d, true),
-                                ),
+                        Row(
+                          children: [
+                            TextButton.icon(
+                              key: Key('sanctions:${d.id}'),
+                              onPressed: () => showCustomerSheet(
+                                context,
+                                userId: d.id,
+                                name: d.fullName.isEmpty ? d.email : d.fullName,
+                                customer: null,
+                                onChanged: () =>
+                                    ref.invalidate(adminDriversProvider),
+                              ),
+                              icon: const Icon(Icons.gavel_rounded, size: 18),
+                              label: Text(l.sanctionsTitle),
+                            ),
+                            const Spacer(),
+                            d.isApproved
+                                ? AppButton(
+                                    label: l.deactivate,
+                                    variant: AppButtonVariant.dangerOutline,
+                                    loading: busy,
+                                    onPressed: busy
+                                        ? null
+                                        : () => _set(d, false),
+                                  )
+                                : AppButton(
+                                    label: l.approve,
+                                    variant: AppButtonVariant.small,
+                                    loading: busy,
+                                    onPressed: busy
+                                        ? null
+                                        : () => _set(d, true),
+                                  ),
+                          ],
                         ),
                       ],
                     ),

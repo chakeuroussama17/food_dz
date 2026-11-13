@@ -11,6 +11,7 @@ import '../../core/widgets/customer_nav_bar.dart';
 import '../../l10n/app_localizations.dart';
 import '../account/data/account_repository.dart';
 import '../account/widgets/account_widgets.dart';
+import '../account/widgets/complete_profile.dart';
 import '../catalog/data/catalog_models.dart';
 import '../catalog/data/catalog_repository.dart';
 import '../catalog/widgets/browse_widgets.dart';
@@ -68,6 +69,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: CustomScrollView(
           slivers: [
             const SliverToBoxAdapter(child: _Header()),
+            const SliverToBoxAdapter(child: CompleteProfileCard()),
             SliverToBoxAdapter(
               child: _Section(delay: 0, child: const _BannerCarousel()),
             ),
@@ -247,7 +249,19 @@ class _Header extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
+                  // Scan a restaurant's QR code.
+                  IconButton(
+                    key: const Key('scan-qr'),
+                    tooltip: l.scanTitle,
+                    onPressed: () => context.push('/scan'),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.white.withValues(alpha: .2),
+                      foregroundColor: Colors.white,
+                    ),
+                    icon: const Icon(Icons.qr_code_scanner_rounded),
+                  ),
+                  const SizedBox(width: 8),
                   Semantics(
                     button: true,
                     label: l.profile,

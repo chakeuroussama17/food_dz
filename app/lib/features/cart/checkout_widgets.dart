@@ -13,12 +13,24 @@ String checkoutErrorText(AppLocalizations l, CheckoutFailure f) => switch (f) {
   CheckoutFailure.restaurantClosed => l.errRestaurantClosed,
   CheckoutFailure.restaurantUnavailable => l.errRestaurantUnavailable,
   CheckoutFailure.itemUnavailable => l.errItemUnavailable,
+  CheckoutFailure.optionsInvalid => l.errOptionsChanged,
+  CheckoutFailure.accountBlocked => l.errAccountBlocked,
   CheckoutFailure.pricesChanged => l.errPricesChanged,
   CheckoutFailure.tooManyActiveOrders => l.errTooManyActiveOrders,
   CheckoutFailure.tooManyOrders => l.errTooManyOrders,
   CheckoutFailure.invalidPhone => l.errPhoneInvalid,
   CheckoutFailure.addressNotFound => l.errAddressGone,
   CheckoutFailure.cannotCancel => l.errCannotCancel,
+  CheckoutFailure.alreadyRequested => l.errCancelAlreadyRequested,
+  CheckoutFailure.requestRefused => l.errCancelRequestRefused,
+  CheckoutFailure.promoInvalid => l.errPromoInvalid,
+  CheckoutFailure.promoNotHere => l.errPromoNotHere,
+  CheckoutFailure.promoNotStarted => l.errPromoNotStarted,
+  CheckoutFailure.promoExpired => l.errPromoExpired,
+  CheckoutFailure.promoMinOrder => l.errPromoMinOrder,
+  CheckoutFailure.promoUsedUp => l.errPromoUsedUp,
+  CheckoutFailure.promoAlreadyUsed => l.errPromoAlreadyUsed,
+  CheckoutFailure.paymentUnavailable => l.errPaymentUnavailable,
   CheckoutFailure.network => l.errNetwork,
   CheckoutFailure.unknown => l.errGeneric,
 };
@@ -115,6 +127,18 @@ class CartLineTile extends StatelessWidget {
                       ),
                   ],
                 ),
+                if (line.options.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    line.optionsText,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 10),
                 Text(
                   formatDzd(line.lineTotal, lang),
@@ -129,7 +153,7 @@ class CartLineTile extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        formatDzd(line.item.price, lang),
+                        formatDzd(line.unitPrice, lang),
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.45),
                           fontSize: 14,
@@ -405,10 +429,14 @@ class MoneyRow extends StatelessWidget {
     required this.label,
     required this.value,
     this.strong = false,
+    this.color,
   });
   final String label;
   final String value;
   final bool strong;
+
+  /// Colour of the amount (green for a discount).
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -422,7 +450,10 @@ class MoneyRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(child: Text(label, style: style)),
-          Text(value, style: style),
+          Text(
+            value,
+            style: color == null ? style : style.copyWith(color: color),
+          ),
         ],
       ),
     );

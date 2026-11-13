@@ -24,6 +24,8 @@ class StatementLabels {
     required this.ordersCount,
     required this.totalFood,
     required this.amountDue,
+    required this.tax,
+    required this.discounts,
     required this.paid,
     required this.unpaid,
     required this.footer,
@@ -44,6 +46,8 @@ class StatementLabels {
   final String ordersCount;
   final String totalFood;
   final String amountDue;
+  final String tax;
+  final String discounts;
   final String paid;
   final String unpaid;
   final String footer;
@@ -64,7 +68,9 @@ class StatementLabels {
       commission: 'العمولة',
       ordersCount: 'عدد الطلبات المسلّمة',
       totalFood: 'مجموع مبيعات الطعام',
-      amountDue: 'العمولة المستحقة',
+      amountDue: 'المبلغ المستحق',
+      tax: 'الضريبة المحصلة',
+      discounts: 'خصومات تتحملها المنصة',
       paid: 'مدفوع',
       unpaid: 'غير مدفوع',
       footer:
@@ -85,7 +91,9 @@ class StatementLabels {
       commission: 'Commission',
       ordersCount: 'Delivered orders',
       totalFood: 'Total food sales',
-      amountDue: 'Commission due',
+      amountDue: 'Amount due',
+      tax: 'Tax collected',
+      discounts: 'Discounts paid by the platform',
       paid: 'PAID',
       unpaid: 'UNPAID',
       footer:
@@ -106,7 +114,9 @@ class StatementLabels {
       commission: 'Commission',
       ordersCount: 'Commandes livrées',
       totalFood: 'Total des ventes (repas)',
-      amountDue: 'Commission due',
+      amountDue: 'Montant dû',
+      tax: 'Taxe collectée',
+      discounts: 'Réductions payées par la plateforme',
       paid: 'PAYÉ',
       unpaid: 'NON PAYÉ',
       footer:
@@ -339,7 +349,7 @@ Future<Uint8List> buildStatementPdf(
                 children: [
                   _t(
                     business.businessName.isEmpty
-                        ? 'Food'
+                        ? 'foodfennec'
                         : business.businessName,
                     pw.TextStyle(
                       fontSize: 22,
@@ -458,6 +468,10 @@ Future<Uint8List> buildStatementPdf(
                 children: [
                   totalRow(l.ordersCount, '${s.ordersCount}'),
                   totalRow(l.totalFood, money(s.foodTotal)),
+                  totalRow(l.commission, money(s.commissionTotal)),
+                  if (s.taxTotal > 0) totalRow(l.tax, money(s.taxTotal)),
+                  if (s.discountTotal > 0)
+                    totalRow(l.discounts, '- ${money(s.discountTotal)}'),
                   pw.SizedBox(height: 6),
                   pw.Container(
                     padding: const pw.EdgeInsets.all(10),
@@ -478,7 +492,7 @@ Future<Uint8List> buildStatementPdf(
                           ),
                         ),
                         _t(
-                          money(s.commissionTotal),
+                          money(s.amountDue),
                           pw.TextStyle(
                             fontSize: 14,
                             fontWeight: pw.FontWeight.bold,

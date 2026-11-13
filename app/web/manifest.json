@@ -1,11 +1,11 @@
 {
-    "name": "Food",
-    "short_name": "Food",
+    "name": "foodfennec",
+    "short_name": "foodfennec",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#FF7622",
-    "description": "Food delivery · توصيل الطعام · Livraison de repas",
+    "description": "foodfennec · Food delivery · توصيل الطعام · Livraison de repas",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

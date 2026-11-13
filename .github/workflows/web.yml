@@ -1,0 +1,98 @@
+name: Web (GitHub Pages)
+
+# Builds the customer web app and the partner portal and publishes them on
+# GitHub Pages:
+#   https://<owner>.github.io/<repo>/          customer app
+#   https://<owner>.github.io/<repo>/portal/   partner portal
+# One-time setup: Settings > Pages > Source: "GitHub Actions".
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - ".github/workflows/web.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.1"
+          channel: stable
+          cache: true
+
+      # Public app configuration only (Supabase URL + publishable key).
+      - name: Write env.json
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_PUBLISHABLE_KEY" ]; then
+            echo "::error::Add the SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY repository secrets."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json, os
+          json.dump({k: os.environ[k] for k in ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"]},
+                    open("env.json", "w"))
+          PY
+
+      - run: flutter pub get
+
+      - name: Build customer app and portal
+        env:
+          BASE: /${{ github.event.repository.name }}/
+        run: |
+          flutter build web --release --base-href "$BASE" --dart-define-from-file=env.json
+          flutter build web --release -t lib/portal_main.dart -o build/portal \
+            --base-href "${BASE}portal/" --dart-define-from-file=env.json
+          cp -r build/portal build/web/portal
+
+      # Pages has no "send every path to index.html" setting: 404.html does it.
+      # A link like /r/<restaurant> opens the customer app on that page;
+      # /portal/... goes back to the portal's start page.
+      - name: Deep links
+        env:
+          BASE: /${{ github.event.repository.name }}/
+        run: |
+          python3 - <<'PY'
+          import os
+          base = os.environ["BASE"]
+          html = open("build/web/index.html", encoding="utf-8").read()
+          guard = ("<script>if (location.pathname.indexOf('%sportal/') === 0) "
+                   "location.replace('%sportal/');</script>" % (base, base))
+          html = html.replace("<head>", "<head>\n  " + guard, 1)
+          open("build/web/404.html", "w", encoding="utf-8").write(html)
+          PY
+          touch build/web/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

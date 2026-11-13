@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/widgets/theme_switch.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -14,8 +13,6 @@ import '../driver_statement.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../account/widgets/account_widgets.dart';
-import '../../auth/data/auth_providers.dart';
 import '../../orders/order_status.dart';
 import '../data/driver_repository.dart';
 import '../widgets/driver_widgets.dart';
@@ -121,87 +118,6 @@ class DriverDeliveriesPage extends ConsumerWidget {
                       ),
                     ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Driver profile: name, phone, vehicle, language, log out.
-class DriverAccountPage extends ConsumerWidget {
-  const DriverAccountPage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l = AppLocalizations.of(context);
-    final d = ref.watch(myDriverProvider).value;
-    return DriverScaffold(
-      tab: DriverTab.account,
-      body: ListView(
-        padding: const EdgeInsets.only(bottom: 24),
-        children: [
-          PageHeader(title: l.profile, showBack: false),
-          if (d != null)
-            SettingsGroup(
-              children: [
-                SettingsTile(
-                  icon: Icons.person_outline_rounded,
-                  iconColor: const Color(0xFFFB6F3D),
-                  label: d.fullName.isEmpty ? l.driverSection : d.fullName,
-                ),
-                SettingsTile(
-                  icon: Icons.call_outlined,
-                  iconColor: const Color(0xFF369BFF),
-                  label: d.phone,
-                ),
-                SettingsTile(
-                  icon: vehicleIcon(d.vehicle),
-                  iconColor: const Color(0xFF413DFB),
-                  label: vehicleLabel(l, d.vehicle),
-                ),
-                SettingsTile(
-                  icon: d.isApproved
-                      ? Icons.verified_rounded
-                      : Icons.hourglass_top_rounded,
-                  iconColor: d.isApproved
-                      ? AppColors.success
-                      : AppColors.primary,
-                  label: d.isApproved ? l.driverApproved : l.driverPendingTitle,
-                ),
-              ],
-            ),
-          SettingsGroup(
-            children: [
-              SettingsTile(
-                icon: Icons.translate_rounded,
-                iconColor: const Color(0xFF2AE1E1),
-                label: l.language,
-                trailing: const LanguageSwitch(),
-              ),
-              SettingsTile(
-                icon: Icons.dark_mode_outlined,
-                iconColor: const Color(0xFF7C6FD6),
-                label: l.appearance,
-                trailing: const ThemeSwitch(),
-              ),
-            ],
-          ),
-          SettingsGroup(
-            children: [
-              SettingsTile(
-                icon: Icons.logout_rounded,
-                iconColor: const Color(0xFFFB4A59),
-                label: l.logOut,
-                onTap: () async {
-                  // Going offline first so no order waits for us.
-                  try {
-                    await ref.read(driverRepositoryProvider).setOnline(false);
-                  } catch (_) {}
-                  await signOutAndStopPush(ref);
-                },
-              ),
-            ],
           ),
         ],
       ),

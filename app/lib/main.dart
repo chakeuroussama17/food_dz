@@ -6,9 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app/router.dart';
+import 'core/session/session_tracker.dart';
 import 'core/config/env.dart';
 import 'core/i18n/locale_controller.dart';
 import 'core/push/push_service.dart';
+import 'features/sanctions/restriction_gate.dart';
 import 'features/auth/data/auth_providers.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
@@ -90,10 +92,12 @@ class _FoodAppState extends ConsumerState<FoodApp> with WidgetsBindingObserver {
     ref.listen(localeProvider, (prev, next) {
       if (prev?.languageCode != next.languageCode) startPush();
     });
+    // Last seen, app version, phone model (admin analysis).
+    ref.watch(sessionTouchProvider(locale.languageCode));
     return MaterialApp.router(
       // A new key rebuilds every page with the new palette.
       key: ValueKey(dark),
-      title: 'Food App',
+      title: 'foodfennec',
       debugShowCheckedModeBanner: false,
       locale: locale,
       supportedLocales: supportedLocales,
@@ -105,6 +109,9 @@ class _FoodAppState extends ConsumerState<FoodApp> with WidgetsBindingObserver {
       ],
       theme: AppTheme.build(locale, dark: dark),
       routerConfig: ref.watch(routerProvider),
+      // Suspended / banned: only the reason; warnings shown once.
+      builder: (context, child) =>
+          RestrictionGate(child: child ?? const SizedBox.shrink()),
     );
   }
 }

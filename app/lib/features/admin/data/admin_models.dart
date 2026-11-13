@@ -80,7 +80,11 @@ class AdminConfig {
     this.businessTaxId = '',
     this.cashHandoverHours = 24,
     this.autoRejectMinutes = 10,
+    this.publicBaseUrl = 'https://foodfennec.com',
   });
+
+  /// Web address in the restaurants' QR codes (saved separately).
+  final String publicBaseUrl;
 
   /// Orders not answered by the restaurant within this delay are rejected.
   final int autoRejectMinutes;
@@ -105,6 +109,8 @@ class AdminConfig {
     businessTaxId: (j['business_tax_id'] as String?) ?? '',
     cashHandoverHours: (j['cash_handover_hours'] as num?)?.toInt() ?? 24,
     autoRejectMinutes: (j['auto_reject_minutes'] as num?)?.toInt() ?? 10,
+    publicBaseUrl:
+        (j['public_base_url'] as String?) ?? 'https://foodfennec.com',
   );
 }
 
@@ -255,6 +261,7 @@ class AdminOrderItem {
   );
 }
 
+/// A customer with everything collected about them (admin analysis).
 class AdminCustomer {
   const AdminCustomer({
     required this.id,
@@ -263,7 +270,27 @@ class AdminCustomer {
     this.phone,
     this.createdAt,
     this.ordersCount = 0,
+    this.deliveredCount = 0,
+    this.cancelledCount = 0,
     this.spent = 0,
+    this.lastOrderAt,
+    this.birthDate,
+    this.gender,
+    this.wilaya,
+    this.commune,
+    this.referral,
+    this.signupPlatform,
+    this.lastPlatform,
+    this.lastAppVersion,
+    this.lastDevice,
+    this.lastOs,
+    this.lastLang,
+    this.lastSeenAt,
+    this.activeDays30 = 0,
+    this.cancels30d = 0,
+    this.warnings = 0,
+    this.restriction,
+    this.restrictionEndsAt,
   });
 
   final String id;
@@ -272,16 +299,126 @@ class AdminCustomer {
   final String? phone;
   final DateTime? createdAt;
   final int ordersCount;
+  final int deliveredCount;
+  final int cancelledCount;
   final int spent;
+  final DateTime? lastOrderAt;
+  final DateTime? birthDate;
+  final String? gender;
+  final int? wilaya;
+  final String? commune;
+  final String? referral;
+  final String? signupPlatform;
+  final String? lastPlatform;
+  final String? lastAppVersion;
+  final String? lastDevice;
+  final String? lastOs;
+  final String? lastLang;
+  final DateTime? lastSeenAt;
+  final int activeDays30;
+
+  /// Cancellations (and cancellation requests) in the last 30 days.
+  final int cancels30d;
+  final int warnings;
+
+  /// 'suspension' or 'ban' in force, else null.
+  final String? restriction;
+  final DateTime? restrictionEndsAt;
+
+  int? get age {
+    final b = birthDate;
+    if (b == null) return null;
+    final now = DateTime.now();
+    var a = now.year - b.year;
+    if (now.month < b.month || (now.month == b.month && now.day < b.day)) a--;
+    return a;
+  }
+
+  static DateTime? _local(Object? v) => _t(v)?.toLocal();
 
   factory AdminCustomer.fromJson(Map<String, dynamic> j) => AdminCustomer(
     id: j['id'] as String,
     fullName: (j['full_name'] as String?) ?? '',
     email: (j['email'] as String?) ?? '',
     phone: j['phone'] as String?,
-    createdAt: _t(j['created_at']),
+    createdAt: _local(j['created_at']),
     ordersCount: _i(j['orders_count']),
+    deliveredCount: _i(j['delivered_count']),
+    cancelledCount: _i(j['cancelled_count']),
     spent: _i(j['spent']),
+    lastOrderAt: _local(j['last_order_at']),
+    birthDate: j['birth_date'] == null
+        ? null
+        : DateTime.tryParse(j['birth_date'] as String),
+    gender: j['gender'] as String?,
+    wilaya: (j['wilaya'] as num?)?.toInt(),
+    commune: j['commune'] as String?,
+    referral: j['referral_source'] as String?,
+    signupPlatform: j['signup_platform'] as String?,
+    lastPlatform: j['last_platform'] as String?,
+    lastAppVersion: j['last_app_version'] as String?,
+    lastDevice: j['last_device'] as String?,
+    lastOs: j['last_os'] as String?,
+    lastLang: j['last_lang'] as String?,
+    lastSeenAt: _local(j['last_seen_at']),
+    activeDays30: _i(j['active_days_30']),
+    cancels30d: _i(j['cancels_30d']),
+    warnings: _i(j['warnings']),
+    restriction: j['restriction_kind'] as String?,
+    restrictionEndsAt: _local(j['restriction_ends_at']),
+  );
+}
+
+/// The admin's summary of the customers.
+class CustomerInsights {
+  const CustomerInsights({
+    this.customers = 0,
+    this.new7d = 0,
+    this.new30d = 0,
+    this.active1d = 0,
+    this.active7d = 0,
+    this.active30d = 0,
+    this.ordered = 0,
+    this.profileDone = 0,
+    this.gender = const {},
+    this.age = const {},
+    this.wilaya = const {},
+    this.referral = const {},
+    this.platform = const {},
+  });
+  final int customers;
+  final int new7d;
+  final int new30d;
+  final int active1d;
+  final int active7d;
+  final int active30d;
+  final int ordered;
+  final int profileDone;
+  final Map<String, int> gender;
+  final Map<String, int> age;
+  final Map<String, int> wilaya;
+  final Map<String, int> referral;
+  final Map<String, int> platform;
+
+  static Map<String, int> _m(Object? v) => {
+    for (final e in ((v as Map?) ?? const {}).entries)
+      '${e.key}': (e.value as num).toInt(),
+  };
+
+  factory CustomerInsights.fromJson(Map<String, dynamic> j) => CustomerInsights(
+    customers: _i(j['customers']),
+    new7d: _i(j['new_7d']),
+    new30d: _i(j['new_30d']),
+    active1d: _i(j['active_1d']),
+    active7d: _i(j['active_7d']),
+    active30d: _i(j['active_30d']),
+    ordered: _i(j['ordered']),
+    profileDone: _i(j['profile_done']),
+    gender: _m(j['gender']),
+    age: _m(j['age']),
+    wilaya: _m(j['wilaya']),
+    referral: _m(j['referral']),
+    platform: _m(j['platform']),
   );
 }
 
@@ -289,16 +426,27 @@ class StatementPreview {
   const StatementPreview(
     this.ordersCount,
     this.foodTotal,
-    this.commissionTotal,
-  );
+    this.commissionTotal, {
+    int? amountDue,
+    this.taxTotal = 0,
+    this.discountTotal = 0,
+  }) : amountDue = amountDue ?? commissionTotal;
   final int ordersCount;
   final int foodTotal;
   final int commissionTotal;
+
+  /// Commission + tax − discounts paid by the platform.
+  final int amountDue;
+  final int taxTotal;
+  final int discountTotal;
 
   factory StatementPreview.fromJson(Map<String, dynamic> j) => StatementPreview(
     _i(j['orders_count']),
     _i(j['food_total']),
     _i(j['commission_total']),
+    amountDue: j['amount_due'] == null ? null : _i(j['amount_due']),
+    taxTotal: j['tax_total'] == null ? 0 : _i(j['tax_total']),
+    discountTotal: j['discount_total'] == null ? 0 : _i(j['discount_total']),
   );
 }
 
@@ -316,7 +464,16 @@ class StatementSummary {
     required this.status,
     required this.issuedAt,
     this.paidAt,
-  });
+    int? amountDue,
+    this.taxTotal = 0,
+    this.discountTotal = 0,
+  }) : amountDue = amountDue ?? commissionTotal;
+
+  /// Commission + tax − discounts paid by the platform: what the
+  /// restaurant pays.
+  final int amountDue;
+  final int taxTotal;
+  final int discountTotal;
 
   final String id;
   final String number;
@@ -348,6 +505,9 @@ class StatementSummary {
     status: j['status'] as String,
     issuedAt: _t(j['issued_at'])!,
     paidAt: _t(j['paid_at']),
+    amountDue: j['amount_due'] == null ? null : _i(j['amount_due']),
+    taxTotal: j['tax_total'] == null ? 0 : _i(j['tax_total']),
+    discountTotal: j['discount_total'] == null ? 0 : _i(j['discount_total']),
   );
 }
 

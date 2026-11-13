@@ -181,7 +181,7 @@ test('statement: bills only delivered, unbilled orders of that restaurant and pe
 
   await as(db, 'authenticated', ADMIN, async () => {
     const [{ admin_preview_statement: p }] = await rows(db, 'select admin_preview_statement($1, $2, $3)', [BURGER, daysAgo(14), today()]);
-    assert.deepEqual(p, { orders_count: 2, food_total: 3500, commission_total: 280 });
+    assert.deepEqual(p, { orders_count: 2, food_total: 3500, commission_total: 280, tax_total: 0, discount_total: 0, amount_due: 280 });
 
     const [{ admin_generate_statement: sid }] = await rows(db, 'select admin_generate_statement($1, $2, $3)', [BURGER, daysAgo(14), today()]);
     const [{ admin_statement_detail: d }] = await rows(db, 'select admin_statement_detail($1)', [sid]);

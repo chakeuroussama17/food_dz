@@ -287,6 +287,59 @@ class StatementDelivery {
       );
 }
 
+/// The rider's work and rating, for the profile.
+class DriverStats {
+  const DriverStats({
+    this.memberSince,
+    this.deliveries = 0,
+    this.earned = 0,
+    this.deliveries30d = 0,
+    this.average,
+    this.count = 0,
+    this.average30d,
+    this.count30d = 0,
+    this.stars = const {},
+    this.fiveStarStreak = 0,
+  });
+
+  final DateTime? memberSince;
+  final int deliveries;
+  final int earned;
+  final int deliveries30d;
+
+  /// Null below 5 ratings.
+  final double? average;
+  final int count;
+  final double? average30d;
+  final int count30d;
+
+  /// Number of ratings with 1..5 stars.
+  final Map<int, int> stars;
+  final int fiveStarStreak;
+
+  factory DriverStats.fromJson(Map<String, dynamic> j) {
+    double? d(Object? v) => v == null ? null : double.parse('$v');
+    final raw = (j['stars'] as Map?) ?? const {};
+    return DriverStats(
+      memberSince: j['member_since'] == null
+          ? null
+          : DateTime.parse(j['member_since'] as String).toLocal(),
+      deliveries: (j['deliveries_total'] as num?)?.toInt() ?? 0,
+      earned: (j['earned_total'] as num?)?.toInt() ?? 0,
+      deliveries30d: (j['deliveries_30d'] as num?)?.toInt() ?? 0,
+      average: d(j['rating_avg']),
+      count: (j['rating_count'] as num?)?.toInt() ?? 0,
+      average30d: d(j['rating_avg_30d']),
+      count30d: (j['rating_count_30d'] as num?)?.toInt() ?? 0,
+      stars: {
+        for (final e in raw.entries)
+          int.parse('${e.key}'): (e.value as num).toInt(),
+      },
+      fiveStarStreak: (j['five_star_streak'] as num?)?.toInt() ?? 0,
+    );
+  }
+}
+
 enum DriverFailure {
   alreadyTaken,
   cashOverdue,
@@ -296,7 +349,11 @@ enum DriverFailure {
   notApproved,
   notAllowed,
   invalidPhone,
+  invalidName,
   accountHasRole,
+  activeOrders,
+  cashPending,
+  suspended,
   network,
   unknown,
 }
@@ -319,6 +376,10 @@ DriverFailure driverFailureFromMessage(String m) {
     ('not_allowed', DriverFailure.notAllowed),
     ('order_not_found', DriverFailure.notAllowed),
     ('invalid_phone', DriverFailure.invalidPhone),
+    ('invalid_name', DriverFailure.invalidName),
+    ('active_orders', DriverFailure.activeOrders),
+    ('cash_pending', DriverFailure.cashPending),
+    ('account_suspended', DriverFailure.suspended),
     ('account_has_role', DriverFailure.accountHasRole),
   ]) {
     if (m.contains(key)) return f;
@@ -353,6 +414,22 @@ abstract interface class DriverRepository {
 
   /// Fires when one of this driver's orders changes (Realtime).
   Stream<void> myOrderChanges(String driverId);
+
+  /// "I am here", during a delivery (the customer follows it).
+  Future<void> updateLocation(double lat, double lng);
+
+  Future<void> updateProfile({
+    required String fullName,
+    required String phone,
+    required Vehicle vehicle,
+  });
+
+  /// Totals, stars and the 5-star run (never who rated).
+  Future<DriverStats> stats();
+
+  /// Removes the photo, then the account. Refused while delivering or
+  /// owing food money ([DriverFailure.activeOrders] / cashPending).
+  Future<void> deleteAccount();
 }
 
 class SupabaseDriverRepository implements DriverRepository {
@@ -411,6 +488,50 @@ class SupabaseDriverRepository implements DriverRepository {
   @override
   Future<void> claim(String orderId) => _guard(
     () => _db.rpc('driver_claim_order', params: {'p_order_id': orderId}),
+  );
+
+  @override
+  Future<void> updateProfile({
+    required String fullName,
+    required String phone,
+    required Vehicle vehicle,
+  }) => _guard(
+    () => _db.rpc(
+      'driver_update_profile',
+      params: {
+        'p_full_name': fullName,
+        'p_phone': phone,
+        'p_vehicle': vehicle.name,
+      },
+    ),
+  );
+
+  @override
+  Future<DriverStats> stats() => _guard(() async {
+    final rows = await _db.rpc('driver_profile_stats') as List;
+    return DriverStats.fromJson(rows.first as Map<String, dynamic>);
+  });
+
+  @override
+  Future<void> deleteAccount() => _guard(() async {
+    final uid = _db.auth.currentUser?.id;
+    // Profile photos first (files can't be removed from SQL).
+    if (uid != null) {
+      try {
+        final bucket = _db.storage.from('avatars');
+        final files = await bucket.list(path: uid);
+        if (files.isNotEmpty) {
+          await bucket.remove([for (final f in files) '$uid/${f.name}']);
+        }
+      } catch (_) {}
+    }
+    await _db.rpc('delete_my_driver_account');
+  });
+
+  @override
+  Future<void> updateLocation(double lat, double lng) => _guard(
+    () =>
+        _db.rpc('driver_update_location', params: {'p_lat': lat, 'p_lng': lng}),
   );
 
   @override
@@ -547,6 +668,17 @@ final driverCashPendingProvider = FutureProvider<List<CashDue>>((ref) {
   ref.watch(currentUserIdProvider);
   return ref.watch(driverRepositoryProvider).cashPending();
 });
+
+final driverStatsProvider = FutureProvider<DriverStats>((ref) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(driverRepositoryProvider).stats();
+});
+
+/// Opens the gallery for the rider's profile photo. Overridden in tests.
+final pickRiderPhotoProvider = Provider<Future<PickedImage?> Function()>(
+  (ref) =>
+      () => pickImage(maxSide: 512, maxBytes: 2 * 1024 * 1024),
+);
 
 /// Opens the camera (or the gallery) for the delivery photo. Overridden in
 /// tests.

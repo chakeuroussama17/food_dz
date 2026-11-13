@@ -91,8 +91,9 @@ test('accept then ready: timestamps set, logged with the owner as actor', async 
   const ev = await rows(db, `select to_status, actor_id from order_events where order_id = $1 order by id`, [id]);
   assert.deepEqual(ev.map((e) => e.to_status), ['placed', 'accepted', 'ready']);
   assert.equal(ev[1].actor_id, O);
-  // Customer can no longer cancel once accepted.
-  await asC(() => assert.rejects(db.query(`select cancel_my_order($1)`, [id]), /cannot_cancel/));
+  // Once accepted, the customer can only ask; the order goes on.
+  await asC(() => db.query(`select cancel_my_order($1, 'changed_mind')`, [id]));
+  assert.equal((await statusOf(id)).status, 'ready');
 });
 
 test('reject needs a reason, which the customer then sees', async () => {

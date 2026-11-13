@@ -207,7 +207,7 @@ test('customers can never write orders directly', async () => {
   });
 });
 
-test('cancel: only my own order, only before the restaurant accepts', async () => {
+test('cancel: only my own order; after acceptance it becomes a request', async () => {
   const [o] = await asA(() => place({}));
   await as(db, 'authenticated', B, () =>
     assert.rejects(db.query(`select cancel_my_order($1)`, [o.id]), /order_not_found/));
@@ -218,7 +218,10 @@ test('cancel: only my own order, only before the restaurant accepts', async () =
 
   const [o2] = await asA(() => place({}));
   await setStatus(o2.id, 'accepted');
-  await asA(() => assert.rejects(db.query(`select cancel_my_order($1)`, [o2.id]), /cannot_cancel/));
+  const [r] = await asA(() => rows(db, `select cancel_my_order($1) r`, [o2.id]));
+  assert.equal(r.r, 'requested');
+  const [still] = await rows(db, `select status from orders where id = $1`, [o2.id]);
+  assert.equal(still.status, 'accepted');
   await as(db, 'anon', null, () => denied(db.query(`select cancel_my_order($1)`, [o2.id])));
 });
 

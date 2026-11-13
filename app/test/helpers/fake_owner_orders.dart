@@ -59,13 +59,38 @@ class FakeOwnerOrdersRepository implements OwnerOrdersRepository {
     return o;
   }
 
+  /// The customer asks to cancel an accepted order.
+  void customerAsksCancel(
+    String id, {
+    String reason = 'too_long',
+    String note = '',
+  }) {
+    final o = orders.firstWhere((x) => x.id == id);
+    _replace(
+      id,
+      o.status,
+      request: 'pending',
+      requestReason: reason,
+      requestNote: note,
+    );
+    _changes.add(null);
+  }
+
   /// The customer cancels from their side.
   void customerCancels(String id) {
     _replace(id, 'cancelled');
     _changes.add(null);
   }
 
-  void _replace(String id, String status, {String? reason}) {
+  void _replace(
+    String id,
+    String status, {
+    String? reason,
+    String? request,
+    String? cancelledBy,
+    String? requestReason,
+    String? requestNote,
+  }) {
     final i = orders.indexWhere((o) => o.id == id);
     final o = orders[i];
     orders[i] = OwnerOrder(
@@ -83,19 +108,55 @@ class FakeOwnerOrdersRepository implements OwnerOrdersRepository {
       placedAt: o.placedAt,
       items: o.items,
       rejectReason: reason ?? o.rejectReason,
+      cancelRequestStatus: request ?? o.cancelRequestStatus,
+      cancelRequestReason: requestReason ?? o.cancelRequestReason,
+      cancelRequestNote: requestNote ?? o.cancelRequestNote,
+      cancelledBy: cancelledBy ?? o.cancelledBy,
     );
   }
 
   static bool _active(OwnerOrder o) =>
       const {'placed', 'accepted', 'ready', 'picked_up'}.contains(o.status);
 
-  @override
-  Future<List<OwnerOrder>> activeOrders() async =>
-      orders.where(_active).toList();
+  /// Past orders for the table / insights (on top of [orders]).
+  final reportOrders = <OwnerOrder>[];
+  final reportCalls = <(DateTime, DateTime)>[];
+
+  /// Makes every report call fail (e.g. a broken database function).
+  bool reportFails = false;
 
   @override
-  Future<List<OwnerOrder>> history() async =>
-      orders.where((o) => !_active(o)).toList().reversed.toList();
+  Future<List<OwnerOrder>> report(
+    DateTime from,
+    DateTime to, {
+    List<String>? restaurantIds,
+  }) async {
+    reportCalls.add((from, to));
+    if (reportFails) throw Exception('PGRST203');
+    return [...orders, ...reportOrders]
+        .where((o) => _inAny(o, restaurantIds))
+        .where((o) => !o.placedAt.isBefore(from) && o.placedAt.isBefore(to))
+        .toList()
+      ..sort((a, b) => b.placedAt.compareTo(a.placedAt));
+  }
+
+  /// Orders without an outlet belong to every outlet (single-outlet tests).
+  static bool _inAny(OwnerOrder o, List<String>? ids) =>
+      ids == null || o.restaurantId == null || ids.contains(o.restaurantId);
+
+  static bool _in(OwnerOrder o, String? id) =>
+      _inAny(o, id == null ? null : [id]);
+
+  @override
+  Future<List<OwnerOrder>> activeOrders({String? restaurantId}) async =>
+      orders.where(_active).where((o) => _in(o, restaurantId)).toList();
+
+  @override
+  Future<List<OwnerOrder>> history({String? restaurantId}) async => orders
+      .where((o) => !_active(o) && _in(o, restaurantId))
+      .toList()
+      .reversed
+      .toList();
 
   @override
   Future<void> setStatus(
@@ -124,13 +185,17 @@ class FakeOwnerOrdersRepository implements OwnerOrdersRepository {
   final cash = <CashToReceive>[];
 
   @override
-  Future<List<CashToReceive>> cashPending() async => [...cash];
+  Future<List<CashToReceive>> cashPending({String? restaurantId}) async => [
+    ...cash,
+  ];
 
   /// Commission statements issued by the admin.
   final statementList = <StatementSummary>[];
 
   @override
-  Future<List<StatementSummary>> statements() async => [...statementList];
+  Future<List<StatementSummary>> statements({String? restaurantId}) async => [
+    ...statementList,
+  ];
 
   @override
   Future<StatementDetail> statementDetail(String id) async {
@@ -157,6 +222,29 @@ class FakeOwnerOrdersRepository implements OwnerOrdersRepository {
         ),
       ],
     );
+  }
+
+  @override
+  Future<void> answerCancelRequest(
+    String orderId, {
+    required bool accept,
+  }) async {
+    calls.add('cancelRequest:$orderId:$accept');
+    final o = orders.firstWhere((x) => x.id == orderId);
+    if (!o.cancelRequestPending) {
+      throw const OwnerOrderError(OwnerOrderFailure.notAllowed);
+    }
+    if (accept) {
+      _replace(
+        orderId,
+        'cancelled',
+        request: 'accepted',
+        cancelledBy: 'customer',
+      );
+    } else {
+      _replace(orderId, o.status, request: 'refused');
+    }
+    _changes.add(null);
   }
 
   @override

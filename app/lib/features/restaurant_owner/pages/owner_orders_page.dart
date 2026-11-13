@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../core/theme/app_colors.dart';
@@ -12,7 +13,10 @@ import '../../cart/checkout_widgets.dart' show MoneyRow;
 import '../../orders/order_status.dart';
 import '../data/owner_live.dart';
 import '../data/owner_orders_repository.dart';
+import '../../orders/pages/my_orders_page.dart' show cancelReasonLabel;
+import '../owner_receipt.dart';
 import '../widgets/owner_widgets.dart';
+import '../../ratings/ratings_widgets.dart';
 
 enum OwnerOrdersTab { fresh, running, history }
 
@@ -64,16 +68,31 @@ class _OwnerOrdersPageState extends ConsumerState<OwnerOrdersPage> {
                 PageHeader(
                   title: l.orders,
                   showBack: false,
-                  trailing: IconButton(
-                    tooltip: audible ? l.soundOn : l.soundOff,
-                    onPressed: () =>
-                        ref.read(ownerLiveProvider.notifier).setMuted(audible),
-                    icon: Icon(
-                      audible
-                          ? Icons.volume_up_rounded
-                          : Icons.volume_off_rounded,
-                      color: audible ? AppColors.primary : AppColors.muted,
-                    ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        tooltip: l.ordersTable,
+                        onPressed: () =>
+                            context.push('/restaurant/orders/table'),
+                        icon: Icon(
+                          Icons.table_chart_outlined,
+                          color: AppColors.ink,
+                        ),
+                      ),
+                      IconButton(
+                        tooltip: audible ? l.soundOn : l.soundOff,
+                        onPressed: () => ref
+                            .read(ownerLiveProvider.notifier)
+                            .setMuted(audible),
+                        icon: Icon(
+                          audible
+                              ? Icons.volume_up_rounded
+                              : Icons.volume_off_rounded,
+                          color: audible ? AppColors.primary : AppColors.muted,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 if (!live.soundReady && !live.muted)
@@ -242,7 +261,9 @@ class OwnerOrderTile extends ConsumerWidget {
       ].join('\n'),
       amount: formatDzd(o.total, lang),
       onTap: () => showOwnerOrderSheet(context, o),
-      extra: o.isNew || o.isRunning
+      extra: o.cancelRequestPending
+          ? CancelRequestBanner(order: o)
+          : o.isNew || o.isRunning
           ? (o.notes.isEmpty
                 ? null
                 : Text(
@@ -266,6 +287,22 @@ class OwnerOrderTile extends ConsumerWidget {
 /// Buttons for an order, by status.
 List<Widget> ownerActions(BuildContext context, WidgetRef ref, OwnerOrder o) {
   final l = AppLocalizations.of(context);
+  if (o.cancelRequestPending) {
+    return [
+      AppButton(
+        key: const Key('accept-cancel'),
+        label: l.acceptCancel,
+        variant: AppButtonVariant.dangerOutline,
+        onPressed: () => answerCancelRequest(context, ref, o, accept: true),
+      ),
+      AppButton(
+        key: const Key('refuse-cancel'),
+        label: l.refuseCancel,
+        variant: AppButtonVariant.small,
+        onPressed: () => answerCancelRequest(context, ref, o, accept: false),
+      ),
+    ];
+  }
   return switch (o.status) {
     'placed' => [
       AppButton(
@@ -349,6 +386,8 @@ Future<void> _set(
   } finally {
     ref.invalidate(ownerActiveOrdersProvider);
     ref.invalidate(ownerHistoryProvider);
+    ref.invalidate(ownerReportProvider);
+    ref.read(orderChangesProvider.notifier).bump();
   }
 }
 
@@ -609,6 +648,16 @@ class _OrderSheet extends ConsumerWidget {
           Divider(color: AppColors.border, height: 20),
           MoneyRow(label: l.subtotal, value: formatDzd(o.foodTotal, lang)),
           MoneyRow(label: l.deliveryFee, value: formatDzd(o.deliveryFee, lang)),
+          if (o.discountAmount > 0)
+            MoneyRow(
+              label: o.promoCode == null
+                  ? l.discount
+                  : '${l.discount} (${o.promoCode})',
+              value: '−${formatDzd(o.discountAmount, lang)}',
+              color: AppColors.success,
+            ),
+          if (o.taxAmount > 0)
+            MoneyRow(label: l.taxLabel, value: formatDzd(o.taxAmount, lang)),
           MoneyRow(
             label: l.total,
             value: formatDzd(o.total, lang),
@@ -623,8 +672,102 @@ class _OrderSheet extends ConsumerWidget {
             alignment: WrapAlignment.end,
             children: ownerActions(context, ref, o),
           ),
+          if (o.status == 'delivered') ...[
+            const SizedBox(height: 12),
+            OwnerReceiptButtons(order: o),
+          ],
+          const SizedBox(height: 4),
+          Center(child: ReportCustomerLink(orderId: o.id)),
         ],
       ),
     );
+  }
+}
+
+/// Red box on an order the customer asked to cancel: why, and their note.
+class CancelRequestBanner extends StatelessWidget {
+  const CancelRequestBanner({super.key, required this.order});
+  final OwnerOrder order;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Container(
+      key: const Key('cancel-request'),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.danger.withValues(alpha: .08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.danger.withValues(alpha: .35)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.cancel_outlined, color: AppColors.danger, size: 20),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l.customerWantsCancel,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.danger,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  [
+                    cancelReasonLabel(l, order.cancelRequestReason),
+                    if (order.cancelRequestNote.isNotEmpty)
+                      '“${order.cancelRequestNote}”',
+                  ].join(' · '),
+                  style: TextStyle(fontSize: 13, color: AppColors.inkSoft),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  l.cancelRequestOwnerHint,
+                  style: TextStyle(fontSize: 12, color: AppColors.muted),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Accepts (the order is cancelled) or refuses (it goes on).
+Future<void> answerCancelRequest(
+  BuildContext context,
+  WidgetRef ref,
+  OwnerOrder o, {
+  required bool accept,
+}) async {
+  final l = AppLocalizations.of(context);
+  try {
+    await ref
+        .read(ownerOrdersRepositoryProvider)
+        .answerCancelRequest(o.id, accept: accept);
+    if (context.mounted) {
+      showAppSnack(context, accept ? l.cancelAcceptedMsg : l.cancelRefusedMsg);
+    }
+  } on OwnerOrderError catch (e) {
+    if (context.mounted) {
+      showAppSnack(
+        context,
+        e.failure == OwnerOrderFailure.network
+            ? l.errNetwork
+            : l.errOrderChanged,
+        error: true,
+      );
+    }
+  } finally {
+    ref.invalidate(ownerActiveOrdersProvider);
+    ref.invalidate(ownerHistoryProvider);
+    ref.invalidate(ownerReportProvider);
+    ref.read(orderChangesProvider.notifier).bump();
   }
 }

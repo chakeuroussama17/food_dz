@@ -10,6 +10,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../cart/cart_controller.dart';
 import '../data/catalog_models.dart';
 import '../data/catalog_repository.dart';
+import 'opening_text.dart';
+import '../../ratings/ratings_widgets.dart';
 
 /// Loading / error-with-retry / data, used by every catalogue screen.
 class AsyncBody<T> extends StatelessWidget {
@@ -316,12 +318,33 @@ class RestaurantCard extends ConsumerWidget {
                   PositionedDirectional(
                     top: 10,
                     start: 10,
-                    child: _Badge(text: l.closed),
+                    child: _Badge(
+                      text: r.nextOpenAt == null
+                          ? l.closed
+                          : closedText(
+                              l,
+                              Localizations.localeOf(context).languageCode,
+                              r.nextOpenAt,
+                            ),
+                    ),
                   ),
               ],
             ),
             const SizedBox(height: 8),
-            Text(r.name, style: TextStyle(fontSize: 20, color: AppColors.ink)),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    r.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 20, color: AppColors.ink),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                RatingBadge(average: r.ratingAvg, count: r.ratingCount),
+              ],
+            ),
             if (cats.isNotEmpty) ...[
               const SizedBox(height: 5),
               Text(

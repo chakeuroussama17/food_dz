@@ -46,67 +46,119 @@ void main() {
     expect(find.byType(DriverHomePage), findsOneWidget);
     expect(find.text('Waiting for approval'), findsOneWidget);
     expect(find.text('Offline'), findsOneWidget);
-    await t.tap(find.byType(Switch));
+    expect(find.text('Ready to ride?'), findsOneWidget);
+    await t.tap(find.text('Start riding'));
     await t.pumpAndSettle();
-    expect(s.driver.calls, isEmpty); // switch disabled
+    expect(s.driver.calls, isEmpty); // button disabled
   });
 
-  testWidgets('full delivery: online → take → pick up → delivered', (t) async {
+  testWidgets('full delivery: start → take → check in → items → delivered', (
+    t,
+  ) async {
     final s = DriverSetup();
     s.driver.addAvailable();
     await driverApp(t, s);
+    expect(find.text('Ready to ride?'), findsOneWidget);
     expect(find.text('Available orders'), findsNothing); // offline
 
-    await tap(t, find.byType(Switch));
+    await tap(t, find.text('Start riding'));
     expect(s.driver.calls, ['online:true']);
     expect(find.text('Online'), findsOneWidget);
+    expect(find.text('Jobs near you'), findsOneWidget);
     expect(find.text('Available orders'), findsOneWidget);
     expect(find.text('Pizzeria El Bahdja'), findsOneWidget);
     expect(find.text('Alger Centre'), findsOneWidget);
     expect(find.text(da('200 DA')), findsOneWidget); // your fee
     expect(find.text(da('1 600 DA')), findsOneWidget); // cash to collect
 
-    await tap(t, find.text('TAKE IT'));
+    await tap(t, find.text('Take it'));
     expect(s.driver.calls.last, 'claim:av1');
     expect(find.byType(DriverOrderPage), findsOneWidget);
-    // Full details now: customer, phone, notes, amounts.
+    // Step 1: go to the restaurant and check in.
+    expect(find.text('Head to the restaurant'), findsOneWidget);
+    expect(find.textContaining('preparing'), findsOneWidget);
+    expect(find.text('Check the items'), findsNothing);
+
+    // Full details in the sheet: customer, phone, notes, amounts.
+    await tap(t, find.text('Order details'));
     expect(find.text('Amina'), findsOneWidget);
     expect(find.text('0550123456'), findsOneWidget);
     expect(find.text('“Sonner deux fois”'), findsOneWidget);
     expect(find.text(da('1 400 DA')), findsOneWidget); // hand to restaurant
-    // Restaurant still cooking: no pickup button yet.
-    expect(find.text('PICKED UP'), findsNothing);
-    expect(find.textContaining('preparing'), findsOneWidget);
+    await t.tapAt(const Offset(20, 20)); // close the sheet
+    await t.pumpAndSettle();
+
+    await tap(t, find.text("I'm at the restaurant"));
+    expect(find.text("You're at the restaurant"), findsOneWidget);
+    expect(find.text('Check the items'), findsNothing); // still cooking
 
     // The restaurant marks it ready: the page updates by itself.
     s.driver.restaurantMarksReady('av1');
     await t.pumpAndSettle();
-    await tap(t, find.text('PICKED UP'));
+    await tap(t, find.text('Check the items'));
+    expect(find.text('Check each item'), findsOneWidget);
+    expect(find.text('Missing or wrong item? Call the restaurant'), findsOne);
+    await t.tap(find.text('Picked up, let’s go!')); // not all ticked yet
+    await t.pumpAndSettle();
+    expect(s.driver.calls.last, 'claim:av1');
+    await tap(t, find.text('Pizza Margherita'));
+    await tap(t, find.text('Picked up, let’s go!'));
     expect(s.driver.calls.last, 'av1:picked_up');
+    expect(find.text('On the way to the customer'), findsOneWidget);
+    expect(find.text('Collect ${da('1 600 DA')}'), findsOneWidget);
     expect(find.text('Give it back'), findsNothing); // too late now
 
     // Delivered: the photo sheet opens; can't confirm without a photo.
-    await tap(t, find.text('DELIVERED & PAID'));
+    await tap(t, find.text('Delivered & paid'));
     expect(find.text('Delivery photo'), findsOneWidget);
     expect(find.textContaining('The customer paid you'), findsOneWidget);
-    await t.tap(find.text('DELIVERED & PAID').last); // disabled, no photo
+    await t.tap(find.text('Delivered & paid').last); // disabled, no photo
     await t.pumpAndSettle();
     expect(s.driver.calls.last, 'av1:picked_up');
     await tap(t, find.text('Take the photo'));
     expect(find.text('Retake'), findsOneWidget); // preview shown
-    await tap(t, find.text('DELIVERED & PAID').last);
+    await tap(t, find.text('Delivered & paid').last);
     expect(s.driver.calls.last, 'av1:delivered+photo');
     expect(s.driver.photos['av1'], isNotNull);
-    expect(find.byType(DriverHomePage), findsOneWidget);
-    expect(find.text('Today: 1 deliveries · ${da('200 DA')}'), findsOneWidget);
 
-    // Food money to give to the restaurant.
+    // Well done!
+    expect(find.text('Well done Rachid!'), findsOneWidget);
+    expect(find.text('Delivery #DRV1X'), findsOneWidget);
+    expect(find.text('+${da('200 DA')} earned'), findsOneWidget);
+    await tap(t, find.text('Next job'));
+    expect(find.byType(DriverHomePage), findsOneWidget);
+    // Drag from the header (the map in the middle keeps its own gestures).
+    await t.drag(find.text('Hello, Rachid'), const Offset(0, -500));
+    await t.pumpAndSettle();
+    expect(find.text('Deliveries'), findsOneWidget); // today: 1
+    await t.drag(find.text('Deliveries'), const Offset(0, 800));
+    await t.pumpAndSettle();
     expect(find.text('Money to give to restaurants'), findsOneWidget);
     expect(find.text('Total to give: ${da('1 400 DA')}'), findsOneWidget);
     await tap(t, find.text('I gave the money'));
     expect(s.driver.calls.last, 'cash:av1');
     expect(find.text('Waiting for the restaurant to confirm'), findsOneWidget);
+
+    // Done for the day: offline again (once the message is gone).
+    await t.pump(const Duration(seconds: 5));
+    await t.pumpAndSettle();
+    await tap(t, find.text("I'm done for the day"));
+    expect(s.driver.calls.last, 'online:false');
+    expect(find.text('Ready to ride?'), findsOneWidget);
     expect(t.takeException(), isNull);
+  });
+
+  testWidgets('after a delivery, "done for the day" goes offline', (t) async {
+    final s = DriverSetup(online: true);
+    s.driver.mine.add(s.driver.makeOrder('d1', status: 'picked_up'));
+    await driverApp(t, s);
+    await tap(t, find.text('Continue delivery'));
+    await tap(t, find.text('Delivered & paid'));
+    await tap(t, find.text('Take the photo'));
+    await tap(t, find.text('Delivered & paid').last);
+    await tap(t, find.text("I'm done for the day"));
+    expect(s.driver.calls.last, 'online:false');
+    expect(find.text('Ready to ride?'), findsOneWidget);
   });
 
   testWidgets('money overdue: red banner, taking an order is refused', (
@@ -135,7 +187,7 @@ void main() {
     s.driver.addAvailable();
     s.driver.takenByOthers.add('av1');
     await driverApp(t, s);
-    await tap(t, find.text('TAKE IT'));
+    await tap(t, find.text('Take it'));
     expect(find.text('Another driver took it first.'), findsOneWidget);
     expect(find.byType(DriverHomePage), findsOneWidget);
     expect(find.textContaining('No orders right now'), findsOneWidget);
@@ -145,12 +197,12 @@ void main() {
     final s = DriverSetup(online: true);
     s.driver.addAvailable(ready: true);
     await driverApp(t, s);
-    await tap(t, find.text('TAKE IT'));
+    await tap(t, find.text('Take it'));
     await tap(t, find.text('Give it back'));
     await tap(t, find.text('Give it back').last); // confirm
     expect(s.driver.calls.last, 'release:av1');
     expect(find.byType(DriverHomePage), findsOneWidget);
-    expect(find.text('TAKE IT'), findsOneWidget); // back in the list
+    expect(find.text('Take it'), findsOneWidget); // back in the list
   });
 
   testWidgets('new order while online: chime after the 10 s check', (t) async {
@@ -159,7 +211,7 @@ void main() {
     s.driver.addAvailable();
     await t.pump(const Duration(seconds: 10));
     await t.pumpAndSettle();
-    expect(find.text('TAKE IT'), findsOneWidget);
+    expect(find.text('Take it'), findsOneWidget);
     expect(s.sound.plays, 1);
     // Same order on the next check: no second chime.
     await t.pump(const Duration(seconds: 10));

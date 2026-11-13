@@ -44,12 +44,12 @@ class AppButton extends StatelessWidget {
         BorderSide.none,
       ),
       AppButtonVariant.dangerOutline => (
-        Colors.white,
+        AppColors.surface,
         AppColors.danger,
         const BorderSide(color: AppColors.danger),
       ),
       AppButtonVariant.outline => (
-        Colors.white,
+        AppColors.surface,
         AppColors.ink,
         BorderSide(color: AppColors.border),
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/session/session_tracker.dart' show appPlatform;
+import '../../account/widgets/details_fields.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/labeled_field.dart';
@@ -25,11 +27,13 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   final _phone = TextEditingController();
   final _password = TextEditingController();
   final _retype = TextEditingController();
+  final _commune = TextEditingController();
+  int? _wilaya;
   bool _loading = false;
 
   @override
   void dispose() {
-    for (final c in [_name, _email, _phone, _password, _retype]) {
+    for (final c in [_name, _email, _phone, _password, _retype, _commune]) {
       c.dispose();
     }
     super.dispose();
@@ -47,6 +51,12 @@ class _SignupPageState extends ConsumerState<SignupPage> {
             email: _email.text,
             password: _password.text,
             phone: normalizeDzPhone(_phone.text),
+            details: {
+              'wilaya': '$_wilaya',
+              'commune': _commune.text.trim(),
+              'lang': Localizations.localeOf(context).languageCode,
+              'platform': appPlatform(),
+            },
           );
       // Signed in straight away: the router redirect takes over (/home).
       if (signedIn || !mounted) return;
@@ -111,6 +121,23 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                 validator: (v) => normalizeDzPhone(v ?? '') == null
                     ? l.errPhoneInvalid
                     : null,
+              ),
+              const SizedBox(height: 24),
+              // Where the customer lives (admin analysis, future zones).
+              WilayaField(
+                value: _wilaya,
+                onChanged: (v) => setState(() => _wilaya = v),
+              ),
+              const SizedBox(height: 24),
+              LabeledField(
+                key: const Key('commune'),
+                label: l.commune,
+                controller: _commune,
+                hint: l.communeHint,
+                textInputAction: TextInputAction.next,
+                maxLength: 80,
+                validator: (v) =>
+                    (v ?? '').trim().length < 2 ? l.errCommune : null,
               ),
               const SizedBox(height: 24),
               PasswordField(

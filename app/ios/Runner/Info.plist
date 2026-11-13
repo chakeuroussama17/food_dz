@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Food App</string>
+	<string>foodfennec</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -72,7 +72,7 @@
 		<string>https</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Take the delivery photo and photos of your dishes.</string>
+	<string>Take the delivery photo, photos of your dishes, and scan restaurant QR codes.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Choose photos for your profile, dishes or deliveries.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

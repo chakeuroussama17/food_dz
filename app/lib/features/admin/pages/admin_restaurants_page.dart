@@ -11,6 +11,7 @@ import '../../catalog/widgets/browse_widgets.dart';
 import '../data/admin_models.dart';
 import '../data/admin_repository.dart';
 import '../widgets/admin_widgets.dart';
+import '../../qr/qr_page.dart';
 
 enum _Filter { all, pending, active, inactive }
 
@@ -197,6 +198,20 @@ class _RestaurantTile extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: AppColors.ink,
                   ),
+                ),
+              ),
+              IconButton(
+                tooltip: l.qrTitle,
+                visualDensity: VisualDensity.compact,
+                onPressed: () => showRestaurantQrDialog(
+                  context,
+                  restaurantId: r.id,
+                  slug: r.slug,
+                  name: r.name,
+                ),
+                icon: const Icon(
+                  Icons.qr_code_2_rounded,
+                  color: AppColors.primary,
                 ),
               ),
               Pill(statusText, color: statusColor),

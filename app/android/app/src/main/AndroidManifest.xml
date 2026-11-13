@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
-        android:label="Food DZ"
+        android:label="foodfennec"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -26,6 +26,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <!-- Restaurant QR codes: https://foodfennec.com/r/<slug> opens the
+                 app when it is installed (verified once the domain serves
+                 /.well-known/assetlinks.json), otherwise the website.
+                 Change the host here if the domain is different. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"/>
+                <data android:host="foodfennec.com"/>
+                <data android:host="www.foodfennec.com"/>
+                <data android:pathPrefix="/r/"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

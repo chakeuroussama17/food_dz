@@ -6,13 +6,56 @@ import '../../core/i18n/locale_controller.dart';
 import '../catalog/data/catalog_models.dart';
 
 class CartLine {
-  const CartLine({required this.item, required this.quantity});
+  const CartLine({
+    required this.item,
+    required this.quantity,
+    this.options = const [],
+  });
   final MenuItem item;
   final int quantity;
 
+  /// Chosen options (size, extras...).
+  final List<OptionChoice> options;
+
+  /// Same dish with the same options = same line.
+  String get key => lineKey(item.id, options);
+
   /// Display only. The server recalculates prices from the database when
   /// the order is placed.
-  int get lineTotal => item.price * quantity;
+  int get unitPrice => item.price + options.fold(0, (s, o) => s + o.price);
+  int get lineTotal => unitPrice * quantity;
+
+  /// "Large, Extra cheese".
+  String get optionsText => options.map((o) => o.name).join(', ');
+
+  CartLine copyWith({
+    MenuItem? item,
+    int? quantity,
+    List<OptionChoice>? options,
+  }) => CartLine(
+    item: item ?? this.item,
+    quantity: quantity ?? this.quantity,
+    options: options ?? this.options,
+  );
+}
+
+/// Line identity: the dish id, plus the sorted option ids.
+String lineKey(String itemId, List<OptionChoice> options) =>
+    [itemId, ...(options.map((o) => o.id).toList()..sort())].join('|');
+
+/// Do [chosen] choices meet every group's min / max for [item]? Unknown or
+/// unavailable choices make it invalid.
+bool optionsValid(MenuItem item, List<OptionChoice> chosen) {
+  final ids = chosen.map((c) => c.id).toSet();
+  if (ids.length != chosen.length) return false;
+  var matched = 0;
+  for (final g in item.optionGroups) {
+    final inGroup = g.choices.where((c) => ids.contains(c.id)).toList();
+    if (inGroup.any((c) => !c.isAvailable)) return false;
+    if (inGroup.length < g.min || inGroup.length > g.max) return false;
+    matched += inGroup.length;
+  }
+  return matched == ids.length;
 }
 
 class Cart {
@@ -58,6 +101,10 @@ class CartController extends Notifier<Cart> {
               Map<String, dynamic>.from(l['item'] as Map),
             ),
             quantity: (l['qty'] as num).toInt().clamp(1, maxQuantityPerItem),
+            options: [
+              for (final o in (l['options'] as List? ?? const []))
+                OptionChoice.fromJson(Map<String, dynamic>.from(o as Map)),
+            ],
           ),
       ];
       if (lines.isEmpty) return const Cart();
@@ -86,7 +133,12 @@ class CartController extends Notifier<Cart> {
           'restaurant_name': c.restaurantName,
           'lines': [
             for (final l in c.lines)
-              {'item': l.item.toJson(), 'qty': l.quantity},
+              {
+                'item': l.item.toJson(),
+                'qty': l.quantity,
+                if (l.options.isNotEmpty)
+                  'options': [for (final o in l.options) o.toJson()],
+              },
           ],
         }),
       );
@@ -95,26 +147,33 @@ class CartController extends Notifier<Cart> {
     }
   }
 
-  /// Adds [quantity] of [item]. Refuses (without changing anything) when the
-  /// cart already holds another restaurant's dishes, unless [replace].
+  /// Adds [quantity] of [item] with [options]. Refuses (without changing
+  /// anything) when the cart already holds another restaurant's dishes,
+  /// unless [replace].
   AddResult add(
     MenuItem item, {
     required String restaurantName,
     int quantity = 1,
     bool replace = false,
+    List<OptionChoice> options = const [],
   }) {
     if (!state.isEmpty && state.restaurantId != item.restaurantId) {
       if (!replace) return AddResult.otherRestaurant;
       state = const Cart();
     }
     final lines = [...state.lines];
-    final i = lines.indexWhere((l) => l.item.id == item.id);
+    final key = lineKey(item.id, options);
+    final i = lines.indexWhere((l) => l.key == key);
     if (i >= 0) {
       final q = (lines[i].quantity + quantity).clamp(1, maxQuantityPerItem);
-      lines[i] = CartLine(item: item, quantity: q);
+      lines[i] = CartLine(item: item, quantity: q, options: options);
     } else if (lines.length < maxCartLines) {
       lines.add(
-        CartLine(item: item, quantity: quantity.clamp(1, maxQuantityPerItem)),
+        CartLine(
+          item: item,
+          quantity: quantity.clamp(1, maxQuantityPerItem),
+          options: options,
+        ),
       );
     }
     state = Cart(
@@ -125,16 +184,15 @@ class CartController extends Notifier<Cart> {
     return AddResult.added;
   }
 
-  void setQuantity(String itemId, int quantity) {
+  /// [key] is the line's [CartLine.key] (the dish id for a dish without
+  /// options).
+  void setQuantity(String key, int quantity) {
     final lines = [
       for (final l in state.lines)
-        if (l.item.id != itemId)
+        if (l.key != key)
           l
         else if (quantity > 0)
-          CartLine(
-            item: l.item,
-            quantity: quantity.clamp(1, maxQuantityPerItem),
-          ),
+          l.copyWith(quantity: quantity.clamp(1, maxQuantityPerItem)),
     ];
     state = lines.isEmpty
         ? const Cart()
@@ -160,8 +218,27 @@ class CartController extends Notifier<Cart> {
         changed = true;
         continue;
       }
-      if (now.price != l.item.price) changed = true;
-      lines.add(CartLine(item: now, quantity: l.quantity));
+      // Options as they are now (price, availability, group rules).
+      final current = {
+        for (final g in now.optionGroups)
+          for (final c in g.choices) c.id: c,
+      };
+      final options = [
+        for (final o in l.options)
+          if (current[o.id] != null) current[o.id]!,
+      ];
+      if (options.length != l.options.length || !optionsValid(now, options)) {
+        changed = true;
+        continue;
+      }
+      if (now.price != l.item.price ||
+          [
+            for (var i = 0; i < options.length; i++)
+              options[i].price != l.options[i].price,
+          ].any((d) => d)) {
+        changed = true;
+      }
+      lines.add(CartLine(item: now, quantity: l.quantity, options: options));
     }
     if (!changed) return false;
     state = lines.isEmpty

@@ -68,21 +68,21 @@ jobs:
         run: flutter build apk --release --dart-define-from-file=env.json
 
       - name: Rename
-        run: cp build/app/outputs/flutter-apk/app-release.apk "food-dz-${{ github.run_number }}.apk"
+        run: cp build/app/outputs/flutter-apk/app-release.apk "foodfennec-${{ github.run_number }}.apk"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: food-dz-apk
-          path: app/food-dz-${{ github.run_number }}.apk
+          name: foodfennec-apk
+          path: app/foodfennec-${{ github.run_number }}.apk
 
       # A release gives a direct download link that works on the phone.
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: Food DZ build ${{ github.run_number }}
+          name: foodfennec build ${{ github.run_number }}
           prerelease: true
           body: |
             Android test build from commit ${{ github.sha }}.
             On the phone: download the .apk below, open it, allow
             "install unknown apps" for your browser, then install.
-          files: app/food-dz-${{ github.run_number }}.apk
+          files: app/foodfennec-${{ github.run_number }}.apk

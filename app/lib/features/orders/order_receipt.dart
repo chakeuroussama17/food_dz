@@ -60,6 +60,9 @@ Future<Uint8List> buildOrderReceipt({
       totals: [
         (l.subtotal, pdfMoney(o.foodTotal)),
         (l.deliveryFee, pdfMoney(o.deliveryFee)),
+        if (o.discountAmount > 0)
+          (l.discount, '- ${pdfMoney(o.discountAmount)}'),
+        if (o.taxAmount > 0) (l.taxLabel, pdfMoney(o.taxAmount)),
       ],
       highlight: (l.receiptTotalPaid, pdfMoney(o.total)),
       note: l.receiptPaidCash,

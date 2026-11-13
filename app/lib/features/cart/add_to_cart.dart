@@ -6,6 +6,7 @@ import '../../core/widgets/snack.dart';
 import '../../l10n/app_localizations.dart';
 import '../catalog/data/catalog_models.dart';
 import 'cart_controller.dart';
+import 'options_picker.dart';
 
 /// Adds a dish to the cart. If the cart holds another restaurant's dishes,
 /// asks before starting a new cart. Returns true when added.
@@ -16,17 +17,25 @@ Future<bool> addToCartWithPrompt(
   required String restaurantName,
   required bool restaurantOpen,
   int quantity = 1,
+  List<OptionChoice>? options,
 }) async {
   final l = AppLocalizations.of(context);
   if (!restaurantOpen) {
     showAppSnack(context, l.restaurantClosedNote, error: true);
     return false;
   }
+  // A dish with options picked from a list ("+" button): choose them first.
+  if (options == null && item.optionGroups.isNotEmpty) {
+    options = await showOptionsSheet(context, item);
+    if (options == null || !context.mounted) return false;
+  }
+  final chosen = options ?? const <OptionChoice>[];
   final cart = ref.read(cartProvider.notifier);
   var result = cart.add(
     item,
     restaurantName: restaurantName,
     quantity: quantity,
+    options: chosen,
   );
   if (result == AddResult.otherRestaurant) {
     final current = ref.read(cartProvider).restaurantName ?? '';
@@ -55,6 +64,7 @@ Future<bool> addToCartWithPrompt(
       restaurantName: restaurantName,
       quantity: quantity,
       replace: true,
+      options: chosen,
     );
   }
   if (context.mounted) showAppSnack(context, l.addedToCart);

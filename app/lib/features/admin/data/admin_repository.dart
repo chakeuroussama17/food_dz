@@ -47,7 +47,8 @@ abstract interface class AdminRepository {
   });
   Future<List<AdminOrderItem>> orderItems(String orderId);
 
-  Future<List<AdminCustomer>> customers({String search = ''});
+  Future<List<AdminCustomer>> customers({String search = '', int limit = 50});
+  Future<CustomerInsights> customerInsights();
 
   Future<StatementPreview> previewStatement(String restaurantId, DateRange r);
   Future<String> generateStatement(String restaurantId, DateRange r);
@@ -154,10 +155,24 @@ class SupabaseAdminRepository implements AdminRepository {
   )).map(AdminOrderItem.fromJson).toList();
 
   @override
-  Future<List<AdminCustomer>> customers({String search = ''}) async =>
-      (await _rows('admin_list_customers', {
-        'p_search': search,
-      })).map(AdminCustomer.fromJson).toList();
+  Future<List<AdminCustomer>> customers({
+    String search = '',
+    int limit = 50,
+  }) async => (await _rows('admin_list_customers', {
+    'p_search': search,
+    'p_limit': limit,
+  })).map(AdminCustomer.fromJson).toList();
+
+  @override
+  Future<CustomerInsights> customerInsights() async {
+    try {
+      final r = await _db.rpc('admin_customer_insights');
+      return CustomerInsights.fromJson(r as Map<String, dynamic>);
+    } catch (_) {
+      // Before the customer-data SQL is applied.
+      return const CustomerInsights();
+    }
+  }
 
   Map<String, dynamic> _stmt(String rid, DateRange r) => {
     'p_restaurant_id': rid,

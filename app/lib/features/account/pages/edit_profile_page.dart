@@ -9,6 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../../core/widgets/snack.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../catalog/widgets/browse_widgets.dart';
+import '../widgets/details_fields.dart';
 import '../data/account_repository.dart';
 import '../widgets/account_widgets.dart';
 
@@ -60,6 +61,12 @@ class _FormState extends ConsumerState<_Form> {
   late final _phone = TextEditingController(text: widget.profile.phone ?? '');
   late final _email = TextEditingController(text: widget.profile.email);
   late String? _avatarUrl = widget.profile.avatarUrl;
+  late final _commune = TextEditingController(
+    text: widget.profile.commune ?? '',
+  );
+  late int? _wilaya = widget.profile.wilaya;
+  late DateTime? _birth = widget.profile.birthDate;
+  late String? _gender = widget.profile.gender;
   bool _saving = false;
   bool _uploading = false;
 
@@ -68,6 +75,7 @@ class _FormState extends ConsumerState<_Form> {
     _name.dispose();
     _phone.dispose();
     _email.dispose();
+    _commune.dispose();
     super.dispose();
   }
 
@@ -110,6 +118,17 @@ class _FormState extends ConsumerState<_Form> {
       await ref
           .read(accountRepositoryProvider)
           .updateProfile(fullName: _name.text, phone: phone);
+      final commune = _commune.text.trim();
+      await ref
+          .read(accountRepositoryProvider)
+          .updateDetails(
+            ProfileDetails(
+              birthDate: _birth,
+              gender: _gender,
+              wilaya: _wilaya,
+              commune: commune.isEmpty ? null : commune,
+            ),
+          );
       ref.invalidate(profileProvider);
       if (!mounted) return;
       showAppSnack(context, l.saved);
@@ -197,6 +216,31 @@ class _FormState extends ConsumerState<_Form> {
               if (t.isEmpty) return null;
               return normalizeDzPhone(t) == null ? l.errPhoneInvalid : null;
             },
+          ),
+          const SizedBox(height: 24),
+          WilayaField(
+            value: _wilaya,
+            required: false,
+            onChanged: (v) => setState(() => _wilaya = v),
+          ),
+          const SizedBox(height: 24),
+          LabeledField(
+            label: l.commune,
+            controller: _commune,
+            hint: l.communeHint,
+            maxLength: 80,
+          ),
+          const SizedBox(height: 24),
+          BirthDateField(
+            value: _birth,
+            onChanged: (d) => setState(() => _birth = d),
+          ),
+          const SizedBox(height: 24),
+          FieldLabel(l.gender),
+          ChoiceChips(
+            options: genderOptions(l),
+            value: _gender,
+            onChanged: (v) => setState(() => _gender = v ?? _gender),
           ),
           const SizedBox(height: 40),
           AppButton(label: l.save, loading: _saving, onPressed: _save),

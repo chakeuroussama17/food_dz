@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/location/location_service.dart';
+import '../../driver/widgets/rider_ui.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../core/pdf/business_info.dart';
@@ -18,6 +20,8 @@ import '../../cart/checkout_widgets.dart';
 import '../data/orders_repository.dart';
 import 'my_orders_page.dart';
 import '../order_status.dart';
+import '../../ratings/ratings_repository.dart';
+import '../../ratings/ratings_widgets.dart';
 
 /// One order: live status steps, what was ordered, amounts, where it goes.
 /// Updates by itself when the restaurant (and later the driver) moves it on.
@@ -33,9 +37,33 @@ class _OrderPageState extends ConsumerState<OrderPage> {
   StreamSubscription<void>? _live;
   Timer? _poll;
 
+  /// The delivery pop-up is shown once per order and session.
+  bool _asking = false;
+
   void _reload() {
     ref.invalidate(myOrderProvider(widget.orderId));
     ref.invalidate(myOrdersProvider);
+    ref.invalidate(orderRatingProvider(widget.orderId));
+  }
+
+  /// Delivered with a driver who isn't rated yet: ask for the rating (live,
+  /// as the driver hands over the food, or when opening the page later).
+  void _maybeAskDriver(CustomerOrder? o, OrderRating? rating) {
+    if (_asking || o == null || rating == null) return;
+    if (o.status != 'delivered' || o.driverName == null) return;
+    if (!rating.needsDriver(DateTime.now())) return;
+    if (ref.read(promptedOrdersProvider).contains(o.id)) return;
+    _asking = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      ref.read(promptedOrdersProvider.notifier).add(o.id);
+      await showRatingSheet(
+        context,
+        orderId: o.id,
+        driver: true,
+        subject: o.driverName!,
+      );
+    });
   }
 
   @override
@@ -64,6 +92,10 @@ class _OrderPageState extends ConsumerState<OrderPage> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final order = ref.watch(myOrderProvider(widget.orderId));
+    _maybeAskDriver(
+      order.value,
+      ref.watch(orderRatingProvider(widget.orderId)).value,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.surface,
@@ -208,6 +240,7 @@ class _OrderBody extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
         ],
+        _CancelNote(order: o),
         if (o.status == 'rejected' && (o.rejectReason ?? '').isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
@@ -216,6 +249,7 @@ class _OrderBody extends ConsumerWidget {
               style: const TextStyle(color: AppColors.danger),
             ),
           ),
+        if (o.driverName != null && o.isActive) _RiderTracker(order: o),
         if (o.driverName != null && o.isActive)
           Container(
             margin: const EdgeInsets.only(bottom: 8),
@@ -305,6 +339,16 @@ class _OrderBody extends ConsumerWidget {
               ? l.freeDelivery
               : formatDzd(o.deliveryFee, lang),
         ),
+        if (o.discountAmount > 0)
+          MoneyRow(
+            label: o.promoCode == null
+                ? l.discount
+                : '${l.discount} (${o.promoCode})',
+            value: '−${formatDzd(o.discountAmount, lang)}',
+            color: AppColors.success,
+          ),
+        if (o.taxAmount > 0)
+          MoneyRow(label: l.taxLabel, value: formatDzd(o.taxAmount, lang)),
         MoneyRow(label: l.total, value: formatDzd(o.total, lang), strong: true),
         const SizedBox(height: 6),
         Row(
@@ -352,18 +396,199 @@ class _OrderBody extends ConsumerWidget {
         ],
         if (o.status == 'delivered') ...[
           const SizedBox(height: 24),
+          _RatingCards(order: o),
+          const SizedBox(height: 8),
           ReceiptButtons(order: o),
         ],
         if (o.canCancel) ...[
           const SizedBox(height: 28),
           Center(
             child: AppButton(
+              key: const Key('cancel-order'),
               label: l.cancelOrder,
               variant: AppButtonVariant.dangerOutline,
-              onPressed: () => cancelOrderWithConfirm(context, ref, o.id),
+              onPressed: () => cancelOrderWithConfirm(context, ref, o),
             ),
           ),
         ],
+      ],
+    );
+  }
+}
+
+/// Which delivered orders already got the "rate your driver" pop-up.
+class PromptedOrders extends Notifier<Set<String>> {
+  @override
+  Set<String> build() => {};
+
+  void add(String id) => state = {...state, id};
+}
+
+final promptedOrdersProvider = NotifierProvider<PromptedOrders, Set<String>>(
+  PromptedOrders.new,
+);
+
+/// "Rate the delivery" and "Rate the food" on a delivered order: stars once
+/// rated (changeable for 24 h), a button while the 7 days run.
+class _RatingCards extends ConsumerWidget {
+  const _RatingCards({required this.order});
+  final CustomerOrder order;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final rating = ref.watch(orderRatingProvider(order.id)).value;
+    if (rating == null) return const SizedBox.shrink();
+    final now = DateTime.now();
+
+    Widget card({
+      required IconData icon,
+      required String title,
+      required int? stars,
+      required bool canRate,
+      required bool canEdit,
+      required String idleHint,
+      required VoidCallback onTap,
+      String? reply,
+    }) {
+      if (stars == null && !canRate) return const SizedBox.shrink();
+      return Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.field,
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: AppColors.primary, size: 28),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        stars == null ? title : l.yourRating,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.ink,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      if (stars != null)
+                        Stars(stars.toDouble(), size: 20)
+                      else
+                        Text(
+                          idleHint,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.muted,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                if (stars == null)
+                  AppButton(
+                    label: l.rateAction,
+                    variant: AppButtonVariant.small,
+                    onPressed: onTap,
+                  )
+                else if (canEdit)
+                  TextButton(
+                    onPressed: onTap,
+                    child: Text(
+                      l.editRating,
+                      style: const TextStyle(color: AppColors.primary),
+                    ),
+                  ),
+              ],
+            ),
+            if (stars != null && canEdit)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  l.ratingEditHint,
+                  style: TextStyle(fontSize: 12.5, color: AppColors.muted),
+                ),
+              ),
+            if ((reply ?? '').isNotEmpty)
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.ratingReplyFrom,
+                      style: const TextStyle(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(reply!, style: TextStyle(color: AppColors.body)),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      );
+    }
+
+    final days = rating.daysLeft(now);
+    final hint = days <= 1 ? l.ratingLastDay : l.ratingDaysLeft(days);
+    return Column(
+      children: [
+        if (rating.hasDriver)
+          card(
+            icon: Icons.delivery_dining_rounded,
+            title: l.rateDriverCard,
+            stars: rating.driverStars,
+            canRate: rating.windowOpen(now),
+            canEdit: rating.driverOpen(now),
+            idleHint: hint,
+            onTap: () async {
+              await showRatingSheet(
+                context,
+                orderId: order.id,
+                driver: true,
+                subject: order.driverName ?? '',
+                initialStars: rating.driverStars ?? 0,
+                initialReasons: rating.driverReasons,
+                initialComment: rating.driverComment,
+              );
+            },
+          ),
+        card(
+          icon: Icons.restaurant_rounded,
+          title: l.rateFoodCard,
+          stars: rating.foodStars,
+          canRate: rating.windowOpen(now),
+          canEdit: rating.foodOpen(now),
+          idleHint: hint,
+          reply: rating.reply,
+          onTap: () async {
+            await showRatingSheet(
+              context,
+              orderId: order.id,
+              driver: false,
+              subject: order.restaurantName,
+              initialStars: rating.foodStars ?? 0,
+              initialReasons: rating.foodReasons,
+              initialComment: rating.foodComment,
+            );
+          },
+        ),
       ],
     );
   }
@@ -433,6 +658,132 @@ class _ReceiptButtonsState extends ConsumerState<ReceiptButtons> {
           onPressed: _busy ? null : () => _go(print: true),
         ),
       ],
+    );
+  }
+}
+
+/// "Follow your rider": live map while the rider has the order. Hidden
+/// until the rider's phone has sent a position.
+class _RiderTracker extends ConsumerWidget {
+  const _RiderTracker({required this.order});
+  final CustomerOrder order;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final p = ref.watch(riderLocationProvider(order.id)).value;
+    if (p == null) return const SizedBox.shrink();
+    final pickedUp = order.status == 'picked_up';
+    final km = p.toLat == null || p.toLng == null
+        ? null
+        : distanceKm(p.lat, p.lng, p.toLat!, p.toLng!);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l.followRider.toUpperCase(),
+            style: Theme.of(context).textTheme.labelMedium,
+          ),
+          const SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+            child: SizedBox(
+              height: 220,
+              child: RiderMap(
+                me: GeoPoint(p.lat, p.lng),
+                meIcon: Icons.delivery_dining_rounded,
+                route: true,
+                follow: true,
+                padding: const EdgeInsets.fromLTRB(40, 70, 40, 30),
+                pins: [
+                  if (p.shopLat != null && p.shopLng != null)
+                    RiderPin(
+                      RiderPinKind.restaurant,
+                      p.shopLat!,
+                      p.shopLng!,
+                      onRoute: !pickedUp,
+                    ),
+                  if (p.toLat != null && p.toLng != null)
+                    RiderPin(RiderPinKind.customer, p.toLat!, p.toLng!),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            [
+              if (km != null) l.riderKmAway(formatKm(km)),
+              l.riderUpdatedAt(DateFormat('HH:mm').format(p.updatedAt)),
+            ].join(' · '),
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Where a cancellation stands: request waiting / refused / too late, or
+/// who cancelled and why.
+class _CancelNote extends StatelessWidget {
+  const _CancelNote({required this.order});
+  final CustomerOrder order;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final o = order;
+    final (String? text, Color color, IconData icon) = switch (o) {
+      _ when o.status == 'cancelled' && o.cancelledBy == 'customer' => (
+        l.cancelledByYou(cancelReasonLabel(l, o.cancelReason)),
+        AppColors.danger,
+        Icons.cancel_outlined,
+      ),
+      _ when o.cancelRequestStatus == 'pending' => (
+        l.cancelRequestPending,
+        const Color(0xFFE8A317),
+        Icons.hourglass_top_rounded,
+      ),
+      _ when o.cancelRequestStatus == 'refused' && o.isActive => (
+        l.cancelRequestRefused,
+        AppColors.body,
+        Icons.info_outline_rounded,
+      ),
+      _ when o.cancelRequestStatus == 'expired' && o.isActive => (
+        l.cancelRequestExpired,
+        AppColors.body,
+        Icons.info_outline_rounded,
+      ),
+      _ => (null, AppColors.body, Icons.info_outline_rounded),
+    };
+    if (text == null) return const SizedBox.shrink();
+    return Container(
+      key: const Key('cancel-note'),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: .1),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 22),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.4,
+                fontWeight: FontWeight.w600,
+                color: AppColors.ink,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

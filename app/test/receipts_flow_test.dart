@@ -73,7 +73,8 @@ void main() {
     await tap(t, find.text('Pizzeria El Bahdja').last);
     await tap(t, find.byIcon(Icons.add_rounded).first);
     await tap(t, find.byIcon(Icons.shopping_bag_outlined).first);
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, find.text('GO TO CHECKOUT'));
+    await tap(t, find.textContaining('PLACE ORDER'));
     await tap(t, find.text('TRACK ORDER'));
     expect(find.byType(OrderPage), findsOneWidget);
     expect(find.text('Download receipt'), findsNothing); // not delivered yet
@@ -158,16 +159,7 @@ void main() {
       ownerOrders: ownerOrders,
       pdf: pdf,
     );
-    await tap(t, find.bySemanticsLabel(RegExp('^Restaurant profile')).last);
-    await t.scrollUntilVisible(
-      find.text('My commission statements'),
-      200,
-      scrollable: find
-          .byWidgetPredicate(
-            (w) => w is Scrollable && w.axisDirection == AxisDirection.down,
-          )
-          .first,
-    );
+    await tap(t, find.bySemanticsLabel('Account'));
     await tap(t, find.text('My commission statements'));
     expect(find.byType(OwnerStatementsPage), findsOneWidget);
     expect(find.text('FD-2026-0001'), findsOneWidget);

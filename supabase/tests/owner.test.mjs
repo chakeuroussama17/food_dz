@@ -47,13 +47,8 @@ test('register: inactive + closed restaurant, owner role, unique slug', async ()
   });
 });
 
-test('register: once per account, signed in only, inputs validated', async () => {
-  await as(db, 'authenticated', O, async () => {
-    await assert.rejects(
-      db.query(`select register_restaurant('Again', '0550111222', 'Somewhere', 'X')`),
-      /already has a role/,
-    );
-  });
+// A second registration by an owner adds an outlet: see outlets.test.mjs.
+test('register: signed in only, inputs validated', async () => {
   await as(db, 'authenticated', A, async () => {
     await assert.rejects(
       db.query(`select register_restaurant('X', '0550111222', 'Somewhere', 'X')`),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:food_app/features/account/data/account_repository.dart';
 import 'package:food_app/features/account/pages/address_form_page.dart';
+import 'package:food_app/core/widgets/app_button.dart';
 import 'package:food_app/features/cart/cart_page.dart';
+import 'package:food_app/features/cart/checkout_page.dart';
 import 'package:food_app/features/orders/data/orders_repository.dart';
 import 'package:food_app/features/orders/pages/my_orders_page.dart';
 import 'package:food_app/features/orders/pages/order_page.dart';
@@ -48,19 +50,29 @@ class Setup {
   late final FakeOrdersRepository orders;
 }
 
-Future<Setup> signedIn(WidgetTester t, Setup s, {String lang = 'en'}) async {
+Future<Setup> signedIn(
+  WidgetTester t,
+  Setup s, {
+  String lang = 'en',
+  FakeRatingsRepository? ratings,
+  bool dark = false,
+  Size size = const Size(375, 812),
+}) async {
   final repo = FakeAuthRepository()..seedUser('k@mail.dz', 'secret123');
   await pumpFoodApp(
     t,
     repo: repo,
     lang: lang,
+    dark: dark,
+    size: size,
     catalog: s.catalog,
     account: s.account,
     orders: s.orders,
+    ratings: ratings,
   );
   await t.enterText(find.byType(TextFormField).at(0), 'k@mail.dz');
   await t.enterText(find.byType(TextFormField).at(1), 'secret123');
-  await t.tap(find.text(lang == 'en' ? 'LOG IN' : 'تسجيل الدخول').last);
+  await t.tap(find.byType(AppButton).first); // "Log in", any language
   await t.pumpAndSettle();
   return s;
 }
@@ -72,14 +84,21 @@ Future<void> tap(WidgetTester t, Finder f) async {
   await t.pumpAndSettle();
 }
 
-/// Home → pizzeria → 2 × Margherita (700) + 1 × Thon (900) → cart.
-Future<void> fillCartAndOpen(WidgetTester t) async {
+/// The big "Place order · 2 500 DA" button of the checkout page.
+final placeOrder = find.textContaining('PLACE ORDER');
+
+/// Home → pizzeria → 2 × Margherita (700) + 1 × Thon (900) → cart, then
+/// the checkout page unless [checkout] is false.
+Future<void> fillCartAndOpen(WidgetTester t, {bool checkout = true}) async {
   await tap(t, find.text('Pizzeria El Bahdja').last);
   await tap(t, find.byIcon(Icons.add_rounded).at(0));
   await tap(t, find.byIcon(Icons.add_rounded).at(0));
   await tap(t, find.byIcon(Icons.add_rounded).at(1));
   await tap(t, find.byIcon(Icons.shopping_bag_outlined).first);
   expect(find.byType(CartPage), findsOneWidget);
+  if (!checkout) return;
+  await tap(t, find.byType(AppButton).last); // "Go to checkout"
+  expect(find.byType(CheckoutPage), findsOneWidget);
 }
 
 void main() {
@@ -91,19 +110,21 @@ void main() {
     final s = await signedIn(t, Setup());
     await fillCartAndOpen(t);
 
-    // Design panel: address, phone, cash, total with the 200 DA fee.
-    expect(find.text('DELIVERY ADDRESS'), findsOneWidget);
+    // Checkout: address, phone, cash, the price with the 200 DA fee.
+    expect(find.text('Delivery address'), findsOneWidget);
     expect(find.text('Rue Didouche 12, Alger Centre'), findsOneWidget);
     expect(find.text('0550123456'), findsOneWidget);
+    expect(find.text('Cash on delivery'), findsOneWidget);
+    expect(find.text('PLACE ORDER · ${da('2 500 DA')}'), findsOneWidget);
+    await t.scrollUntilVisible(
+      find.text('Subtotal'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text(da('2 300 DA')), findsWidgets); // subtotal
     expect(find.text(da('2 500 DA')), findsOneWidget); // 1400 + 900 + 200
 
-    await tap(t, find.text('Breakdown'));
-    expect(find.text(da('2 300 DA')), findsOneWidget); // subtotal
-    expect(find.text(da('200 DA')), findsOneWidget);
-    await t.tapAt(const Offset(20, 20)); // close the sheet
-    await t.pumpAndSettle();
-
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     expect(t.takeException(), isNull);
 
     // Only ids and quantities are sent; the total is a guard, not a price.
@@ -131,7 +152,8 @@ void main() {
     s.orders.setStatus('o1', 'accepted');
     await t.pumpAndSettle();
     expect(find.text('12:40'), findsOneWidget); // accepted time
-    expect(find.text('Cancel order'), findsNothing);
+    // Still possible, but now as a request the restaurant answers.
+    expect(find.text('Cancel order'), findsOneWidget);
 
     // Cart is empty after ordering.
     await t.pageBack();
@@ -145,10 +167,10 @@ void main() {
     final s = await signedIn(t, Setup());
     await fillCartAndOpen(t);
     s.orders.failNext = CheckoutFailure.network;
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     expect(find.text('No connection. Check your network.'), findsOneWidget);
-    expect(find.byType(CartPage), findsOneWidget);
-    await tap(t, find.text('PLACE ORDER'));
+    expect(find.byType(CheckoutPage), findsOneWidget);
+    await tap(t, placeOrder);
     expect(find.byType(OrderPlacedPage), findsOneWidget);
     expect(s.orders.requests.length, 2);
     expect(s.orders.requests[0].clientRef, s.orders.requests[1].clientRef);
@@ -163,12 +185,12 @@ void main() {
     // The restaurant raised the Thon price after it was added.
     s.catalog.priceChanges['i2'] = 1000;
     s.orders.menu = await s.catalog.itemsByIds(['i1', 'i2', 'i3']);
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     expect(find.textContaining('Prices changed'), findsOneWidget);
-    expect(find.byType(CartPage), findsOneWidget);
-    expect(find.text(da('2 600 DA')), findsOneWidget);
+    expect(find.byType(CheckoutPage), findsOneWidget);
+    expect(find.text('PLACE ORDER · ${da('2 600 DA')}'), findsOneWidget);
     // Second tap with the new total goes through.
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     expect(find.byType(OrderPlacedPage), findsOneWidget);
     expect(s.orders.orders.single.total, 2600);
   });
@@ -177,7 +199,7 @@ void main() {
     final s = await signedIn(t, Setup(withAddress: false));
     await fillCartAndOpen(t);
     expect(find.text('Add a delivery address'), findsOneWidget);
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     expect(find.byType(AddressFormPage), findsOneWidget);
     expect(s.orders.requests, isEmpty);
   });
@@ -187,7 +209,7 @@ void main() {
   ) async {
     final s = await signedIn(t, Setup(phone: null));
     await fillCartAndOpen(t);
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     expect(find.text('Delivery details'), findsOneWidget);
     final phoneField = find.byType(TextFormField).first;
     await t.enterText(phoneField, '0661 23 45 67');
@@ -200,7 +222,7 @@ void main() {
     t,
   ) async {
     await signedIn(t, Setup());
-    await fillCartAndOpen(t);
+    await fillCartAndOpen(t, checkout: false);
     await tap(t, find.text('EDIT').first);
     await tap(t, find.bySemanticsLabel('Delete').first);
     await tap(t, find.bySemanticsLabel('Delete').first);
@@ -212,7 +234,7 @@ void main() {
   ) async {
     final s = await signedIn(t, Setup());
     await fillCartAndOpen(t);
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     await tap(t, find.text('Back to home'));
 
     // Bottom bar → Orders.
@@ -222,9 +244,12 @@ void main() {
     expect(find.text('Order sent'), findsOneWidget);
 
     await tap(t, find.text('Cancel'));
-    await tap(t, find.text('Cancel order'));
+    expect(find.text('Cancel the order?'), findsOneWidget);
+    await tap(t, find.text('I changed my mind'));
+    await tap(t, find.byKey(const Key('confirm-cancel')));
     expect(find.text('Order cancelled'), findsOneWidget);
     expect(s.orders.orders.single.status, 'cancelled');
+    expect(s.orders.cancelCalls.single, 'o1:changed_mind:');
     expect(find.text('No ongoing orders'), findsOneWidget);
     await tap(t, find.text('History'));
     expect(find.text('Cancelled'), findsOneWidget);
@@ -233,7 +258,7 @@ void main() {
   testWidgets('rejected order shows the reason in red', (t) async {
     final s = await signedIn(t, Setup());
     await fillCartAndOpen(t);
-    await tap(t, find.text('PLACE ORDER'));
+    await tap(t, placeOrder);
     await tap(t, find.text('TRACK ORDER'));
     s.orders.setStatus('o1', 'rejected', reason: 'Plus de pâte à pizza');
     await t.pumpAndSettle();
@@ -246,7 +271,7 @@ void main() {
     await signedIn(t, Setup(), lang: 'ar');
     await fillCartAndOpen(t);
     expect(find.text('عنوان التوصيل'), findsOneWidget);
-    await tap(t, find.text('أرسل الطلب'));
+    await tap(t, find.textContaining('اطلب ·'));
     expect(find.byType(OrderPlacedPage), findsOneWidget);
     expect(t.takeException(), isNull);
   });

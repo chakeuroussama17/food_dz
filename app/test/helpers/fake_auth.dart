@@ -4,6 +4,18 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:food_app/features/sanctions/sanctions_repository.dart';
+import 'package:food_app/core/session/session_tracker.dart';
+import 'package:food_app/features/qr/qr_repository.dart';
+import 'package:food_app/features/qr/scan_page.dart';
+import 'package:food_app/features/ratings/ratings_repository.dart';
+import 'fake_ratings.dart';
+import 'package:food_app/features/restaurant_owner/data/outlet_admin_repository.dart';
+import 'package:food_app/portal/pages/portal_menu_page.dart'
+    show pickDishPhotoProvider;
+import 'fake_outlet_admin.dart';
+import 'package:food_app/portal/portal_app.dart';
+import 'package:food_app/core/files/file_output.dart';
 import 'package:food_app/core/i18n/locale_controller.dart';
 import 'package:food_app/core/location/geocoding.dart';
 import 'package:food_app/features/banners/banners_repository.dart';
@@ -18,6 +30,9 @@ import 'package:food_app/core/widgets/map_pin_picker.dart';
 import 'package:food_app/features/catalog/data/catalog_repository.dart';
 import 'package:food_app/features/orders/data/orders_repository.dart';
 import 'package:food_app/features/driver/data/driver_repository.dart';
+import 'package:food_app/features/driver/data/driver_position.dart';
+import 'package:food_app/features/admin/data/promo_repository.dart';
+import 'package:food_app/core/location/location_service.dart' show GeoPoint;
 import 'package:food_app/features/admin/data/admin_drivers.dart';
 import 'package:food_app/features/restaurant_owner/data/owner_live.dart';
 import 'package:food_app/features/restaurant_owner/data/owner_orders_repository.dart';
@@ -30,13 +45,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'fake_admin.dart';
 import 'fake_data.dart';
 import 'fake_driver.dart';
+import 'fake_promos.dart';
+import 'fake_qr.dart';
+import 'fake_session.dart';
+import 'fake_sanctions.dart';
 import 'fake_orders.dart';
 import 'fake_owner_orders.dart';
 
 export 'fake_admin.dart';
 export 'fake_data.dart';
 export 'fake_driver.dart';
+export 'fake_promos.dart';
+export 'fake_qr.dart';
+export 'fake_session.dart';
+export 'fake_sanctions.dart';
 export 'fake_orders.dart';
+export 'fake_outlet_admin.dart';
+export 'fake_ratings.dart';
 export 'fake_owner_orders.dart';
 
 /// In-memory banners.
@@ -213,6 +238,9 @@ final fakePng = Uint8List.fromList(const [
 
 /// In-memory auth backend: one code ("123456") for every email.
 class FakeAuthRepository implements AuthRepository {
+  /// Wilaya, commune, language, platform sent with the last sign-up.
+  Map<String, Object> lastSignupDetails = const {};
+
   static const validCode = '123456';
 
   final _users = <String, ({String name, String password, bool confirmed})>{};
@@ -266,8 +294,10 @@ class FakeAuthRepository implements AuthRepository {
     required String email,
     required String password,
     String? phone,
+    Map<String, Object> details = const {},
   }) async {
     calls.add('signUp:$email${phone == null ? '' : ':$phone'}');
+    lastSignupDetails = details;
     if (_users.containsKey(email)) {
       throw const AuthError(AuthFailure.userExists);
     }
@@ -351,6 +381,16 @@ Future<FakeAuthRepository> pumpFoodApp(
   FakeBannersRepository? banners,
   Size size = const Size(375, 812),
   bool dark = false,
+  FakeFileOutput? files,
+  bool portal = false,
+  FakeOutletAdminRepository? outletAdmin,
+  FakeRatingsRepository? ratings,
+  GeoPoint? driverPosition,
+  FakePromoRepository? promos,
+  FakeQrRepository? qr,
+  FakeCamera? camera,
+  FakeSessionRepository? session,
+  FakeSanctionsRepository? sanctions,
 }) async {
   SharedPreferences.setMockInitialValues({
     if (dark) 'theme_mode': 'dark',
@@ -382,6 +422,16 @@ Future<FakeAuthRepository> pumpFoodApp(
           admin ?? FakeAdminRepository(),
         ),
         pdfOutputProvider.overrideWithValue(pdf ?? FakePdfOutput()),
+        fileOutputProvider.overrideWithValue(files ?? FakeFileOutput()),
+        ratingsRepositoryProvider.overrideWithValue(
+          ratings ?? FakeRatingsRepository(),
+        ),
+        outletAdminRepositoryProvider.overrideWithValue(
+          outletAdmin ?? FakeOutletAdminRepository(),
+        ),
+        pickDishPhotoProvider.overrideWithValue(
+          () async => PickedImage(fakePng, 'png'),
+        ),
         ordersRepositoryProvider.overrideWithValue(
           orders ?? FakeOrdersRepository(),
         ),
@@ -409,8 +459,28 @@ Future<FakeAuthRepository> pumpFoodApp(
         adminDriversRepositoryProvider.overrideWithValue(
           adminDrivers ?? FakeAdminDriversRepository(),
         ),
+        promoRepositoryProvider.overrideWithValue(
+          promos ?? FakePromoRepository(),
+        ),
+        qrRepositoryProvider.overrideWithValue(qr ?? FakeQrRepository()),
+        qrCameraProvider.overrideWithValue((camera ?? FakeCamera()).build),
+        sessionRepositoryProvider.overrideWithValue(
+          session ?? FakeSessionRepository(),
+        ),
+        deviceSnapshotProvider.overrideWith((ref) async => fakeDevice),
+        sanctionsRepositoryProvider.overrideWithValue(
+          sanctions ?? FakeSanctionsRepository(),
+        ),
+        pickRiderPhotoProvider.overrideWithValue(
+          () async => PickedImage(fakePng, 'png'),
+        ),
+        // No GPS in tests: a fixed position, or none.
+        driverPositionProvider.overrideWith(
+          (ref) => Stream.value(driverPosition),
+        ),
       ],
-      child: const FoodApp(),
+      // The partner portal is a second app on the same code.
+      child: portal ? const PortalApp() : const FoodApp(),
     ),
   );
   // Splash: 900ms animation, then a 350ms timer. Step the fake clock so

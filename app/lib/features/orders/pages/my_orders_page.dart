@@ -12,6 +12,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../cart/checkout_widgets.dart';
 import '../data/orders_repository.dart';
 import '../order_status.dart';
+import '../../ratings/ratings_repository.dart';
 
 /// My Orders: "Ongoing" and "History" tabs.
 class MyOrdersPage extends ConsumerWidget {
@@ -117,12 +118,18 @@ class _OrderList extends ConsumerWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final when = DateFormat('dd/MM/yyyy HH:mm');
     if (orders.isEmpty) return _Message(text: empty);
+    final ratings = {
+      for (final r
+          in ref.watch(myRatingsProvider).value ?? const <OrderRating>[])
+        r.orderId: r,
+    };
+    final now = DateTime.now();
 
     return RefreshIndicator(
       color: AppColors.primary,
       onRefresh: () => ref.refresh(myOrdersProvider.future),
       child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
         itemCount: orders.length,
         separatorBuilder: (_, _) => Divider(color: AppColors.border),
         itemBuilder: (context, i) {
@@ -137,6 +144,17 @@ class _OrderList extends ConsumerWidget {
             amount: formatDzd(o.total, lang),
             onTap: () => context.push('/orders/${o.id}'),
             actions: [
+              // Delivered, still within the 7 days and something left to rate.
+              if (o.status == 'delivered' &&
+                  ratings[o.id] != null &&
+                  (ratings[o.id]!.needsFood(now) ||
+                      ratings[o.id]!.needsDriver(now)))
+                AppButton(
+                  label: l.rateAction,
+                  icon: Icons.star_rounded,
+                  variant: AppButtonVariant.small,
+                  onPressed: () => context.push('/orders/${o.id}'),
+                ),
               if (o.isActive)
                 AppButton(
                   label: l.trackOrder,
@@ -147,7 +165,7 @@ class _OrderList extends ConsumerWidget {
                 AppButton(
                   label: l.cancel,
                   variant: AppButtonVariant.dangerOutline,
-                  onPressed: () => cancelOrderWithConfirm(context, ref, o.id),
+                  onPressed: () => cancelOrderWithConfirm(context, ref, o),
                 ),
             ],
           );
@@ -157,42 +175,170 @@ class _OrderList extends ConsumerWidget {
   }
 }
 
-/// Asks, then cancels. Shared by the list and the order page.
+/// Asks why, then cancels (before the restaurant accepts) or sends a
+/// cancellation request (accepted / ready: the restaurant decides).
+/// Shared by the list and the order page.
 Future<void> cancelOrderWithConfirm(
   BuildContext context,
   WidgetRef ref,
-  String orderId,
+  CustomerOrder order,
 ) async {
   final l = AppLocalizations.of(context);
-  final ok = await showDialog<bool>(
+  final answer = await showModalBottomSheet<(String, String)>(
     context: context,
-    builder: (ctx) => AlertDialog(
-      content: Text(l.cancelOrderConfirm),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(ctx, false),
-          child: Text(l.keepOrder, style: TextStyle(color: AppColors.body)),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(ctx, true),
-          child: Text(
-            l.cancelOrder,
-            style: const TextStyle(color: AppColors.danger),
-          ),
-        ),
-      ],
+    isScrollControlled: true,
+    useSafeArea: true,
+    backgroundColor: AppColors.surface,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
+    builder: (_) => CancelSheet(request: order.cancelNeedsRequest),
   );
-  if (ok != true || !context.mounted) return;
+  if (answer == null || !context.mounted) return;
   try {
-    await ref.read(ordersRepositoryProvider).cancelOrder(orderId);
-    if (context.mounted) showAppSnack(context, l.orderCancelledMsg);
+    final r = await ref
+        .read(ordersRepositoryProvider)
+        .cancelOrder(order.id, reason: answer.$1, note: answer.$2);
+    if (context.mounted) {
+      showAppSnack(
+        context,
+        r == 'requested' ? l.cancelRequestSent : l.orderCancelledMsg,
+      );
+    }
   } on CheckoutError catch (e) {
     if (context.mounted) {
       showAppSnack(context, checkoutErrorText(l, e.failure), error: true);
     }
   } finally {
     ref.invalidate(myOrdersProvider);
-    ref.invalidate(myOrderProvider(orderId));
+    ref.invalidate(myOrderProvider(order.id));
+  }
+}
+
+const cancelReasons = [
+  'changed_mind',
+  'too_long',
+  'wrong_address',
+  'wrong_items',
+  'duplicate',
+  'other',
+];
+
+String cancelReasonLabel(AppLocalizations l, String? code) => switch (code) {
+  'changed_mind' => l.cancelReasonChangedMind,
+  'too_long' => l.cancelReasonTooLong,
+  'wrong_address' => l.cancelReasonWrongAddress,
+  'wrong_items' => l.cancelReasonWrongItems,
+  'duplicate' => l.cancelReasonDuplicate,
+  _ => l.cancelReasonOther,
+};
+
+/// Pops (reason, note).
+class CancelSheet extends StatefulWidget {
+  const CancelSheet({super.key, required this.request});
+
+  /// The restaurant already accepted: this sends a request.
+  final bool request;
+
+  @override
+  State<CancelSheet> createState() => _CancelSheetState();
+}
+
+class _CancelSheetState extends State<CancelSheet> {
+  String? _reason;
+  final _note = TextEditingController();
+
+  @override
+  void dispose() {
+    _note.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      child: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+        children: [
+          Text(
+            widget.request ? l.cancelRequestTitle : l.cancelOrderTitle,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: AppColors.ink,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            widget.request ? l.cancelRequestExplain : l.cancelFreeExplain,
+            style: TextStyle(fontSize: 14, height: 1.45, color: AppColors.body),
+          ),
+          const SizedBox(height: 18),
+          Text(
+            l.cancelWhy.toUpperCase(),
+            style: Theme.of(context).textTheme.labelMedium,
+          ),
+          const SizedBox(height: 8),
+          RadioGroup<String>(
+            groupValue: _reason,
+            onChanged: (v) => setState(() => _reason = v),
+            child: Column(
+              children: [
+                for (final r in cancelReasons)
+                  RadioListTile<String>(
+                    key: Key('reason:$r'),
+                    value: r,
+                    title: Text(cancelReasonLabel(l, r)),
+                    activeColor: AppColors.primary,
+                    contentPadding: EdgeInsets.zero,
+                    dense: true,
+                  ),
+              ],
+            ),
+          ),
+          if (widget.request) ...[
+            const SizedBox(height: 8),
+            TextField(
+              controller: _note,
+              maxLength: 200,
+              maxLines: 2,
+              decoration: InputDecoration(hintText: l.cancelNoteHint),
+            ),
+          ],
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(l.keepOrder),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: FilledButton(
+                  key: const Key('confirm-cancel'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.danger,
+                  ),
+                  onPressed: _reason == null
+                      ? null
+                      : () => Navigator.pop(context, (
+                          _reason!,
+                          _note.text.trim(),
+                        )),
+                  child: Text(
+                    widget.request ? l.sendCancelRequest : l.cancelOrder,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

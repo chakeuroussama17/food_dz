@@ -54,6 +54,7 @@ class OwnerLiveController extends Notifier<OwnerLiveState> {
       ref.invalidate(ownerActiveOrdersProvider);
       ref.invalidate(ownerHistoryProvider);
       ref.invalidate(ownerCashPendingProvider);
+      ref.invalidate(ownerReportProvider);
     }
 
     final sub = ref

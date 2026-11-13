@@ -10,7 +10,8 @@ export const root = join(here, '..');
 export const read = (p) => readFileSync(p, 'utf8');
 
 /** New database with the Supabase stand-in, all migrations and the seed. */
-export async function freshDb(users = []) {
+/** [taxRate]: older tests check exact totals, so tax is off unless asked. */
+export async function freshDb(users = [], { taxRate = 0 } = {}) {
   const db = new PGlite();
   await db.exec(read(join(here, 'supabase_stub.sql')));
   const migrations = readdirSync(join(root, 'migrations'))
@@ -18,6 +19,7 @@ export async function freshDb(users = []) {
     .sort();
   for (const m of migrations) await db.exec(read(join(root, 'migrations', m)));
   await db.exec(read(join(root, 'seed.sql')));
+  await db.query(`update public.app_config set tax_rate = $1`, [taxRate]);
   for (const [id, email, name] of users) {
     await db.query(
       `insert into auth.users (id, email, raw_user_meta_data) values ($1, $2, $3)`,

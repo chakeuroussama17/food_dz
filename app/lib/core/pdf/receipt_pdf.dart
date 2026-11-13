@@ -218,7 +218,7 @@ Future<Uint8List> buildReceiptPdf(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   _t(
-                    b.businessName.isEmpty ? 'Food' : b.businessName,
+                    b.businessName.isEmpty ? 'foodfennec' : b.businessName,
                     pw.TextStyle(
                       fontSize: 22,
                       fontWeight: pw.FontWeight.bold,

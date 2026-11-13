@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/env.dart';
+import '../../../core/i18n/locale_controller.dart';
 import '../../auth/data/auth_providers.dart';
 import '../../catalog/data/catalog_models.dart';
 
@@ -24,7 +25,15 @@ class OwnedRestaurant {
     this.prepMinutes = 20,
     this.isActive = false,
     this.isOpen = false,
+    this.role = 'owner',
   });
+
+  /// The signed-in user's role here: owner, manager or staff.
+  final String role;
+  bool get isOwner => role == 'owner';
+
+  /// Menu, details, reports, statements.
+  bool get canManage => role == 'owner' || role == 'manager';
 
   final String id;
   final String slug;
@@ -58,6 +67,7 @@ class OwnedRestaurant {
     prepMinutes: prepMinutes,
     isActive: isActive,
     isOpen: isOpen ?? this.isOpen,
+    role: role,
   );
 
   factory OwnedRestaurant.fromJson(Map<String, dynamic> j) => OwnedRestaurant(
@@ -75,6 +85,7 @@ class OwnedRestaurant {
     prepMinutes: (j['prep_minutes'] as num?)?.toInt() ?? 20,
     isActive: (j['is_active'] as bool?) ?? false,
     isOpen: (j['is_open'] as bool?) ?? false,
+    role: (j['my_role'] as String?) ?? 'owner',
   );
 }
 
@@ -168,8 +179,16 @@ class MenuItemInput {
 }
 
 abstract interface class OwnerRepository {
-  /// Null when the account has no restaurant.
-  Future<OwnedRestaurant?> myRestaurant();
+  /// Every outlet the account belongs to, with its role there.
+  Future<List<OwnedRestaurant>> myRestaurants();
+
+  /// The outlet's team. Managers and owners.
+  Future<List<TeamMember>> team(String restaurantId);
+
+  /// Owners only. Throws [TeamError].
+  Future<void> addMember(String restaurantId, String email, String role);
+  Future<void> setMemberRole(String restaurantId, String userId, String role);
+  Future<void> removeMember(String restaurantId, String userId);
 
   /// Makes the signed-in account a restaurant owner (inactive until the
   /// admin approves). Returns the restaurant id.
@@ -179,7 +198,9 @@ abstract interface class OwnerRepository {
   Future<void> setOpen(String restaurantId, bool open);
 
   Future<List<MenuItem>> items(String restaurantId);
-  Future<void> addItem(String restaurantId, MenuItemInput input);
+
+  /// Returns the new dish's id.
+  Future<String> addItem(String restaurantId, MenuItemInput input);
   Future<void> updateItem(String itemId, MenuItemInput input);
   Future<void> setItemAvailable(String itemId, bool available);
   Future<void> deleteItem(String itemId);
@@ -190,6 +211,24 @@ abstract interface class OwnerRepository {
     Uint8List bytes,
     String extension,
   );
+
+  /// Deletes the login; the restaurant is archived (hidden) and its orders
+  /// and statements kept. Throws [DeleteRestaurantError].
+  Future<void> deleteMyAccount();
+}
+
+enum DeleteRestaurantFailure {
+  activeOrders,
+  cashPending,
+  unpaidCommission,
+  network,
+}
+
+class DeleteRestaurantError implements Exception {
+  const DeleteRestaurantError(this.failure);
+  final DeleteRestaurantFailure failure;
+  @override
+  String toString() => 'DeleteRestaurantError($failure)';
 }
 
 const _itemCols =
@@ -201,11 +240,70 @@ class SupabaseOwnerRepository implements OwnerRepository {
   final SupabaseClient _db;
 
   @override
-  Future<OwnedRestaurant?> myRestaurant() async {
-    final rows = await _db.rpc('my_restaurant') as List;
-    if (rows.isEmpty) return null;
-    return OwnedRestaurant.fromJson(rows.first as Map<String, dynamic>);
+  Future<List<OwnedRestaurant>> myRestaurants() async {
+    List rows;
+    try {
+      rows = await _db.rpc('my_restaurants') as List;
+    } on PostgrestException {
+      // Database not updated yet (outlets SQL): one restaurant.
+      rows = await _db.rpc('my_restaurant') as List;
+    }
+    return [
+      for (final r in rows) OwnedRestaurant.fromJson(r as Map<String, dynamic>),
+    ];
   }
+
+  @override
+  Future<List<TeamMember>> team(String restaurantId) async {
+    final rows =
+        await _db.rpc(
+              'restaurant_team',
+              params: {'p_restaurant_id': restaurantId},
+            )
+            as List;
+    return [
+      for (final r in rows) TeamMember.fromJson(r as Map<String, dynamic>),
+    ];
+  }
+
+  Future<void> _team(String fn, Map<String, dynamic> params) async {
+    try {
+      await _db.rpc(fn, params: params);
+    } on PostgrestException catch (e) {
+      final m = e.message;
+      throw TeamError(switch (m) {
+        _ when m.contains('user_not_found') => TeamFailure.userNotFound,
+        _ when m.contains('user_has_other_role') => TeamFailure.otherRole,
+        _ when m.contains('already_member') => TeamFailure.alreadyMember,
+        _ when m.contains('last_owner') => TeamFailure.lastOwner,
+        _ => TeamFailure.notAllowed,
+      });
+    } catch (_) {
+      throw const TeamError(TeamFailure.network);
+    }
+  }
+
+  @override
+  Future<void> addMember(String restaurantId, String email, String role) =>
+      _team('owner_add_member', {
+        'p_restaurant_id': restaurantId,
+        'p_email': email.trim(),
+        'p_role': role,
+      });
+
+  @override
+  Future<void> setMemberRole(String restaurantId, String userId, String role) =>
+      _team('owner_set_member_role', {
+        'p_restaurant_id': restaurantId,
+        'p_user_id': userId,
+        'p_role': role,
+      });
+
+  @override
+  Future<void> removeMember(String restaurantId, String userId) => _team(
+    'owner_remove_member',
+    {'p_restaurant_id': restaurantId, 'p_user_id': userId},
+  );
 
   @override
   Future<String> register(RestaurantRegistration r) async {
@@ -244,9 +342,14 @@ class SupabaseOwnerRepository implements OwnerRepository {
   }
 
   @override
-  Future<void> addItem(String restaurantId, MenuItemInput input) => _db
-      .from('menu_items')
-      .insert({...input.toJson(), 'restaurant_id': restaurantId});
+  Future<String> addItem(String restaurantId, MenuItemInput input) async {
+    final row = await _db
+        .from('menu_items')
+        .insert({...input.toJson(), 'restaurant_id': restaurantId})
+        .select('id')
+        .single();
+    return row['id'] as String;
+  }
 
   @override
   Future<void> updateItem(String itemId, MenuItemInput input) =>
@@ -283,6 +386,26 @@ class SupabaseOwnerRepository implements OwnerRepository {
     );
     return bucket.getPublicUrl(path);
   }
+
+  @override
+  Future<void> deleteMyAccount() async {
+    try {
+      await _db.rpc('delete_my_restaurant_account');
+    } on PostgrestException catch (e) {
+      final m = e.message;
+      throw DeleteRestaurantError(
+        m.contains('active_orders')
+            ? DeleteRestaurantFailure.activeOrders
+            : m.contains('cash_pending')
+            ? DeleteRestaurantFailure.cashPending
+            : m.contains('unpaid_commission')
+            ? DeleteRestaurantFailure.unpaidCommission
+            : DeleteRestaurantFailure.network,
+      );
+    } catch (_) {
+      throw const DeleteRestaurantError(DeleteRestaurantFailure.network);
+    }
+  }
 }
 
 final ownerRepositoryProvider = Provider<OwnerRepository>((ref) {
@@ -292,11 +415,91 @@ final ownerRepositoryProvider = Provider<OwnerRepository>((ref) {
   return SupabaseOwnerRepository(Supabase.instance.client);
 });
 
-/// The signed-in owner's restaurant (reloads on login / logout).
-final myRestaurantProvider = FutureProvider<OwnedRestaurant?>((ref) {
+/// Every outlet of the signed-in account (reloads on login / logout).
+final myRestaurantsProvider = FutureProvider<List<OwnedRestaurant>>((ref) {
   ref.watch(currentUserIdProvider);
-  return ref.watch(ownerRepositoryProvider).myRestaurant();
+  return ref.watch(ownerRepositoryProvider).myRestaurants();
 });
+
+/// The outlet the app shows (chosen in the header, kept on the device).
+class SelectedOutlet extends Notifier<String?> {
+  static const _key = 'outlet_id';
+
+  @override
+  String? build() => ref.read(sharedPrefsProvider).getString(_key);
+
+  Future<void> select(String id) async {
+    state = id;
+    await ref.read(sharedPrefsProvider).setString(_key, id);
+  }
+}
+
+final selectedOutletProvider = NotifierProvider<SelectedOutlet, String?>(
+  SelectedOutlet.new,
+);
+
+/// The outlet shown in the app: the chosen one, else the first.
+final myRestaurantProvider = FutureProvider<OwnedRestaurant?>((ref) async {
+  final all = await ref.watch(myRestaurantsProvider.future);
+  if (all.isEmpty) return null;
+  final id = ref.watch(selectedOutletProvider);
+  return all.where((r) => r.id == id).firstOrNull ?? all.first;
+});
+
+/// Outlet filter for the order calls: null with a single outlet (works
+/// before the outlets SQL is applied), else the shown outlet.
+final outletFilterProvider = FutureProvider<String?>((ref) async {
+  final all = await ref.watch(myRestaurantsProvider.future);
+  if (all.length < 2) return null;
+  return (await ref.watch(myRestaurantProvider.future))?.id;
+});
+
+/// Someone on an outlet's team.
+class TeamMember {
+  const TeamMember({
+    required this.userId,
+    required this.name,
+    required this.email,
+    required this.role,
+    this.since,
+  });
+
+  final String userId;
+  final String name;
+  final String email;
+  final String role;
+  final DateTime? since;
+
+  factory TeamMember.fromJson(Map<String, dynamic> j) => TeamMember(
+    userId: j['user_id'] as String,
+    name: (j['full_name'] as String?) ?? '',
+    email: (j['email'] as String?) ?? '',
+    role: j['role'] as String,
+    since: j['created_at'] == null
+        ? null
+        : DateTime.parse(j['created_at'] as String).toLocal(),
+  );
+}
+
+enum TeamFailure {
+  userNotFound,
+  otherRole,
+  alreadyMember,
+  lastOwner,
+  notAllowed,
+  network,
+}
+
+class TeamError implements Exception {
+  const TeamError(this.failure);
+  final TeamFailure failure;
+  @override
+  String toString() => 'TeamError($failure)';
+}
+
+final teamProvider = FutureProvider.family<List<TeamMember>, String>(
+  (ref, restaurantId) => ref.watch(ownerRepositoryProvider).team(restaurantId),
+);
 
 final myItemsProvider = FutureProvider.family<List<MenuItem>, String>(
   (ref, restaurantId) => ref.watch(ownerRepositoryProvider).items(restaurantId),

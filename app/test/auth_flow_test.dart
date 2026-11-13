@@ -29,6 +29,17 @@ Future<void> tapText(WidgetTester t, String text) async {
   await t.pumpAndSettle();
 }
 
+/// Wilaya (from the list) and commune on the sign-up form.
+Future<void> fillPlace(WidgetTester t) async {
+  await t.ensureVisible(find.byKey(const Key('wilaya')));
+  await t.pumpAndSettle();
+  await t.tap(find.byKey(const Key('wilaya')));
+  await t.pumpAndSettle();
+  await t.tap(find.text('02 - Chlef').last);
+  await t.pumpAndSettle();
+  await type(t, 'Commune', 'Ténès');
+}
+
 void main() {
   setUpAll(loadFonts);
 
@@ -99,6 +110,7 @@ void main() {
     await type(tester, 'Name', 'Amina');
     await type(tester, 'Email', 'amina@mail.dz');
     await type(tester, 'Phone', '0661 23 45 67');
+    await fillPlace(tester);
     await type(tester, 'Password', 'password1');
     await type(tester, 'Re-type password', 'password2');
     await tapText(tester, 'SIGN UP');
@@ -131,12 +143,20 @@ void main() {
     await type(tester, 'Name', 'Oussama');
     await type(tester, 'Email', 'oussama@mail.dz');
     await type(tester, 'Phone', '0661 23 45 67');
+    await fillPlace(tester);
     await type(tester, 'Password', 'password1');
     await type(tester, 'Re-type password', 'password1');
     await tapText(tester, 'SIGN UP');
     expect(find.byType(VerifyPage), findsNothing);
     expect(find.byType(HomePage), findsOneWidget);
     expect(find.text('Pizzeria El Bahdja'), findsWidgets);
+    // Wilaya, commune, language and platform go with the sign-up.
+    expect(repo.lastSignupDetails, {
+      'wilaya': '2',
+      'commune': 'Ténès',
+      'lang': 'en',
+      'platform': 'android',
+    });
   });
 
   testWidgets('sign up with an existing email shows an error', (tester) async {
@@ -146,6 +166,7 @@ void main() {
     await type(tester, 'Name', 'Karim');
     await type(tester, 'Email', 'k@mail.dz');
     await type(tester, 'Phone', '0661 23 45 67');
+    await fillPlace(tester);
     await type(tester, 'Password', 'password1');
     await type(tester, 'Re-type password', 'password1');
     await tapText(tester, 'SIGN UP');

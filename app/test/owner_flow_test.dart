@@ -132,6 +132,7 @@ void main() {
 
   testWidgets('add, edit, hide and delete a dish', (t) async {
     final owner = await ownerApp(t);
+    await tap(t, find.bySemanticsLabel('My menu'));
     await tap(t, find.byTooltip('Add new item'));
     expect(find.byType(OwnerItemFormPage), findsOneWidget);
 
@@ -145,8 +146,7 @@ void main() {
     expect(owner.dishes.single.name, 'Burger maison');
     expect(owner.dishes.single.categoryId, 'c-burger');
 
-    // Menu tab lists it; switch hides it.
-    await tap(t, find.bySemanticsLabel('My menu'));
+    // Back on the menu, which lists it; the switch hides it.
     expect(find.byType(OwnerMenuPage), findsOneWidget);
     expect(find.text('Burger maison'), findsOneWidget);
     await tap(t, find.byType(Switch).first);
@@ -173,7 +173,8 @@ void main() {
 
   testWidgets('profile edits are saved', (t) async {
     final owner = await ownerApp(t);
-    await tap(t, find.bySemanticsLabel('Restaurant profile'));
+    await tap(t, find.bySemanticsLabel('Account'));
+    await tap(t, find.text('Restaurant profile'));
     await t.enterText(input('Description'), 'Cuisine maison');
     await t.enterText(input('Preparation time'), '35');
     await tap(t, find.text('SAVE CHANGES'));

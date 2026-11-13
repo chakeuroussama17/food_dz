@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:food_app/features/restaurant_owner/data/owner_orders_repository.dart';
@@ -10,6 +12,7 @@ import 'helpers/fake_auth.dart';
 class OwnerSetup {
   final orders = FakeOwnerOrdersRepository();
   final sound = FakeAlertSound();
+  final pdf = FakePdfOutput();
 }
 
 Future<OwnerSetup> ownerApp(WidgetTester t, {OwnerSetup? setup}) async {
@@ -33,6 +36,7 @@ Future<OwnerSetup> ownerApp(WidgetTester t, {OwnerSetup? setup}) async {
     owner: owner,
     ownerOrders: s.orders,
     sound: s.sound,
+    pdf: s.pdf,
   );
   return s;
 }
@@ -60,7 +64,10 @@ void main() {
     // ORDER REQUEST = 01, RUNNING ORDERS = 00.
     expect(find.text('01'), findsOneWidget);
     expect(find.text('00'), findsOneWidget);
-    expect(find.text('1'), findsOneWidget); // badge on the orders icon
+    expect(
+      find.descendant(of: find.byType(Badge), matching: find.text('1')),
+      findsOneWidget,
+    ); // badge on the orders icon
     expect(s.sound.plays, 1);
 
     // Rings again every 20 s while nobody handles it.
@@ -224,5 +231,42 @@ void main() {
     expect(find.byType(OwnerOrdersPage), findsOneWidget);
     expect(find.text('جديدة (1)'), findsOneWidget);
     expect(t.takeException(), isNull);
+  });
+
+  testWidgets('history: download the receipt of a delivered order', (t) async {
+    final s = OwnerSetup();
+    s.orders.orders.add(
+      OwnerOrder(
+        id: 'd1',
+        code: 'DLV001',
+        status: 'delivered',
+        customerName: 'Amina',
+        customerPhone: '0550123456',
+        addressText: 'Rue Didouche 12',
+        area: 'Alger Centre',
+        foodTotal: 1400,
+        deliveryFee: 200,
+        total: 1600,
+        placedAt: DateTime.now().subtract(const Duration(hours: 2)),
+        deliveredAt: DateTime.now().subtract(const Duration(hours: 1)),
+        driverName: 'Rachid',
+        items: const [
+          OrderLine(
+            name: 'Pizza Margherita',
+            unitPrice: 700,
+            quantity: 2,
+            lineTotal: 1400,
+          ),
+        ],
+      ),
+    );
+    await ownerApp(t, setup: s);
+    await openOrders(t);
+    await tap(t, find.textContaining('History'));
+    await tap(t, find.text('#DLV001'));
+    await tap(t, find.text('Download receipt'));
+    expect(s.pdf.downloads.keys, ['recu-DLV001.pdf']);
+    final bytes = s.pdf.downloads.values.single;
+    expect(ascii.decode(bytes.sublist(0, 5)), '%PDF-');
   });
 }

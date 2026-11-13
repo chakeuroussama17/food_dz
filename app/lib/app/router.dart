@@ -18,6 +18,7 @@ import '../features/auth/pages/reset_password_page.dart';
 import '../features/auth/pages/signup_page.dart';
 import '../features/auth/pages/verify_page.dart';
 import '../features/cart/cart_page.dart';
+import '../features/cart/checkout_page.dart';
 import '../features/catalog/pages/category_page.dart';
 import '../features/catalog/pages/item_page.dart';
 import '../features/catalog/pages/restaurant_page.dart';
@@ -26,6 +27,7 @@ import '../features/dev/gallery_page.dart';
 import '../features/driver/pages/driver_home_page.dart';
 import '../features/driver/pages/driver_order_page.dart';
 import '../features/driver/pages/driver_other_pages.dart';
+import '../features/driver/pages/driver_profile_pages.dart';
 import '../features/driver/pages/driver_register_page.dart';
 import '../features/admin/pages/admin_drivers_page.dart';
 import '../features/admin/pages/admin_banners_page.dart';
@@ -44,13 +46,21 @@ import '../features/admin/pages/admin_restaurants_page.dart';
 import '../features/admin/pages/admin_settings_page.dart';
 import '../features/catalog/data/catalog_models.dart';
 import '../features/restaurant_owner/data/owner_repository.dart';
+import '../features/restaurant_owner/pages/owner_account_page.dart';
 import '../features/restaurant_owner/pages/owner_dashboard_page.dart';
+import '../features/restaurant_owner/pages/owner_insights_page.dart';
 import '../features/restaurant_owner/pages/owner_item_form_page.dart';
 import '../features/restaurant_owner/pages/owner_menu_page.dart';
 import '../features/restaurant_owner/pages/owner_orders_page.dart';
+import '../features/restaurant_owner/pages/owner_orders_table_page.dart';
 import '../features/restaurant_owner/pages/owner_profile_page.dart';
 import '../features/restaurant_owner/pages/owner_statements_page.dart';
 import '../features/restaurant_owner/pages/restaurant_register_page.dart';
+import '../features/admin/pages/admin_ratings_page.dart';
+import '../features/admin/pages/admin_promos_page.dart';
+import '../features/qr/qr_page.dart';
+import '../features/admin/pages/admin_customers_page.dart';
+import '../features/qr/scan_page.dart';
 
 /// Pages only for signed-out users.
 const _authPaths = {
@@ -201,7 +211,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/r/:slug',
-        builder: (_, s) => RestaurantPage(slug: s.pathParameters['slug']!),
+        builder: (_, s) => RestaurantPage(
+          slug: s.pathParameters['slug']!,
+          src: s.uri.queryParameters['src'],
+        ),
         routes: [
           GoRoute(
             path: 'item/:itemId',
@@ -212,7 +225,9 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      GoRoute(path: '/scan', builder: (_, _) => const ScanPage()),
       GoRoute(path: '/cart', builder: (_, _) => const CartPage()),
+      GoRoute(path: '/checkout', builder: (_, _) => const CheckoutPage()),
       GoRoute(path: '/terms', builder: (_, _) => const TermsPage()),
       GoRoute(
         path: '/orders',
@@ -267,6 +282,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (_, _) => const AdminCustomersPage(),
           ),
           GoRoute(path: 'drivers', builder: (_, _) => const AdminDriversPage()),
+          GoRoute(path: 'ratings', builder: (_, _) => const AdminRatingsPage()),
+          GoRoute(path: 'promos', builder: (_, _) => const AdminPromosPage()),
           GoRoute(path: 'banners', builder: (_, _) => const AdminBannersPage()),
         ],
       ),
@@ -286,6 +303,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'account',
             builder: (_, _) => const DriverAccountPage(),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                builder: (_, _) => const DriverEditProfilePage(),
+              ),
+              GoRoute(
+                path: 'rating',
+                builder: (_, _) => const DriverRatingPage(),
+              ),
+            ],
           ),
           GoRoute(
             path: 'orders/:id',
@@ -321,10 +348,16 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
           GoRoute(path: 'profile', builder: (_, _) => const OwnerProfilePage()),
+          GoRoute(path: 'account', builder: (_, _) => const OwnerAccountPage()),
+          GoRoute(
+            path: 'insights',
+            builder: (_, _) => const OwnerInsightsPage(),
+          ),
           GoRoute(
             path: 'statements',
             builder: (_, _) => const OwnerStatementsPage(),
           ),
+          GoRoute(path: 'qr', builder: (_, _) => const OwnerQrPage()),
           GoRoute(
             path: 'orders',
             builder: (_, s) => OwnerOrdersPage(
@@ -336,6 +369,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                 _ => null,
               },
             ),
+            routes: [
+              GoRoute(
+                path: 'table',
+                builder: (_, _) => const OwnerOrdersTablePage(),
+              ),
+            ],
           ),
         ],
       ),

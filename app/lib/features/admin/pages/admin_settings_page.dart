@@ -14,6 +14,7 @@ import '../../auth/data/auth_providers.dart';
 import '../../catalog/widgets/browse_widgets.dart';
 import '../data/admin_models.dart';
 import '../data/admin_repository.dart';
+import '../../qr/qr_repository.dart';
 import '../widgets/admin_widgets.dart';
 
 /// Delivery fee, default commission, business details printed on
@@ -63,6 +64,7 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
   late final _autoReject = TextEditingController(
     text: '${c.autoRejectMinutes}',
   );
+  late final _publicUrl = TextEditingController(text: c.publicBaseUrl);
   bool _saving = false;
 
   @override
@@ -77,6 +79,7 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
       _tax,
       _hours,
       _autoReject,
+      _publicUrl,
     ]) {
       x.dispose();
     }
@@ -104,6 +107,11 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
               autoRejectMinutes: int.parse(_autoReject.text.trim()),
             ),
           );
+      final url = _publicUrl.text.trim();
+      if (url != c.publicBaseUrl) {
+        await ref.read(qrRepositoryProvider).setPublicBaseUrl(url);
+        ref.invalidate(publicBaseUrlProvider);
+      }
       ref.invalidate(adminConfigProvider);
       ref.invalidate(adminRestaurantsProvider);
       if (mounted) showAppSnack(context, l.saved);
@@ -237,6 +245,46 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
               ],
             ),
           ),
+          const SizedBox(height: 20),
+          Text(
+            l.qrLinkSetting,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.ink,
+            ),
+          ),
+          const SizedBox(height: 12),
+          AdminCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                LabeledField(
+                  key: const Key('public-url'),
+                  label: l.qrLinkLabel,
+                  controller: _publicUrl,
+                  keyboardType: TextInputType.url,
+                  textDirection: TextDirection.ltr,
+                  hint: 'https://foodfennec.com',
+                  validator: (v) =>
+                      RegExp(
+                        r'^https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(:[0-9]{1,5})?/?$',
+                      ).hasMatch((v ?? '').trim())
+                      ? null
+                      : l.errQrLink,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l.qrLinkHelp,
+                  style: TextStyle(
+                    fontSize: 13,
+                    height: 1.45,
+                    color: AppColors.muted,
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 24),
           AppButton(label: l.save, loading: _saving, onPressed: _save),
           const SizedBox(height: 24),
@@ -252,7 +300,7 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
                 icon: Icons.people_outline_rounded,
                 iconColor: const Color(0xFF413DFB),
                 label: l.customers,
-                onTap: () => context.push('/admin/customers'),
+                onTap: () => context.go('/admin/customers'),
               ),
               SettingsTile(
                 icon: Icons.translate_rounded,
@@ -275,120 +323,6 @@ class _SettingsFormState extends ConsumerState<_SettingsForm> {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Customers with search.
-class AdminCustomersPage extends ConsumerStatefulWidget {
-  const AdminCustomersPage({super.key});
-
-  @override
-  ConsumerState<AdminCustomersPage> createState() => _AdminCustomersPageState();
-}
-
-class _AdminCustomersPageState extends ConsumerState<AdminCustomersPage> {
-  String _search = '';
-  late Future<List<AdminCustomer>> _future = _load();
-
-  Future<List<AdminCustomer>> _load() =>
-      ref.read(adminRepositoryProvider).customers(search: _search);
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final lang = Localizations.localeOf(context).languageCode;
-    return Scaffold(
-      backgroundColor: AppColors.canvas,
-      body: SafeArea(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 760),
-            child: Column(
-              children: [
-                PageHeader(title: l.customers),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: l.searchCustomers,
-                      prefixIcon: const Icon(Icons.search_rounded),
-                      fillColor: AppColors.surface,
-                    ),
-                    onSubmitted: (v) => setState(() {
-                      _search = v;
-                      _future = _load();
-                    }),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Expanded(
-                  child: FutureBuilder<List<AdminCustomer>>(
-                    future: _future,
-                    builder: (context, snap) {
-                      if (snap.connectionState != ConnectionState.done) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primary,
-                          ),
-                        );
-                      }
-                      if (snap.hasError) {
-                        return AsyncBody<void>(
-                          value: AsyncError(snap.error!, StackTrace.empty),
-                          builder: (_) => const SizedBox.shrink(),
-                          onRetry: () => setState(() => _future = _load()),
-                        );
-                      }
-                      final list = snap.data!;
-                      return ListView(
-                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                        children: [
-                          AdminCard(
-                            padding: EdgeInsets.zero,
-                            child: Column(
-                              children: [
-                                for (final c in list)
-                                  ListTile(
-                                    title: Text(
-                                      c.fullName.isEmpty ? c.email : c.fullName,
-                                    ),
-                                    subtitle: Text(
-                                      [
-                                        c.email,
-                                        c.phone ?? '',
-                                      ].where((x) => x.isNotEmpty).join(' · '),
-                                    ),
-                                    trailing: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(l.ordersCount(c.ordersCount)),
-                                        Text(
-                                          formatDzd(c.spent, lang),
-                                          style: TextStyle(
-                                            color: AppColors.muted,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

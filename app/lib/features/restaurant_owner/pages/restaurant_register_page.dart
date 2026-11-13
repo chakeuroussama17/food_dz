@@ -100,7 +100,7 @@ class _RestaurantRegisterPageState
         ),
       );
       await session.refreshRole();
-      ref.invalidate(myRestaurantProvider);
+      ref.invalidate(myRestaurantsProvider);
       if (mounted) showAppSnack(context, l.registrationDone);
     } on AuthError catch (e) {
       if (mounted) showAppSnack(context, authErrorText(l, e), error: true);

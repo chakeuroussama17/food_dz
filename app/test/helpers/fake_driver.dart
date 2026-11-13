@@ -45,6 +45,31 @@ class FakeDriverRepository implements DriverRepository {
     return o;
   }
 
+  /// An order the driver already has, in [status].
+  DriverOrder makeOrder(String id, {String status = 'picked_up'}) {
+    final o = _toMine(addAvailable(id: id));
+    offers.removeWhere((x) => x.id == id);
+    return DriverOrder(
+      id: o.id,
+      code: o.code,
+      status: status,
+      restaurantName: o.restaurantName,
+      restaurantAddress: o.restaurantAddress,
+      restaurantArea: o.restaurantArea,
+      restaurantPhone: o.restaurantPhone,
+      customerName: o.customerName,
+      customerPhone: o.customerPhone,
+      addressText: o.addressText,
+      area: o.area,
+      notes: o.notes,
+      foodTotal: o.foodTotal,
+      deliveryFee: o.deliveryFee,
+      total: o.total,
+      placedAt: o.placedAt,
+      items: o.items,
+    );
+  }
+
   DriverOrder _toMine(AvailableOrder a) => DriverOrder(
     id: a.id,
     code: a.code,
@@ -155,6 +180,54 @@ class FakeDriverRepository implements DriverRepository {
     offers.remove(a);
     mine.add(_toMine(a));
   }
+
+  /// What [stats] returns.
+  DriverStats statsValue = const DriverStats();
+  bool deleted = false;
+
+  @override
+  Future<DriverStats> stats() async => statsValue;
+
+  @override
+  Future<void> updateProfile({
+    required String fullName,
+    required String phone,
+    required Vehicle vehicle,
+  }) async {
+    final name = fullName.trim().replaceAll(RegExp(r'\s+'), ' ');
+    final digits = phone.replaceAll(RegExp(r'[^0-9]'), '');
+    if (name.length < 2) throw const DriverError(DriverFailure.invalidName);
+    if (!RegExp(r'^0[567][0-9]{8}$').hasMatch(digits)) {
+      throw const DriverError(DriverFailure.invalidPhone);
+    }
+    calls.add('profile:$name:$digits:${vehicle.name}');
+    final p = profile!;
+    profile = DriverProfile(
+      id: p.id,
+      fullName: name,
+      phone: digits,
+      vehicle: vehicle,
+      isApproved: p.isApproved,
+      isOnline: p.isOnline,
+    );
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    if (mine.any((o) => o.isActive)) {
+      throw const DriverError(DriverFailure.activeOrders);
+    }
+    if (cash.isNotEmpty) throw const DriverError(DriverFailure.cashPending);
+    calls.add('delete');
+    deleted = true;
+  }
+
+  /// Positions sent by the rider's phone.
+  final locations = <(double, double)>[];
+
+  @override
+  Future<void> updateLocation(double lat, double lng) async =>
+      locations.add((lat, lng));
 
   @override
   Future<void> release(String orderId) async {

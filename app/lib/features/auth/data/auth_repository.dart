@@ -56,6 +56,7 @@ abstract interface class AuthRepository {
     required String email,
     required String password,
     String? phone,
+    Map<String, Object> details = const {},
   });
   Future<void> verifySignupCode({required String email, required String code});
   Future<void> resendSignupCode(String email);
@@ -109,13 +110,16 @@ class SupabaseAuthRepository implements AuthRepository {
     required String email,
     required String password,
     String? phone,
+    Map<String, Object> details = const {},
   }) async {
     var signedIn = false;
     await _guard(() async {
       final res = await _auth.signUp(
         email: email.trim(),
         password: password,
-        data: {'full_name': name.trim(), 'phone': ?phone},
+        // Wilaya, commune, language and platform: kept by the database
+        // trigger when valid (handle_new_user).
+        data: {'full_name': name.trim(), 'phone': ?phone, ...details},
       );
       // With email confirmation on, Supabase hides whether the email is
       // taken: it returns a user with no identities instead of an error.
@@ -258,6 +262,7 @@ class UnconfiguredAuthRepository implements AuthRepository {
     required String email,
     required String password,
     String? phone,
+    Map<String, Object> details = const {},
   }) async => _fail();
   @override
   Future<void> verifySignupCode({

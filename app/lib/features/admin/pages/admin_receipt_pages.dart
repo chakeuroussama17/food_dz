@@ -243,7 +243,7 @@ class _AdminNewReceiptPageState extends ConsumerState<AdminNewReceiptPage> {
                                         ),
                                       ),
                                       Text(
-                                        formatDzd(p.commissionTotal, lang),
+                                        formatDzd(p.amountDue, lang),
                                         style: TextStyle(
                                           fontSize: 28,
                                           fontWeight: FontWeight.w800,
@@ -418,7 +418,7 @@ class _AdminReceiptPageState extends ConsumerState<AdminReceiptPage> {
                                   style: TextStyle(color: AppColors.muted),
                                 ),
                                 Text(
-                                  formatDzd(s.commissionTotal, lang),
+                                  formatDzd(s.amountDue, lang),
                                   style: const TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w800,

@@ -50,13 +50,22 @@ class _OwnerMenuPageState extends ConsumerState<OwnerMenuPage> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       bottomNavigationBar: const OwnerBottomBar(current: OwnerTab.menu),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'add-dish',
+        tooltip: l.addItem,
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        onPressed: () => context.push('/restaurant/menu/new'),
+        icon: const Icon(Icons.add_rounded),
+        label: Text(l.add, style: const TextStyle(fontWeight: FontWeight.w700)),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: AsyncBody(
               value: mine,
-              onRetry: () => ref.invalidate(myRestaurantProvider),
+              onRetry: () => ref.invalidate(myRestaurantsProvider),
               builder: (r) {
                 if (r == null) return const SizedBox.shrink();
                 final items = ref.watch(myItemsProvider(r.id));
@@ -161,7 +170,8 @@ class _OwnerMenuPageState extends ConsumerState<OwnerMenuPage> {
                                     ],
                                   ),
                                 ),
-                              const SizedBox(height: 24),
+                              // Room for the "Add" button.
+                              const SizedBox(height: 88),
                             ],
                           );
                         },

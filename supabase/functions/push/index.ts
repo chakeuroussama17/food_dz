@@ -52,9 +52,14 @@ const T: Record<string, Record<Lang, (v: Vars) => Msg>> = {
     en: (v) => ({ title: "On the way!", body: `${v.driver} is bringing your order. Have ${v.amount} ready.` }),
   },
   delivered: {
-    fr: () => ({ title: "Commande livrée", body: "Bon appétit ! Votre reçu est dans l'application." }),
-    ar: () => ({ title: "تم التوصيل", body: "بالهناء والشفاء! إيصالك في التطبيق." }),
-    en: () => ({ title: "Order delivered", body: "Enjoy your meal! Your receipt is in the app." }),
+    fr: () => ({ title: "Commande livrée", body: "Bon appétit ! Notez votre livreur dans l'application." }),
+    ar: () => ({ title: "تم التوصيل", body: "بالهناء والشفاء! قيّم السائق في التطبيق." }),
+    en: () => ({ title: "Order delivered", body: "Enjoy your meal! Tap to rate your driver." }),
+  },
+  rateReminder: {
+    fr: (v) => ({ title: "Comment était votre repas ?", body: `Notez votre commande chez ${v.restaurant}.` }),
+    ar: (v) => ({ title: "كيف كانت وجبتك؟", body: `قيّم طلبك من ${v.restaurant}.` }),
+    en: (v) => ({ title: "How was your meal?", body: `Rate your order from ${v.restaurant}.` }),
   },
   deliveredOwner: {
     fr: (v) => ({ title: "Commande livrée", body: `#${v.code} : ${v.driver} vous doit ${v.food}.` }),
@@ -65,6 +70,16 @@ const T: Record<string, Record<Lang, (v: Vars) => Msg>> = {
     fr: (v) => ({ title: "Commande refusée", body: `#${v.code} : ${v.reason}` }),
     ar: (v) => ({ title: "تم رفض الطلب", body: `#${v.code}: ${v.reason}` }),
     en: (v) => ({ title: "Order rejected", body: `#${v.code}: ${v.reason}` }),
+  },
+  cancelRequest: {
+    fr: (v) => ({ title: "Demande d'annulation", body: `Le client veut annuler #${v.code}${v.reason ? " (" + v.reason + ")" : ""}. Acceptez ou refusez.` }),
+    ar: (v) => ({ title: "طلب إلغاء", body: `الزبون يريد إلغاء #${v.code}${v.reason ? " (" + v.reason + ")" : ""}. اقبل أو ارفض.` }),
+    en: (v) => ({ title: "Cancellation request", body: `The customer wants to cancel #${v.code}${v.reason ? " (" + v.reason + ")" : ""}. Accept or refuse.` }),
+  },
+  cancelRefused: {
+    fr: (v) => ({ title: "Annulation refusée", body: `${v.restaurant} a déjà préparé #${v.code} : la commande continue.` }),
+    ar: (v) => ({ title: "تم رفض الإلغاء", body: `${v.restaurant} حضّر الطلب #${v.code}: الطلب مستمر.` }),
+    en: (v) => ({ title: "Cancellation refused", body: `${v.restaurant} already prepared #${v.code}: the order goes on.` }),
   },
   cancelled: {
     fr: (v) => ({ title: "Commande annulée", body: `#${v.code}${v.reason ? " : " + v.reason : ""}` }),
@@ -77,6 +92,13 @@ const NO_ANSWER: Record<Lang, string> = {
   fr: "le restaurant n'a pas répondu à temps",
   ar: "لم يرد المطعم في الوقت المحدد",
   en: "the restaurant didn't answer in time",
+};
+
+/** Why the customer wants to cancel (orders.cancel_request_reason). */
+const CANCEL_REASONS: Record<Lang, Record<string, string>> = {
+  fr: { changed_mind: "a changé d'avis", too_long: "trop long", wrong_address: "mauvaise adresse", wrong_items: "erreur dans la commande", duplicate: "commande en double", other: "autre raison" },
+  ar: { changed_mind: "غيّر رأيه", too_long: "وقت طويل", wrong_address: "عنوان خاطئ", wrong_items: "خطأ في الطلب", duplicate: "طلب مكرر", other: "سبب آخر" },
+  en: { changed_mind: "changed their mind", too_long: "taking too long", wrong_address: "wrong address", wrong_items: "mistake in the order", duplicate: "duplicate order", other: "other reason" },
 };
 
 type Vars = {
@@ -113,8 +135,14 @@ function plan(event: string, byCustomer: boolean, hasDriver: boolean): Array<[Wh
       return [["customer", "onTheWay"]];
     case "delivered":
       return [["customer", "delivered"], ["restaurant", "deliveredOwner"]];
+    case "rate_reminder":
+      return [["customer", "rateReminder"]];
     case "rejected":
       return [["customer", "rejected"]];
+    case "cancel_request":
+      return [["restaurant", "cancelRequest"]];
+    case "cancel_refused":
+      return [["customer", "cancelRefused"]];
     case "cancelled":
       return byCustomer
         ? [["restaurant", "cancelled"], ...(hasDriver ? [["driver", "cancelled"] as [Who, string]] : [])]
@@ -196,7 +224,7 @@ Deno.serve(async (req) => {
 
   const { data: o, error } = await db
     .from("orders")
-    .select("id, code, customer_id, driver_id, total, food_total, delivery_fee, area, reject_reason, restaurants(name, owner_id)")
+    .select("id, code, customer_id, driver_id, total, food_total, delivery_fee, area, reject_reason, cancel_request_reason, restaurant_id, restaurants(name, owner_id)")
     .eq("id", order_id)
     .single();
   if (error || !o) return new Response("order not found", { status: 200 });
@@ -220,12 +248,21 @@ Deno.serve(async (req) => {
     return ids.filter((id) => !taken.has(id));
   }
 
+  // Everyone on the outlet's team (owner, managers, staff).
+  async function restaurantTeam(): Promise<string[]> {
+    const { data: team } = await db
+      .from("restaurant_members").select("user_id")
+      .eq("restaurant_id", o!.restaurant_id);
+    const ids = (team ?? []).map((m) => m.user_id as string);
+    return ids.length > 0 ? ids : [r.owner_id ?? ""];
+  }
+
   const steps = plan(event, !!by_customer, !!o.driver_id);
   const project = sa.project_id as string;
   let sent = 0;
 
   for (const [who, key] of steps) {
-    const users = who === "restaurant" ? [r.owner_id]
+    const users = who === "restaurant" ? await restaurantTeam()
       : who === "customer" ? [o.customer_id]
       : who === "driver" ? [o.driver_id]
       : await freeDrivers();
@@ -234,7 +271,9 @@ Deno.serve(async (req) => {
     const { data: tokens } = await db.from("push_tokens").select("token, lang").in("user_id", ids);
     for (const t of tokens ?? []) {
       const lang = (["fr", "ar", "en"].includes(t.lang) ? t.lang : "fr") as Lang;
-      const reason = o.reject_reason === "no_answer" ? NO_ANSWER[lang] : (o.reject_reason ?? "");
+      const reason = event === "cancel_request"
+        ? (CANCEL_REASONS[lang][o.cancel_request_reason ?? ""] ?? "")
+        : o.reject_reason === "no_answer" ? NO_ANSWER[lang] : (o.reject_reason ?? "");
       const msg = T[key][lang]({
         code: o.code,
         amount: money(o.total),

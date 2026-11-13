@@ -14,8 +14,11 @@ enum AdminSection {
   dashboard,
   restaurants,
   drivers,
+  customers,
   orders,
   receipts,
+  ratings,
+  promos,
   settings,
 }
 
@@ -23,8 +26,11 @@ const _paths = {
   AdminSection.dashboard: '/admin',
   AdminSection.restaurants: '/admin/restaurants',
   AdminSection.drivers: '/admin/drivers',
+  AdminSection.customers: '/admin/customers',
   AdminSection.orders: '/admin/orders',
   AdminSection.receipts: '/admin/receipts',
+  AdminSection.ratings: '/admin/ratings',
+  AdminSection.promos: '/admin/promos',
   AdminSection.settings: '/admin/settings',
 };
 
@@ -54,8 +60,11 @@ class AdminScaffold extends StatelessWidget {
       (Icons.space_dashboard_outlined, l.dashboard),
       (Icons.storefront_outlined, l.restaurantsTitle),
       (Icons.delivery_dining_outlined, l.driversTitle),
+      (Icons.people_outline_rounded, l.customers),
       (Icons.receipt_long_outlined, l.orders),
       (Icons.request_quote_outlined, l.receipts),
+      (Icons.star_outline_rounded, l.navRatings),
+      (Icons.local_offer_outlined, l.navPromos),
       (Icons.settings_outlined, l.settings),
     ];
     void go(int i) => context.go(_paths[AdminSection.values[i]]!);

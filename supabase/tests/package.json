@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test db.test.mjs owner.test.mjs admin.test.mjs checkout.test.mjs owner_orders.test.mjs driver.test.mjs cash.test.mjs receipts.test.mjs auto_reject.test.mjs push.test.mjs accounts.test.mjs banners.test.mjs"
+    "test": "node --test db.test.mjs owner.test.mjs admin.test.mjs checkout.test.mjs owner_orders.test.mjs driver.test.mjs cash.test.mjs receipts.test.mjs auto_reject.test.mjs push.test.mjs accounts.test.mjs banners.test.mjs restaurant_insights.test.mjs outlets.test.mjs menu_hours.test.mjs ratings.test.mjs demo_ratings.test.mjs live_tracking.test.mjs rider_profile.test.mjs checkout_promo.test.mjs restaurant_qr.test.mjs customer_data.test.mjs cancel_sanctions.test.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.3.16"

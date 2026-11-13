@@ -59,7 +59,32 @@ class CustomerOrder {
     this.driverName,
     this.driverPhone,
     this.deliveryPhotoPath,
+    this.discountAmount = 0,
+    this.taxAmount = 0,
+    this.promoCode,
+    this.paymentMethod = 'cash',
+    this.cancelledBy,
+    this.cancelReason,
+    this.cancelRequestStatus,
+    this.cancelRequestReason,
   });
+
+  /// customer, restaurant, admin or system.
+  final String? cancelledBy;
+
+  /// changed_mind, too_long, wrong_address, wrong_items, duplicate, other.
+  final String? cancelReason;
+
+  /// After acceptance the customer can only ask: pending, accepted,
+  /// refused or expired (picked up before the restaurant answered).
+  final String? cancelRequestStatus;
+  final String? cancelRequestReason;
+
+  /// Promo code reduction and tax (already inside [total]).
+  final int discountAmount;
+  final int taxAmount;
+  final String? promoCode;
+  final String paymentMethod;
 
   /// Proof of delivery taken by the driver (private storage path).
   final String? deliveryPhotoPath;
@@ -99,8 +124,16 @@ class CustomerOrder {
   bool get isActive => activeOrderStatuses.contains(status);
   bool get isFailed => status == 'rejected' || status == 'cancelled';
 
-  /// Customers can cancel until the restaurant accepts.
-  bool get canCancel => status == 'placed';
+  /// Before the restaurant accepts: cancelled at once. Accepted or ready:
+  /// one cancellation request, the restaurant decides. Picked up: no.
+  bool get canCancel =>
+      status == 'placed' ||
+      ((status == 'accepted' || status == 'ready') &&
+          cancelRequestStatus == null);
+
+  /// Cancelling now sends a request instead of cancelling.
+  bool get cancelNeedsRequest => status == 'accepted' || status == 'ready';
+  bool get cancelRequestPending => cancelRequestStatus == 'pending';
   int get itemCount => items.fold(0, (n, i) => n + i.quantity);
 
   static DateTime? _ts(Object? v) =>
@@ -133,6 +166,14 @@ class CustomerOrder {
     driverName: j['driver_name'] as String?,
     driverPhone: j['driver_phone'] as String?,
     deliveryPhotoPath: j['delivery_photo_path'] as String?,
+    discountAmount: (j['discount_amount'] as num?)?.toInt() ?? 0,
+    taxAmount: (j['tax_amount'] as num?)?.toInt() ?? 0,
+    promoCode: j['promo_code'] as String?,
+    paymentMethod: (j['payment_method'] as String?) ?? 'cash',
+    cancelledBy: j['cancelled_by'] as String?,
+    cancelReason: j['cancel_reason'] as String?,
+    cancelRequestStatus: j['cancel_request_status'] as String?,
+    cancelRequestReason: j['cancel_request_reason'] as String?,
     items: [
       for (final i in (j['items'] as List? ?? const []))
         OrderLine.fromJson(i as Map<String, dynamic>),
@@ -151,10 +192,18 @@ class PlaceOrderRequest {
     required this.expectedTotal,
     required this.clientRef,
     this.notes = '',
+    this.promoCode,
+    this.paymentMethod = 'cash',
   });
 
+  /// Promo code typed by the customer (checked again by the database).
+  final String? promoCode;
+
+  /// 'cash' (card and ccp: coming soon).
+  final String paymentMethod;
+
   final String restaurantId;
-  final List<({String id, int qty})> items;
+  final List<({String id, int qty, List<String> options})> items;
   final String addressId;
   final String phone;
   final String notes;
@@ -181,12 +230,24 @@ enum CheckoutFailure {
   restaurantClosed,
   restaurantUnavailable,
   itemUnavailable,
+  optionsInvalid,
+  accountBlocked,
   pricesChanged,
   tooManyActiveOrders,
   tooManyOrders,
   invalidPhone,
   addressNotFound,
   cannotCancel,
+  alreadyRequested,
+  requestRefused,
+  promoInvalid,
+  promoNotHere,
+  promoNotStarted,
+  promoExpired,
+  promoMinOrder,
+  promoUsedUp,
+  promoAlreadyUsed,
+  paymentUnavailable,
   network,
   unknown,
 }
@@ -204,16 +265,69 @@ CheckoutFailure checkoutFailureFromMessage(String message) {
     ('restaurant_closed', CheckoutFailure.restaurantClosed),
     ('restaurant_unavailable', CheckoutFailure.restaurantUnavailable),
     ('item_unavailable', CheckoutFailure.itemUnavailable),
+    ('options_invalid', CheckoutFailure.optionsInvalid),
+    ('account_blocked', CheckoutFailure.accountBlocked),
     ('prices_changed', CheckoutFailure.pricesChanged),
     ('too_many_active_orders', CheckoutFailure.tooManyActiveOrders),
     ('too_many_orders', CheckoutFailure.tooManyOrders),
     ('invalid_phone', CheckoutFailure.invalidPhone),
     ('address_not_found', CheckoutFailure.addressNotFound),
     ('cannot_cancel', CheckoutFailure.cannotCancel),
+    ('already_requested', CheckoutFailure.alreadyRequested),
+    ('request_refused', CheckoutFailure.requestRefused),
+    ('promo_invalid', CheckoutFailure.promoInvalid),
+    ('promo_not_here', CheckoutFailure.promoNotHere),
+    ('promo_not_started', CheckoutFailure.promoNotStarted),
+    ('promo_expired', CheckoutFailure.promoExpired),
+    ('promo_min_order', CheckoutFailure.promoMinOrder),
+    ('promo_used_up', CheckoutFailure.promoUsedUp),
+    ('promo_already_used', CheckoutFailure.promoAlreadyUsed),
+    ('payment_unavailable', CheckoutFailure.paymentUnavailable),
   ]) {
     if (message.contains(key)) return f;
   }
   return CheckoutFailure.unknown;
+}
+
+/// What a promo code gives on this order (checked by the database).
+class PromoQuote {
+  const PromoQuote({
+    required this.code,
+    required this.discount,
+    required this.kind,
+    required this.value,
+  });
+  final String code;
+  final int discount;
+
+  /// 'percent' or 'amount'.
+  final String kind;
+  final int value;
+}
+
+/// The money of an order before it is placed, computed exactly like the
+/// database: tax = rate × (food − discount), rounded half up, in whole DA.
+class OrderPrice {
+  OrderPrice({
+    required this.food,
+    required this.fee,
+    required double taxRate,
+    int discount = 0,
+  }) : discount = discount.clamp(0, food),
+       tax = _tax(food - discount.clamp(0, food), taxRate);
+
+  final int food;
+  final int fee;
+  final int discount;
+  final int tax;
+
+  int get total => food - discount + tax + fee;
+
+  // Basis points so 0.01 never becomes 0.009999…
+  static int _tax(int base, double rate) {
+    final bp = (rate * 10000).round();
+    return (base * bp + 5000) ~/ 10000;
+  }
 }
 
 /// Random UUID v4 for [PlaceOrderRequest.clientRef].
@@ -227,14 +341,63 @@ String newClientRef([Random? random]) {
       '${h.substring(16, 20)}-${h.substring(20)}';
 }
 
+/// Where the rider of an order is (live tracking), with the restaurant and
+/// the delivery point when they are known.
+class RiderLocation {
+  const RiderLocation({
+    required this.lat,
+    required this.lng,
+    required this.updatedAt,
+    this.toLat,
+    this.toLng,
+    this.shopLat,
+    this.shopLng,
+  });
+  final double lat;
+  final double lng;
+  final DateTime updatedAt;
+  final double? toLat;
+  final double? toLng;
+  final double? shopLat;
+  final double? shopLng;
+
+  factory RiderLocation.fromJson(Map<String, dynamic> j) => RiderLocation(
+    lat: (j['lat'] as num).toDouble(),
+    lng: (j['lng'] as num).toDouble(),
+    updatedAt: DateTime.parse(j['updated_at'] as String).toLocal(),
+    toLat: (j['to_lat'] as num?)?.toDouble(),
+    toLng: (j['to_lng'] as num?)?.toDouble(),
+    shopLat: (j['shop_lat'] as num?)?.toDouble(),
+    shopLng: (j['shop_lng'] as num?)?.toDouble(),
+  );
+}
+
 abstract interface class OrdersRepository {
+  /// The rider's last position while the delivery runs, else null.
+  Future<RiderLocation?> riderLocation(String orderId);
+
   /// Throws [CheckoutError].
   Future<PlacedOrder> placeOrder(PlaceOrderRequest request);
+
+  /// What [code] gives on [foodTotal] at this restaurant. Throws
+  /// [CheckoutError] (promo… failures).
+  Future<PromoQuote> checkPromo(
+    String restaurantId,
+    String code,
+    int foodTotal,
+  );
   Future<List<CustomerOrder>> myOrders();
   Future<CustomerOrder?> myOrder(String id);
 
   /// Throws [CheckoutError] (cannotCancel once the restaurant accepted).
-  Future<void> cancelOrder(String id);
+  /// [reason]: changed_mind, too_long, wrong_address, wrong_items,
+  /// duplicate, other. Returns 'cancelled' or 'requested' (the restaurant
+  /// decides). Throws [CheckoutError].
+  Future<String> cancelOrder(
+    String id, {
+    String reason = 'other',
+    String note = '',
+  });
 
   /// Fires when order [id] changes (live status). Cancel to stop listening.
   Stream<void> orderChanges(String id);
@@ -266,13 +429,20 @@ class SupabaseOrdersRepository implements OrdersRepository {
       params: {
         'p_restaurant_id': r.restaurantId,
         'p_items': [
-          for (final i in r.items) {'id': i.id, 'qty': i.qty},
+          for (final i in r.items)
+            {
+              'id': i.id,
+              'qty': i.qty,
+              if (i.options.isNotEmpty) 'options': i.options,
+            },
         ],
         'p_address_id': r.addressId,
         'p_phone': r.phone,
         'p_notes': r.notes,
         'p_expected_total': r.expectedTotal,
         'p_client_ref': r.clientRef,
+        'p_promo_code': r.promoCode,
+        'p_payment_method': r.paymentMethod,
       },
     );
     final row = (rows as List).first as Map<String, dynamic>;
@@ -280,6 +450,31 @@ class SupabaseOrdersRepository implements OrdersRepository {
       id: row['id'] as String,
       code: row['code'] as String,
       total: (row['total'] as num).toInt(),
+    );
+  });
+
+  @override
+  Future<PromoQuote> checkPromo(
+    String restaurantId,
+    String code,
+    int foodTotal,
+  ) => _guard(() async {
+    final rows =
+        await _db.rpc(
+              'check_promo',
+              params: {
+                'p_restaurant_id': restaurantId,
+                'p_code': code,
+                'p_food_total': foodTotal,
+              },
+            )
+            as List;
+    final r = rows.first as Map<String, dynamic>;
+    return PromoQuote(
+      code: r['code'] as String,
+      discount: (r['discount'] as num).toInt(),
+      kind: r['kind'] as String,
+      value: (r['value'] as num).toInt(),
     );
   });
 
@@ -302,8 +497,29 @@ class SupabaseOrdersRepository implements OrdersRepository {
   }
 
   @override
-  Future<void> cancelOrder(String id) =>
-      _guard(() => _db.rpc('cancel_my_order', params: {'p_order_id': id}));
+  Future<RiderLocation?> riderLocation(String orderId) async {
+    final rows =
+        await _db.rpc('order_driver_location', params: {'p_order_id': orderId})
+            as List;
+    return rows.isEmpty
+        ? null
+        : RiderLocation.fromJson(rows.first as Map<String, dynamic>);
+  }
+
+  @override
+  Future<String> cancelOrder(
+    String id, {
+    String reason = 'other',
+    String note = '',
+  }) async {
+    final r = await _guard(
+      () => _db.rpc(
+        'cancel_my_order',
+        params: {'p_order_id': id, 'p_reason': reason, 'p_note': note},
+      ),
+    );
+    return r is String ? r : 'cancelled';
+  }
 
   @override
   Future<String> proofUrl(String path) =>
@@ -360,6 +576,30 @@ final myOrderProvider = FutureProvider.family<CustomerOrder?, String>((
 });
 
 /// Signed link to a delivery photo (valid 10 minutes).
+/// The rider's position for an order, refreshed every 10 s while a page
+/// shows it. Errors keep the last known point.
+final riderLocationProvider = StreamProvider.autoDispose
+    .family<RiderLocation?, String>((ref, orderId) {
+      final repo = ref.watch(ordersRepositoryProvider);
+      final ctrl = StreamController<RiderLocation?>();
+      Future<void> load() async {
+        try {
+          final p = await repo.riderLocation(orderId);
+          if (!ctrl.isClosed) ctrl.add(p);
+        } catch (_) {
+          // Network hiccup: try again at the next tick.
+        }
+      }
+
+      load();
+      final timer = Timer.periodic(const Duration(seconds: 10), (_) => load());
+      ref.onDispose(() {
+        timer.cancel();
+        ctrl.close();
+      });
+      return ctrl.stream;
+    });
+
 final proofUrlProvider = FutureProvider.family<String, String>(
   (ref, path) => ref.watch(ordersRepositoryProvider).proofUrl(path),
 );

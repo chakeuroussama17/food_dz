@@ -65,7 +65,7 @@ class AdminReceiptsPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  formatDzd(s.commissionTotal, lang),
+                                  formatDzd(s.amountDue, lang),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                   ),

@@ -100,9 +100,9 @@ void main() {
     await tap(t, find.text('ADD TO CART'));
     expect(cartBadge('3'), findsOneWidget);
     await tap(t, find.byIcon(Icons.shopping_bag_outlined).first);
-    // Line total, and the total with the 200 DA delivery fee.
-    expect(find.text('2 700 DA'), findsOneWidget);
-    expect(find.text('2 900 DA'), findsOneWidget);
+    // Line total and subtotal (the fee comes at checkout).
+    expect(find.text('2 700 DA'), findsNWidgets(2));
+    expect(find.text('3 items'), findsOneWidget);
   });
 
   testWidgets('dishes from another restaurant ask before a new cart', (
@@ -132,6 +132,9 @@ void main() {
       300,
       scrollable: mainScroll.first,
     );
+    // Keep the card clear of the floating bottom bar.
+    await t.drag(mainScroll.first, const Offset(0, -160));
+    await t.pumpAndSettle();
     await tap(t, find.text('Dar Lgharbi').last);
     expect(find.text('Closed'), findsOneWidget);
   });

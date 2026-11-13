@@ -10,13 +10,21 @@ import '../../cart/add_to_cart.dart';
 import '../data/catalog_models.dart';
 import '../data/catalog_repository.dart';
 import '../widgets/browse_widgets.dart';
+import '../widgets/opening_text.dart';
+import '../../ratings/ratings_repository.dart';
+import '../../ratings/ratings_widgets.dart';
+import '../../qr/qr_repository.dart';
 
 /// Restaurant View_01: cover, name, description, info row, category chips
 /// and a 2-column grid of the dishes in the selected category.
 /// Route /r/:slug (this is also the QR-code link).
 class RestaurantPage extends ConsumerStatefulWidget {
-  const RestaurantPage({super.key, required this.slug});
+  const RestaurantPage({super.key, required this.slug, this.src});
   final String slug;
+
+  /// How the page was opened: 'qr' (phone camera / browser, from the
+  /// printed code), 'app' (the in-app scanner), 'link' (a shared link).
+  final String? src;
 
   @override
   ConsumerState<RestaurantPage> createState() => _RestaurantPageState();
@@ -24,6 +32,22 @@ class RestaurantPage extends ConsumerStatefulWidget {
 
 class _RestaurantPageState extends ConsumerState<RestaurantPage> {
   String? _categoryId; // null = all
+
+  @override
+  void initState() {
+    super.initState();
+    final source = switch (widget.src) {
+      'qr' => 'qr_web',
+      'app' => 'qr_app',
+      'link' => 'link',
+      _ => null,
+    };
+    if (source != null) {
+      Future.microtask(
+        () => ref.read(qrRepositoryProvider).logVisit(widget.slug, source),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +118,21 @@ class _RestaurantPageState extends ConsumerState<RestaurantPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(r.name, style: Theme.of(context).textTheme.headlineSmall),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      r.name,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ),
+                  RatingBadge(
+                    average: r.ratingAvg,
+                    count: r.ratingCount,
+                    size: 16,
+                  ),
+                ],
+              ),
               if (r.description.isNotEmpty) ...[
                 const SizedBox(height: 8),
                 Text(
@@ -119,6 +157,16 @@ class _RestaurantPageState extends ConsumerState<RestaurantPage> {
                   ),
                 ],
               ),
+              if (!r.isOpen) ...[
+                const SizedBox(height: 10),
+                Text(
+                  closedText(l, lang, r.nextOpenAt),
+                  style: const TextStyle(
+                    color: AppColors.danger,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -163,7 +211,67 @@ class _RestaurantPageState extends ConsumerState<RestaurantPage> {
             ],
           ),
         ),
+        const SizedBox(height: 28),
+        _Reviews(slug: r.slug, restaurant: r),
       ],
+    );
+  }
+}
+
+/// Latest public reviews with the restaurant's replies.
+class _Reviews extends ConsumerWidget {
+  const _Reviews({required this.slug, required this.restaurant});
+  final String slug;
+  final RestaurantSummary restaurant;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final reviews = ref.watch(restaurantReviewsProvider(slug));
+    final list = reviews.value ?? const <Review>[];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l.reviewsTitle,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              if (restaurant.ratingCount > 0)
+                Text(
+                  l.ratingsCount(restaurant.ratingCount),
+                  style: TextStyle(color: AppColors.muted),
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          if (reviews.isLoading && list.isEmpty)
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              ),
+            )
+          else if (list.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Text(
+                l.noReviewsYet,
+                style: TextStyle(color: AppColors.muted),
+              ),
+            )
+          else
+            for (var i = 0; i < list.length; i++) ...[
+              if (i > 0) Divider(height: 1, color: AppColors.border),
+              ReviewTile(review: list[i]),
+            ],
+        ],
+      ),
     );
   }
 }

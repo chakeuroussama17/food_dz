@@ -103,7 +103,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In fr, this message translates to:
-  /// **'Food App'**
+  /// **'foodfennec'**
   String get appName;
 
   /// No description provided for @language.
@@ -1105,7 +1105,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerRestaurantSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Rejoignez Food et recevez des commandes'**
+  /// **'Rejoignez foodfennec et recevez des commandes'**
   String get registerRestaurantSubtitle;
 
   /// No description provided for @yourAccount.
@@ -3147,6 +3147,3648 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Sombre'**
   String get themeDark;
+
+  /// No description provided for @insights.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tendances'**
+  String get insights;
+
+  /// No description provided for @todayTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aujourd\'hui'**
+  String get todayTitle;
+
+  /// No description provided for @compareYesterday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comparé à hier à la même heure'**
+  String get compareYesterday;
+
+  /// No description provided for @kpiSales.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes'**
+  String get kpiSales;
+
+  /// No description provided for @kpiOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes'**
+  String get kpiOrders;
+
+  /// No description provided for @kpiAvgBasket.
+  ///
+  /// In fr, this message translates to:
+  /// **'Panier moyen'**
+  String get kpiAvgBasket;
+
+  /// No description provided for @kpiPrep.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préparation moy.'**
+  String get kpiPrep;
+
+  /// No description provided for @kpiAcceptance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Taux d\'acceptation'**
+  String get kpiAcceptance;
+
+  /// No description provided for @kpiNet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Net après commission'**
+  String get kpiNet;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} min'**
+  String minutesShort(int n);
+
+  /// No description provided for @last7Days.
+  ///
+  /// In fr, this message translates to:
+  /// **'7 derniers jours'**
+  String get last7Days;
+
+  /// No description provided for @seeInsights.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir les tendances'**
+  String get seeInsights;
+
+  /// No description provided for @shortcuts.
+  ///
+  /// In fr, this message translates to:
+  /// **'Raccourcis'**
+  String get shortcuts;
+
+  /// No description provided for @ordersTable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tableau des commandes'**
+  String get ordersTable;
+
+  /// No description provided for @liveOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes en direct'**
+  String get liveOrders;
+
+  /// No description provided for @dishesNoPhoto.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} plats sans photo : les photos font vendre'**
+  String dishesNoPhoto(int n);
+
+  /// No description provided for @dishesUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} plats indisponibles'**
+  String dishesUnavailable(int n);
+
+  /// No description provided for @menuHealthGood.
+  ///
+  /// In fr, this message translates to:
+  /// **'Menu complet, bravo !'**
+  String get menuHealthGood;
+
+  /// No description provided for @rangeYesterday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hier'**
+  String get rangeYesterday;
+
+  /// No description provided for @range7.
+  ///
+  /// In fr, this message translates to:
+  /// **'7 jours'**
+  String get range7;
+
+  /// No description provided for @range30.
+  ///
+  /// In fr, this message translates to:
+  /// **'30 jours'**
+  String get range30;
+
+  /// No description provided for @range90.
+  ///
+  /// In fr, this message translates to:
+  /// **'90 jours'**
+  String get range90;
+
+  /// No description provided for @rangeMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce mois'**
+  String get rangeMonth;
+
+  /// No description provided for @rangeCustom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dates…'**
+  String get rangeCustom;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toutes'**
+  String get filterAll;
+
+  /// No description provided for @filterInProgress.
+  ///
+  /// In fr, this message translates to:
+  /// **'En cours'**
+  String get filterInProgress;
+
+  /// No description provided for @searchOrdersHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code, client, plat…'**
+  String get searchOrdersHint;
+
+  /// No description provided for @exportCsv.
+  ///
+  /// In fr, this message translates to:
+  /// **'Exporter CSV'**
+  String get exportCsv;
+
+  /// No description provided for @csvReady.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fichier CSV prêt'**
+  String get csvReady;
+
+  /// No description provided for @noOrdersPeriod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune commande sur cette période'**
+  String get noOrdersPeriod;
+
+  /// No description provided for @tableTotals.
+  ///
+  /// In fr, this message translates to:
+  /// **'Total de la sélection'**
+  String get tableTotals;
+
+  /// No description provided for @csvCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code'**
+  String get csvCode;
+
+  /// No description provided for @csvDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Date'**
+  String get csvDate;
+
+  /// No description provided for @csvTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'Heure'**
+  String get csvTime;
+
+  /// No description provided for @csvStatus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Statut'**
+  String get csvStatus;
+
+  /// No description provided for @csvCustomer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Client'**
+  String get csvCustomer;
+
+  /// No description provided for @csvArea.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quartier'**
+  String get csvArea;
+
+  /// No description provided for @csvItems.
+  ///
+  /// In fr, this message translates to:
+  /// **'Articles'**
+  String get csvItems;
+
+  /// No description provided for @csvItemCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nb articles'**
+  String get csvItemCount;
+
+  /// No description provided for @csvFood.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plats (DA)'**
+  String get csvFood;
+
+  /// No description provided for @csvDeliveryFee.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livraison (DA)'**
+  String get csvDeliveryFee;
+
+  /// No description provided for @csvTotal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Total (DA)'**
+  String get csvTotal;
+
+  /// No description provided for @csvCommission.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commission (DA)'**
+  String get csvCommission;
+
+  /// No description provided for @csvNet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Net (DA)'**
+  String get csvNet;
+
+  /// No description provided for @csvDriver.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livreur'**
+  String get csvDriver;
+
+  /// No description provided for @csvPrepMinutes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préparation (min)'**
+  String get csvPrepMinutes;
+
+  /// No description provided for @csvReason.
+  ///
+  /// In fr, this message translates to:
+  /// **'Motif'**
+  String get csvReason;
+
+  /// No description provided for @comparedPrevious.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comparé aux {n} jours précédents'**
+  String comparedPrevious(int n);
+
+  /// No description provided for @salesChartTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes par jour'**
+  String get salesChartTitle;
+
+  /// No description provided for @tapBarHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Touchez une barre pour voir le détail'**
+  String get tapBarHint;
+
+  /// No description provided for @hoursChartTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Heures de pointe'**
+  String get hoursChartTitle;
+
+  /// No description provided for @weekdayChartTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jours de la semaine'**
+  String get weekdayChartTitle;
+
+  /// No description provided for @topDishesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plats les plus vendus'**
+  String get topDishesTitle;
+
+  /// No description provided for @outcomesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Issue des commandes'**
+  String get outcomesTitle;
+
+  /// No description provided for @soldTimes.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} vendus'**
+  String soldTimes(int n);
+
+  /// No description provided for @tipsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conseils pour vendre plus'**
+  String get tipsTitle;
+
+  /// No description provided for @tipSalesUp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos ventes ont augmenté de {n}% par rapport à la période précédente. Continuez !'**
+  String tipSalesUp(int n);
+
+  /// No description provided for @tipSalesDown.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes en baisse de {n}%. Vérifiez vos heures d\'ouverture et ajoutez des photos à vos plats.'**
+  String tipSalesDown(int n);
+
+  /// No description provided for @tipRefusals.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} commandes refusées ou sans réponse : {amount} de ventes perdues. Fermez le restaurant quand vous ne pouvez pas servir.'**
+  String tipRefusals(int n, String amount);
+
+  /// No description provided for @tipSlowResponse.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous mettez {n} min en moyenne pour accepter. Les clients attendent, et une commande sans réponse est refusée automatiquement.'**
+  String tipSlowResponse(int n);
+
+  /// No description provided for @tipSlowPrep.
+  ///
+  /// In fr, this message translates to:
+  /// **'La préparation prend {n} min, vous annoncez {announced} min. Mettez à jour le temps dans votre profil ou accélérez.'**
+  String tipSlowPrep(int n, int announced);
+
+  /// No description provided for @tipPeakHour.
+  ///
+  /// In fr, this message translates to:
+  /// **'Heure de pointe : {hour} ({share}% des commandes). Préparez vos ingrédients avant.'**
+  String tipPeakHour(String hour, int share);
+
+  /// No description provided for @tipTopDish.
+  ///
+  /// In fr, this message translates to:
+  /// **'« {dish} » fait {share}% de vos ventes. Gardez-le toujours disponible, avec une belle photo.'**
+  String tipTopDish(String dish, int share);
+
+  /// No description provided for @tipQuietDay.
+  ///
+  /// In fr, this message translates to:
+  /// **'{day} est votre jour le plus calme : bon moment pour une offre ou un nouveau plat.'**
+  String tipQuietDay(String day);
+
+  /// No description provided for @tipNoOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas encore de commandes sur cette période. Ouvrez aux heures des repas et complétez votre menu avec des photos.'**
+  String get tipNoOrders;
+
+  /// No description provided for @myBusiness.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mon activité'**
+  String get myBusiness;
+
+  /// No description provided for @accountApproved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Approuvé'**
+  String get accountApproved;
+
+  /// No description provided for @accountPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente'**
+  String get accountPending;
+
+  /// No description provided for @deleteRestaurantConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre compte sera supprimé et votre restaurant retiré de l\'application. Vos commandes et relevés restent archivés pour la comptabilité. Cette action est définitive.'**
+  String get deleteRestaurantConfirm;
+
+  /// No description provided for @errDeleteCashPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmez d\'abord l\'argent reçu des livreurs.'**
+  String get errDeleteCashPending;
+
+  /// No description provided for @errDeleteUnpaidCommission.
+  ///
+  /// In fr, this message translates to:
+  /// **'Des commissions restent à régler. Contactez l\'administrateur.'**
+  String get errDeleteUnpaidCommission;
+
+  /// No description provided for @restaurantDetailsHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Photos, adresse, téléphone, temps de préparation'**
+  String get restaurantDetailsHint;
+
+  /// No description provided for @outlets.
+  ///
+  /// In fr, this message translates to:
+  /// **'Points de vente'**
+  String get outlets;
+
+  /// No description provided for @roleOwner.
+  ///
+  /// In fr, this message translates to:
+  /// **'Propriétaire'**
+  String get roleOwner;
+
+  /// No description provided for @roleManager.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérant'**
+  String get roleManager;
+
+  /// No description provided for @roleStaff.
+  ///
+  /// In fr, this message translates to:
+  /// **'Employé'**
+  String get roleStaff;
+
+  /// No description provided for @csvOutlet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Point de vente'**
+  String get csvOutlet;
+
+  /// No description provided for @portalTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portail partenaire'**
+  String get portalTitle;
+
+  /// No description provided for @portalTagline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérez vos restaurants, commandes et ventes au même endroit.'**
+  String get portalTagline;
+
+  /// No description provided for @portalLoginTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion au portail partenaire'**
+  String get portalLoginTitle;
+
+  /// No description provided for @portalNotPartner.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce portail est réservé aux restaurants partenaires. Inscrivez d\'abord votre restaurant dans l\'application.'**
+  String get portalNotPartner;
+
+  /// No description provided for @navReports.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rapports'**
+  String get navReports;
+
+  /// No description provided for @navInvoices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Factures'**
+  String get navInvoices;
+
+  /// No description provided for @navMenu.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gestion du menu'**
+  String get navMenu;
+
+  /// No description provided for @navHours.
+  ///
+  /// In fr, this message translates to:
+  /// **'Horaires d\'ouverture'**
+  String get navHours;
+
+  /// No description provided for @navReviews.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avis et notes'**
+  String get navReviews;
+
+  /// No description provided for @navMarketing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marketing'**
+  String get navMarketing;
+
+  /// No description provided for @navNotifications.
+  ///
+  /// In fr, this message translates to:
+  /// **'Centre de notifications'**
+  String get navNotifications;
+
+  /// No description provided for @navTeam.
+  ///
+  /// In fr, this message translates to:
+  /// **'Équipe'**
+  String get navTeam;
+
+  /// No description provided for @soon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt'**
+  String get soon;
+
+  /// No description provided for @comingSoonTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt disponible'**
+  String get comingSoonTitle;
+
+  /// No description provided for @comingSoonBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette section arrive à la prochaine étape. En attendant, utilisez l\'application.'**
+  String get comingSoonBody;
+
+  /// No description provided for @outletsAll.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous les points de vente'**
+  String get outletsAll;
+
+  /// No description provided for @outletsCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n}/{total} points de vente'**
+  String outletsCount(int n, int total);
+
+  /// No description provided for @dashboardSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vue d\'ensemble de vos commandes et de vos points de vente'**
+  String get dashboardSubtitle;
+
+  /// No description provided for @ordersToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes aujourd\'hui'**
+  String get ordersToday;
+
+  /// No description provided for @cancelledToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulées ou refusées aujourd\'hui'**
+  String get cancelledToday;
+
+  /// No description provided for @closedOutletsNow.
+  ///
+  /// In fr, this message translates to:
+  /// **'Points de vente fermés'**
+  String get closedOutletsNow;
+
+  /// No description provided for @salesToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes aujourd\'hui'**
+  String get salesToday;
+
+  /// No description provided for @updatedAt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mis à jour à {time}'**
+  String updatedAt(String time);
+
+  /// No description provided for @businessSummary.
+  ///
+  /// In fr, this message translates to:
+  /// **'Résumé de l’activité'**
+  String get businessSummary;
+
+  /// No description provided for @thisWeek.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette semaine'**
+  String get thisWeek;
+
+  /// No description provided for @lastWeek.
+  ///
+  /// In fr, this message translates to:
+  /// **'Semaine dernière'**
+  String get lastWeek;
+
+  /// No description provided for @comparison.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comparaison'**
+  String get comparison;
+
+  /// No description provided for @previousPeriod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Période précédente'**
+  String get previousPeriod;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Total'**
+  String get totalLabel;
+
+  /// No description provided for @cancelledLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulées'**
+  String get cancelledLabel;
+
+  /// No description provided for @waitingOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente de votre réponse'**
+  String get waitingOrders;
+
+  /// No description provided for @noWaitingOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune commande en attente.'**
+  String get noWaitingOrders;
+
+  /// No description provided for @ordersSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails des commandes en temps réel'**
+  String get ordersSubtitle;
+
+  /// No description provided for @placedAtCol.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passée le'**
+  String get placedAtCol;
+
+  /// No description provided for @acceptedIn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acceptée en {time}'**
+  String acceptedIn(String time);
+
+  /// No description provided for @orderDetailsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails de la commande'**
+  String get orderDetailsTitle;
+
+  /// No description provided for @secondsShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} s'**
+  String secondsShort(int n);
+
+  /// No description provided for @reportsSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Analysez vos performances'**
+  String get reportsSubtitle;
+
+  /// No description provided for @tabSales.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes'**
+  String get tabSales;
+
+  /// No description provided for @tabOperations.
+  ///
+  /// In fr, this message translates to:
+  /// **'Opérations'**
+  String get tabOperations;
+
+  /// No description provided for @tabCustomers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clients'**
+  String get tabCustomers;
+
+  /// No description provided for @previousMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mois précédent'**
+  String get previousMonth;
+
+  /// No description provided for @salesByDayHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes et commandes par jour : votre activité monte-t-elle ou baisse-t-elle ?'**
+  String get salesByDayHint;
+
+  /// No description provided for @downloadReport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Télécharger le rapport'**
+  String get downloadReport;
+
+  /// No description provided for @salesByHour.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes par heure'**
+  String get salesByHour;
+
+  /// No description provided for @salesByHourHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes par heure et jour de la semaine : vos heures calmes et chargées.'**
+  String get salesByHourHint;
+
+  /// No description provided for @avgResponse.
+  ///
+  /// In fr, this message translates to:
+  /// **'Temps moyen d\'acceptation'**
+  String get avgResponse;
+
+  /// No description provided for @cancellationRate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Taux d\'annulation'**
+  String get cancellationRate;
+
+  /// No description provided for @lostSales.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ventes perdues'**
+  String get lostSales;
+
+  /// No description provided for @refusalReasons.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refus et annulations par motif'**
+  String get refusalReasons;
+
+  /// No description provided for @prepByDay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Temps de préparation par jour'**
+  String get prepByDay;
+
+  /// No description provided for @newVsReturning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveaux vs clients fidèles'**
+  String get newVsReturning;
+
+  /// No description provided for @newVsReturningHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Part des commandes venant de nouveaux clients et de clients qui reviennent.'**
+  String get newVsReturningHint;
+
+  /// No description provided for @ordersFromNew.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes de nouveaux clients'**
+  String get ordersFromNew;
+
+  /// No description provided for @ordersFromReturning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes de clients fidèles'**
+  String get ordersFromReturning;
+
+  /// No description provided for @moreReturningTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus de clients fidèles ?'**
+  String get moreReturningTitle;
+
+  /// No description provided for @moreReturningBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les clients reviennent pour la qualité et la rapidité : gardez vos meilleurs plats disponibles, répondez vite et annoncez des temps de préparation honnêtes.'**
+  String get moreReturningBody;
+
+  /// No description provided for @moreNewTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus de nouveaux clients ?'**
+  String get moreNewTitle;
+
+  /// No description provided for @moreNewBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'De belles photos et des descriptions complètes donnent envie d\'essayer. Une bannière sur l\'accueil (demandez à l\'administrateur) vous montre à tous.'**
+  String get moreNewBody;
+
+  /// No description provided for @topAreas.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quartiers principaux'**
+  String get topAreas;
+
+  /// No description provided for @uniqueCustomers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clients'**
+  String get uniqueCustomers;
+
+  /// No description provided for @invoicesSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Téléchargez vos relevés de commission'**
+  String get invoicesSubtitle;
+
+  /// No description provided for @noInvoices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune facture pour le moment'**
+  String get noInvoices;
+
+  /// No description provided for @outletsSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos restaurants, leur statut et votre rôle'**
+  String get outletsSubtitle;
+
+  /// No description provided for @addOutlet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un point de vente'**
+  String get addOutlet;
+
+  /// No description provided for @outletAdded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Point de vente ajouté. Il sera visible après validation par l\'administrateur.'**
+  String get outletAdded;
+
+  /// No description provided for @yourRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre rôle : {role}'**
+  String yourRole(String role);
+
+  /// No description provided for @teamSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Donnez à votre équipe son propre accès, avec les bons droits'**
+  String get teamSubtitle;
+
+  /// No description provided for @addMember.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un membre'**
+  String get addMember;
+
+  /// No description provided for @memberEmail.
+  ///
+  /// In fr, this message translates to:
+  /// **'E-mail du compte'**
+  String get memberEmail;
+
+  /// No description provided for @memberEmailHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'La personne doit d\'abord créer un compte dans l\'application avec cet e-mail.'**
+  String get memberEmailHint;
+
+  /// No description provided for @roleOwnerDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tout, y compris l\'équipe et la fermeture du compte'**
+  String get roleOwnerDesc;
+
+  /// No description provided for @roleManagerDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes, menu, informations, rapports et factures'**
+  String get roleManagerDesc;
+
+  /// No description provided for @roleStaffDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes uniquement : accepter, refuser, prête, argent reçu'**
+  String get roleStaffDesc;
+
+  /// No description provided for @removeMember.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer'**
+  String get removeMember;
+
+  /// No description provided for @removeMemberConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer {name} de ce point de vente ?'**
+  String removeMemberConfirm(String name);
+
+  /// No description provided for @memberAdded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Membre ajouté'**
+  String get memberAdded;
+
+  /// No description provided for @errUserNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun compte avec cet e-mail. Demandez-lui de s\'inscrire d\'abord dans l\'application.'**
+  String get errUserNotFound;
+
+  /// No description provided for @errOtherRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce compte est livreur ou administrateur et ne peut pas rejoindre un restaurant.'**
+  String get errOtherRole;
+
+  /// No description provided for @errAlreadyMember.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déjà dans l\'équipe.'**
+  String get errAlreadyMember;
+
+  /// No description provided for @errLastOwner.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un point de vente doit garder au moins un propriétaire.'**
+  String get errLastOwner;
+
+  /// No description provided for @onlyOwnersTeam.
+  ///
+  /// In fr, this message translates to:
+  /// **'Seuls les propriétaires peuvent modifier l\'équipe.'**
+  String get onlyOwnersTeam;
+
+  /// No description provided for @colName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom'**
+  String get colName;
+
+  /// No description provided for @colEmail.
+  ///
+  /// In fr, this message translates to:
+  /// **'E-mail'**
+  String get colEmail;
+
+  /// No description provided for @colRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rôle'**
+  String get colRole;
+
+  /// No description provided for @colSince.
+  ///
+  /// In fr, this message translates to:
+  /// **'Depuis'**
+  String get colSince;
+
+  /// No description provided for @portalStaffOnly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre accès employé fonctionne dans l\'application. Demandez à un propriétaire un accès gérant pour utiliser le portail.'**
+  String get portalStaffOnly;
+
+  /// No description provided for @errOptionsChanged.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les options de ce plat ont changé. Choisissez-les à nouveau.'**
+  String get errOptionsChanged;
+
+  /// No description provided for @chooseUpTo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jusqu\'à {n} au choix'**
+  String chooseUpTo(int n);
+
+  /// No description provided for @optionRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Obligatoire'**
+  String get optionRequired;
+
+  /// No description provided for @outOfStock.
+  ///
+  /// In fr, this message translates to:
+  /// **'Épuisé'**
+  String get outOfStock;
+
+  /// No description provided for @opensTodayAt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermé · ouvre aujourd\'hui à {time}'**
+  String opensTodayAt(String time);
+
+  /// No description provided for @opensTomorrowAt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermé · ouvre demain à {time}'**
+  String opensTomorrowAt(String time);
+
+  /// No description provided for @opensOnAt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermé · ouvre {day} à {time}'**
+  String opensOnAt(String day, String time);
+
+  /// No description provided for @menuSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plats, prix, photos et options de vos plats'**
+  String get menuSubtitle;
+
+  /// No description provided for @addOptionGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un groupe d\'options'**
+  String get addOptionGroup;
+
+  /// No description provided for @editOptionGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le groupe d\'options'**
+  String get editOptionGroup;
+
+  /// No description provided for @dishesTab.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plats'**
+  String get dishesTab;
+
+  /// No description provided for @optionGroupsTab.
+  ///
+  /// In fr, this message translates to:
+  /// **'Groupes d\'options'**
+  String get optionGroupsTab;
+
+  /// No description provided for @searchDishesHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher un plat…'**
+  String get searchDishesHint;
+
+  /// No description provided for @bulkDone.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} plats modifiés'**
+  String bulkDone(int n);
+
+  /// No description provided for @bulkDeleteConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer {n} plats ? Cette action est définitive.'**
+  String bulkDeleteConfirm(int n);
+
+  /// No description provided for @selectedCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} sélectionnés'**
+  String selectedCount(int n);
+
+  /// No description provided for @bulkShow.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rendre disponible'**
+  String get bulkShow;
+
+  /// No description provided for @bulkHide.
+  ///
+  /// In fr, this message translates to:
+  /// **'Masquer'**
+  String get bulkHide;
+
+  /// No description provided for @bulkPrices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier les prix'**
+  String get bulkPrices;
+
+  /// No description provided for @priceIncrease.
+  ///
+  /// In fr, this message translates to:
+  /// **'Augmenter'**
+  String get priceIncrease;
+
+  /// No description provided for @priceDecrease.
+  ///
+  /// In fr, this message translates to:
+  /// **'Baisser'**
+  String get priceDecrease;
+
+  /// No description provided for @pricesRounded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les nouveaux prix sont arrondis à 10 DA.'**
+  String get pricesRounded;
+
+  /// No description provided for @apply.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appliquer'**
+  String get apply;
+
+  /// No description provided for @uploadDishPhoto.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une photo du plat'**
+  String get uploadDishPhoto;
+
+  /// No description provided for @photosSellHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les plats avec une belle photo se vendent mieux.'**
+  String get photosSellHint;
+
+  /// No description provided for @noOptionGroupsHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créez d\'abord des groupes d\'options (tailles, suppléments) dans l\'onglet Groupes d\'options.'**
+  String get noOptionGroupsHint;
+
+  /// No description provided for @optionGroupsPickHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez les options proposées avec ce plat.'**
+  String get optionGroupsPickHint;
+
+  /// No description provided for @noOptionGroups.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun groupe d\'options. Créez par exemple « Taille » (Petite, Grande) ou « Suppléments » (Fromage, Œuf).'**
+  String get noOptionGroups;
+
+  /// No description provided for @ruleRequiredOne.
+  ///
+  /// In fr, this message translates to:
+  /// **'Obligatoire · 1 choix'**
+  String get ruleRequiredOne;
+
+  /// No description provided for @ruleRequiredRange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Obligatoire · {min} à {max} choix'**
+  String ruleRequiredRange(int min, int max);
+
+  /// No description provided for @ruleOptionalUpTo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Facultatif · jusqu\'à {max}'**
+  String ruleOptionalUpTo(int max);
+
+  /// No description provided for @deleteGroupConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer le groupe « {name} » ? Il sera retiré de tous les plats.'**
+  String deleteGroupConfirm(String name);
+
+  /// No description provided for @free.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuit'**
+  String get free;
+
+  /// No description provided for @usedByNoDish.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisé par aucun plat'**
+  String get usedByNoDish;
+
+  /// No description provided for @usedBy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisé par : {names}'**
+  String usedBy(String names);
+
+  /// No description provided for @groupName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom du groupe'**
+  String get groupName;
+
+  /// No description provided for @groupNameHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'ex. Taille, Sauce, Suppléments'**
+  String get groupNameHint;
+
+  /// No description provided for @requiredHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le client doit choisir avant de commander'**
+  String get requiredHint;
+
+  /// No description provided for @minChoices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Minimum de choix'**
+  String get minChoices;
+
+  /// No description provided for @maxChoices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Maximum de choix'**
+  String get maxChoices;
+
+  /// No description provided for @choices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choix'**
+  String get choices;
+
+  /// No description provided for @choiceNameHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'ex. Grande'**
+  String get choiceNameHint;
+
+  /// No description provided for @extraPriceHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supplément'**
+  String get extraPriceHint;
+
+  /// No description provided for @addChoice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un choix'**
+  String get addChoice;
+
+  /// No description provided for @dishesUsingGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plats proposant ces options'**
+  String get dishesUsingGroup;
+
+  /// No description provided for @errGroupRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Il faut au moins autant de choix que le minimum.'**
+  String get errGroupRule;
+
+  /// No description provided for @hoursSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos horaires, jours fériés et horaires spéciaux'**
+  String get hoursSubtitle;
+
+  /// No description provided for @weeklyHours.
+  ///
+  /// In fr, this message translates to:
+  /// **'Horaires d\'ouverture'**
+  String get weeklyHours;
+
+  /// No description provided for @specialDays.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jours fériés et horaires spéciaux'**
+  String get specialDays;
+
+  /// No description provided for @openNowLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvert maintenant'**
+  String get openNowLabel;
+
+  /// No description provided for @closedNowLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermé maintenant'**
+  String get closedNowLabel;
+
+  /// No description provided for @switchOffHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes désactivées par l\'interrupteur'**
+  String get switchOffHint;
+
+  /// No description provided for @takingOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les clients peuvent commander'**
+  String get takingOrders;
+
+  /// No description provided for @ordersSwitch.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recevoir des commandes'**
+  String get ordersSwitch;
+
+  /// No description provided for @weeklyHoursHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les clients ne peuvent commander que pendant ces heures (et quand l\'interrupteur est activé). Sans horaires : ouvert dès que l\'interrupteur est activé.'**
+  String get weeklyHoursHint;
+
+  /// No description provided for @closedAllDay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermé toute la journée'**
+  String get closedAllDay;
+
+  /// No description provided for @addHours.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter des heures'**
+  String get addHours;
+
+  /// No description provided for @copyToAllDays.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier sur tous les jours'**
+  String get copyToAllDays;
+
+  /// No description provided for @specialDaysHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jours fériés, Aïd, Ramadan… Ces dates remplacent les horaires habituels.'**
+  String get specialDaysHint;
+
+  /// No description provided for @addSpecialDay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une date'**
+  String get addSpecialDay;
+
+  /// No description provided for @noSpecialDays.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune date à venir'**
+  String get noSpecialDays;
+
+  /// No description provided for @pickDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir la date'**
+  String get pickDate;
+
+  /// No description provided for @opensLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvre'**
+  String get opensLabel;
+
+  /// No description provided for @closesLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ferme'**
+  String get closesLabel;
+
+  /// No description provided for @specialDayNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note'**
+  String get specialDayNote;
+
+  /// No description provided for @specialDayNoteHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'ex. Aïd el-Fitr'**
+  String get specialDayNoteHint;
+
+  /// No description provided for @rateDriverTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comment était la livraison ?'**
+  String get rateDriverTitle;
+
+  /// No description provided for @rateFoodTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comment était le repas ?'**
+  String get rateFoodTitle;
+
+  /// No description provided for @ratingWhatWrong.
+  ///
+  /// In fr, this message translates to:
+  /// **'Qu\'est-ce qui n\'allait pas ?'**
+  String get ratingWhatWrong;
+
+  /// No description provided for @ratingCommentHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un commentaire (facultatif)'**
+  String get ratingCommentHint;
+
+  /// No description provided for @ratingSubmit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer ma note'**
+  String get ratingSubmit;
+
+  /// No description provided for @ratingLater.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get ratingLater;
+
+  /// No description provided for @ratingThanks.
+  ///
+  /// In fr, this message translates to:
+  /// **'Merci pour votre avis !'**
+  String get ratingThanks;
+
+  /// No description provided for @ratingWord1.
+  ///
+  /// In fr, this message translates to:
+  /// **'Très mauvais'**
+  String get ratingWord1;
+
+  /// No description provided for @ratingWord2.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mauvais'**
+  String get ratingWord2;
+
+  /// No description provided for @ratingWord3.
+  ///
+  /// In fr, this message translates to:
+  /// **'Moyen'**
+  String get ratingWord3;
+
+  /// No description provided for @ratingWord4.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bien'**
+  String get ratingWord4;
+
+  /// No description provided for @ratingWord5.
+  ///
+  /// In fr, this message translates to:
+  /// **'Excellent'**
+  String get ratingWord5;
+
+  /// No description provided for @errRatingClosed.
+  ///
+  /// In fr, this message translates to:
+  /// **'La période de notation (7 jours) est terminée.'**
+  String get errRatingClosed;
+
+  /// No description provided for @errRatingLocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette note ne peut plus être modifiée.'**
+  String get errRatingLocked;
+
+  /// No description provided for @rateFoodCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notez le repas'**
+  String get rateFoodCard;
+
+  /// No description provided for @rateDriverCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notez la livraison'**
+  String get rateDriverCard;
+
+  /// No description provided for @ratingDaysLeft.
+  ///
+  /// In fr, this message translates to:
+  /// **'Encore {n} jours pour noter'**
+  String ratingDaysLeft(int n);
+
+  /// No description provided for @ratingLastDay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dernier jour pour noter'**
+  String get ratingLastDay;
+
+  /// No description provided for @yourRating.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre note'**
+  String get yourRating;
+
+  /// No description provided for @rateAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Noter'**
+  String get rateAction;
+
+  /// No description provided for @editRating.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier'**
+  String get editRating;
+
+  /// No description provided for @ratingEditHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifiable pendant 24 h'**
+  String get ratingEditHint;
+
+  /// No description provided for @ratingReplyFrom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réponse du restaurant'**
+  String get ratingReplyFrom;
+
+  /// No description provided for @errAccountBlocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre compte est suspendu. Contactez le support.'**
+  String get errAccountBlocked;
+
+  /// No description provided for @rsnCold.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plat froid'**
+  String get rsnCold;
+
+  /// No description provided for @rsnMissingItem.
+  ///
+  /// In fr, this message translates to:
+  /// **'Article manquant'**
+  String get rsnMissingItem;
+
+  /// No description provided for @rsnWrongOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mauvaise commande'**
+  String get rsnWrongOrder;
+
+  /// No description provided for @rsnSmallPortion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portion trop petite'**
+  String get rsnSmallPortion;
+
+  /// No description provided for @rsnBadTaste.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mauvais goût'**
+  String get rsnBadTaste;
+
+  /// No description provided for @rsnBadPackaging.
+  ///
+  /// In fr, this message translates to:
+  /// **'Emballage abîmé'**
+  String get rsnBadPackaging;
+
+  /// No description provided for @rsnLate.
+  ///
+  /// In fr, this message translates to:
+  /// **'En retard'**
+  String get rsnLate;
+
+  /// No description provided for @rsnRude.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impoli'**
+  String get rsnRude;
+
+  /// No description provided for @rsnCareless.
+  ///
+  /// In fr, this message translates to:
+  /// **'Manipulation négligée'**
+  String get rsnCareless;
+
+  /// No description provided for @rsnNoContact.
+  ///
+  /// In fr, this message translates to:
+  /// **'Injoignable'**
+  String get rsnNoContact;
+
+  /// No description provided for @rsnWrongPlace.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mauvaise adresse'**
+  String get rsnWrongPlace;
+
+  /// No description provided for @rsnFakeOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fausse commande'**
+  String get rsnFakeOrder;
+
+  /// No description provided for @rsnNoAnswer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ne répond pas'**
+  String get rsnNoAnswer;
+
+  /// No description provided for @rsnWrongAddress.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse incorrecte'**
+  String get rsnWrongAddress;
+
+  /// No description provided for @rsnRefusedToPay.
+  ///
+  /// In fr, this message translates to:
+  /// **'A refusé de payer'**
+  String get rsnRefusedToPay;
+
+  /// No description provided for @rsnOther.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autre'**
+  String get rsnOther;
+
+  /// No description provided for @reviewsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avis'**
+  String get reviewsTitle;
+
+  /// No description provided for @newRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveau'**
+  String get newRestaurant;
+
+  /// No description provided for @noReviewsYet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas encore d’avis'**
+  String get noReviewsYet;
+
+  /// No description provided for @restaurantReply.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réponse du restaurant'**
+  String get restaurantReply;
+
+  /// No description provided for @seeMoreReviews.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir plus d\'avis'**
+  String get seeMoreReviews;
+
+  /// No description provided for @ratingsCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} notes'**
+  String ratingsCount(int n);
+
+  /// No description provided for @reviewsSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce que disent vos clients de vos plats'**
+  String get reviewsSubtitle;
+
+  /// No description provided for @averageRating.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note moyenne'**
+  String get averageRating;
+
+  /// No description provided for @ratingDistribution.
+  ///
+  /// In fr, this message translates to:
+  /// **'Répartition des notes'**
+  String get ratingDistribution;
+
+  /// No description provided for @topComplaints.
+  ///
+  /// In fr, this message translates to:
+  /// **'Problèmes les plus cités'**
+  String get topComplaints;
+
+  /// No description provided for @filterNeedsReply.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans réponse'**
+  String get filterNeedsReply;
+
+  /// No description provided for @starsFilter.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} étoiles'**
+  String starsFilter(int n);
+
+  /// No description provided for @replyAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Répondre'**
+  String get replyAction;
+
+  /// No description provided for @replyDialogHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre réponse est publique et ne pourra plus être modifiée.'**
+  String get replyDialogHint;
+
+  /// No description provided for @replyHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Merci, nous espérons vous revoir…'**
+  String get replyHint;
+
+  /// No description provided for @sendReply.
+  ///
+  /// In fr, this message translates to:
+  /// **'Publier la réponse'**
+  String get sendReply;
+
+  /// No description provided for @replyPublished.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réponse publiée'**
+  String get replyPublished;
+
+  /// No description provided for @flagReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signaler cet avis'**
+  String get flagReview;
+
+  /// No description provided for @flagReviewHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Expliquez pourquoi (insulte, ne concerne pas votre cuisine, mauvais restaurant…). L\'administrateur décidera.'**
+  String get flagReviewHint;
+
+  /// No description provided for @flagSend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get flagSend;
+
+  /// No description provided for @flagSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyé à l\'administrateur'**
+  String get flagSent;
+
+  /// No description provided for @flagWaiting.
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente de l\'administrateur'**
+  String get flagWaiting;
+
+  /// No description provided for @flagKept.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'administrateur a conservé cet avis'**
+  String get flagKept;
+
+  /// No description provided for @errAlreadyReplied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet avis a déjà une réponse.'**
+  String get errAlreadyReplied;
+
+  /// No description provided for @errAlreadyFlagged.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déjà signalé.'**
+  String get errAlreadyFlagged;
+
+  /// No description provided for @noReviewsPeriod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun avis sur cette période'**
+  String get noReviewsPeriod;
+
+  /// No description provided for @reviewOrderRef.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commande #{code}'**
+  String reviewOrderRef(String code);
+
+  /// No description provided for @myRating.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ma note'**
+  String get myRating;
+
+  /// No description provided for @driverRatingHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre moyenne apparaît après 5 notes.'**
+  String get driverRatingHint;
+
+  /// No description provided for @driverReasonsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce que les clients ont signalé'**
+  String get driverReasonsTitle;
+
+  /// No description provided for @reportCustomer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signaler ce client'**
+  String get reportCustomer;
+
+  /// No description provided for @reportCustomerHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Seul l\'administrateur voit ce signalement. Le client n\'est pas prévenu.'**
+  String get reportCustomerHint;
+
+  /// No description provided for @reportNoteHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails (facultatif)'**
+  String get reportNoteHint;
+
+  /// No description provided for @reportSend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get reportSend;
+
+  /// No description provided for @reportSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signalement envoyé à l\'administrateur'**
+  String get reportSent;
+
+  /// No description provided for @reportedLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signalé'**
+  String get reportedLabel;
+
+  /// No description provided for @errAlreadyReported.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez déjà signalé cette commande.'**
+  String get errAlreadyReported;
+
+  /// No description provided for @errTooManyReports.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop de signalements aujourd\'hui.'**
+  String get errTooManyReports;
+
+  /// No description provided for @errCustomerGone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce client n\'a plus de compte.'**
+  String get errCustomerGone;
+
+  /// No description provided for @navRatings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avis'**
+  String get navRatings;
+
+  /// No description provided for @adminRatingsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avis et signalements'**
+  String get adminRatingsTitle;
+
+  /// No description provided for @tabFlagged.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avis signalés'**
+  String get tabFlagged;
+
+  /// No description provided for @tabReports.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signalements clients'**
+  String get tabReports;
+
+  /// No description provided for @avg30d.
+  ///
+  /// In fr, this message translates to:
+  /// **'30 derniers jours'**
+  String get avg30d;
+
+  /// No description provided for @low30d.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notes ≤ 2 (30 j)'**
+  String get low30d;
+
+  /// No description provided for @hideReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Masquer'**
+  String get hideReview;
+
+  /// No description provided for @keepReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conserver'**
+  String get keepReview;
+
+  /// No description provided for @decisionHidden.
+  ///
+  /// In fr, this message translates to:
+  /// **'Masqué'**
+  String get decisionHidden;
+
+  /// No description provided for @decisionKept.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conservé'**
+  String get decisionKept;
+
+  /// No description provided for @flaggedReason.
+  ///
+  /// In fr, this message translates to:
+  /// **'Motif du signalement'**
+  String get flaggedReason;
+
+  /// No description provided for @noFlagged.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun avis signalé'**
+  String get noFlagged;
+
+  /// No description provided for @noReports.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun signalement'**
+  String get noReports;
+
+  /// No description provided for @reportOpen.
+  ///
+  /// In fr, this message translates to:
+  /// **'À traiter'**
+  String get reportOpen;
+
+  /// No description provided for @reportWarned.
+  ///
+  /// In fr, this message translates to:
+  /// **'Averti'**
+  String get reportWarned;
+
+  /// No description provided for @reportBlocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloqué'**
+  String get reportBlocked;
+
+  /// No description provided for @reportDismissed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Classé'**
+  String get reportDismissed;
+
+  /// No description provided for @actionWarn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avertir'**
+  String get actionWarn;
+
+  /// No description provided for @actionBlock.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloquer le client'**
+  String get actionBlock;
+
+  /// No description provided for @actionUnblock.
+  ///
+  /// In fr, this message translates to:
+  /// **'Débloquer'**
+  String get actionUnblock;
+
+  /// No description provided for @actionDismiss.
+  ///
+  /// In fr, this message translates to:
+  /// **'Classer sans suite'**
+  String get actionDismiss;
+
+  /// No description provided for @adminNoteHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note interne (facultatif)'**
+  String get adminNoteHint;
+
+  /// No description provided for @customerReportsCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} signalements pour ce client'**
+  String customerReportsCount(int n);
+
+  /// No description provided for @reportedByRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signalé par le restaurant'**
+  String get reportedByRestaurant;
+
+  /// No description provided for @reportedByDriver.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signalé par le livreur'**
+  String get reportedByDriver;
+
+  /// No description provided for @customerBlockedNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Client bloqué : ne peut plus commander'**
+  String get customerBlockedNote;
+
+  /// No description provided for @rangeDaysSuffix.
+  ///
+  /// In fr, this message translates to:
+  /// **'jours'**
+  String get rangeDaysSuffix;
+
+  /// No description provided for @riderReadyTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prêt à rouler ?'**
+  String get riderReadyTitle;
+
+  /// No description provided for @riderReadySub.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passez en ligne pour recevoir des courses'**
+  String get riderReadySub;
+
+  /// No description provided for @riderModeTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livrer autour de vous'**
+  String get riderModeTitle;
+
+  /// No description provided for @riderModeBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Récupérez les commandes des restaurants proches et livrez-les. Les frais de livraison sont pour vous.'**
+  String get riderModeBody;
+
+  /// No description provided for @startRiding.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commencer'**
+  String get startRiding;
+
+  /// No description provided for @doneForToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'J\'arrête pour aujourd\'hui'**
+  String get doneForToday;
+
+  /// No description provided for @statDeliveries.
+  ///
+  /// In fr, this message translates to:
+  /// **'Courses'**
+  String get statDeliveries;
+
+  /// No description provided for @statEarnings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gains du jour'**
+  String get statEarnings;
+
+  /// No description provided for @jobsNearYou.
+  ///
+  /// In fr, this message translates to:
+  /// **'Courses autour de vous'**
+  String get jobsNearYou;
+
+  /// No description provided for @continueDelivery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer la course'**
+  String get continueDelivery;
+
+  /// No description provided for @stepToRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'En route vers le restaurant'**
+  String get stepToRestaurant;
+
+  /// No description provided for @stepReady.
+  ///
+  /// In fr, this message translates to:
+  /// **'La commande est prête'**
+  String get stepReady;
+
+  /// No description provided for @stepReadySub.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifiez chaque article avant de partir'**
+  String get stepReadySub;
+
+  /// No description provided for @checkItems.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifier les articles'**
+  String get checkItems;
+
+  /// No description provided for @checkItemsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifiez chaque article'**
+  String get checkItemsTitle;
+
+  /// No description provided for @checkItemsHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Touchez chaque article une fois qu’il est dans le sac.'**
+  String get checkItemsHint;
+
+  /// No description provided for @headToCustomer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Récupérée, en route !'**
+  String get headToCustomer;
+
+  /// No description provided for @stepToCustomer.
+  ///
+  /// In fr, this message translates to:
+  /// **'En route vers le client'**
+  String get stepToCustomer;
+
+  /// No description provided for @stepArrived.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous êtes arrivé'**
+  String get stepArrived;
+
+  /// No description provided for @collectCash.
+  ///
+  /// In fr, this message translates to:
+  /// **'Encaissez {amount}'**
+  String collectCash(String amount);
+
+  /// No description provided for @statDistance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Distance'**
+  String get statDistance;
+
+  /// No description provided for @statItems.
+  ///
+  /// In fr, this message translates to:
+  /// **'Articles'**
+  String get statItems;
+
+  /// No description provided for @statCash.
+  ///
+  /// In fr, this message translates to:
+  /// **'À encaisser'**
+  String get statCash;
+
+  /// No description provided for @wellDone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bravo {name} !'**
+  String wellDone(String name);
+
+  /// No description provided for @deliveryNumber.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livraison #{code}'**
+  String deliveryNumber(String code);
+
+  /// No description provided for @youEarned.
+  ///
+  /// In fr, this message translates to:
+  /// **'+{amount} gagnés'**
+  String youEarned(String amount);
+
+  /// No description provided for @readyNextJob.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prêt pour la prochaine course ?'**
+  String get readyNextJob;
+
+  /// No description provided for @nextJob.
+  ///
+  /// In fr, this message translates to:
+  /// **'Course suivante'**
+  String get nextJob;
+
+  /// No description provided for @checkIn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Je suis au restaurant'**
+  String get checkIn;
+
+  /// No description provided for @atRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous êtes au restaurant'**
+  String get atRestaurant;
+
+  /// No description provided for @missingItemCall.
+  ///
+  /// In fr, this message translates to:
+  /// **'Article manquant ou erroné ? Appelez le restaurant'**
+  String get missingItemCall;
+
+  /// No description provided for @recenterMap.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recentrer'**
+  String get recenterMap;
+
+  /// No description provided for @followRider.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suivez votre livreur'**
+  String get followRider;
+
+  /// No description provided for @riderUpdatedAt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Position à {time}'**
+  String riderUpdatedAt(String time);
+
+  /// No description provided for @riderKmAway.
+  ///
+  /// In fr, this message translates to:
+  /// **'À {km} km de chez vous'**
+  String riderKmAway(String km);
+
+  /// No description provided for @riderEditProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier mon profil'**
+  String get riderEditProfile;
+
+  /// No description provided for @riderEditHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom, téléphone, véhicule et photo'**
+  String get riderEditHint;
+
+  /// No description provided for @riderSince.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livreur depuis {date}'**
+  String riderSince(String date);
+
+  /// No description provided for @levelRookie.
+  ///
+  /// In fr, this message translates to:
+  /// **'Débutant'**
+  String get levelRookie;
+
+  /// No description provided for @levelPro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pro'**
+  String get levelPro;
+
+  /// No description provided for @levelExpert.
+  ///
+  /// In fr, this message translates to:
+  /// **'Expert'**
+  String get levelExpert;
+
+  /// No description provided for @levelLegend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Légende'**
+  String get levelLegend;
+
+  /// No description provided for @levelLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Niveau {level}'**
+  String levelLabel(String level);
+
+  /// No description provided for @levelNext.
+  ///
+  /// In fr, this message translates to:
+  /// **'Encore {n} livraisons pour devenir {level}'**
+  String levelNext(int n, String level);
+
+  /// No description provided for @levelNeedsRating.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gardez au moins {stars} étoiles pour devenir {level}'**
+  String levelNeedsRating(String stars, String level);
+
+  /// No description provided for @levelTop.
+  ///
+  /// In fr, this message translates to:
+  /// **'Niveau maximum atteint, bravo !'**
+  String get levelTop;
+
+  /// No description provided for @statTotalDeliveries.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livraisons'**
+  String get statTotalDeliveries;
+
+  /// No description provided for @statTotalEarned.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gagnés'**
+  String get statTotalEarned;
+
+  /// No description provided for @statRating.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note'**
+  String get statRating;
+
+  /// No description provided for @ratingDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir le détail'**
+  String get ratingDetails;
+
+  /// No description provided for @allTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'Depuis le début'**
+  String get allTime;
+
+  /// No description provided for @fiveStarStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} notes 5 étoiles d’affilée'**
+  String fiveStarStreak(int n);
+
+  /// No description provided for @coachTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conseils pour progresser'**
+  String get coachTitle;
+
+  /// No description provided for @coachLate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prenez des courses proches de vous et partez dès que la commande est prête.'**
+  String get coachLate;
+
+  /// No description provided for @coachRude.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un bonjour et un sourire changent tout.'**
+  String get coachRude;
+
+  /// No description provided for @coachCareless.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gardez le sac à plat et les boissons debout.'**
+  String get coachCareless;
+
+  /// No description provided for @coachNoContact.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appelez le client 2 minutes avant d’arriver.'**
+  String get coachNoContact;
+
+  /// No description provided for @coachWrongPlace.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifiez le point sur la carte et l’étage avant de partir.'**
+  String get coachWrongPlace;
+
+  /// No description provided for @coachAllGood.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun problème signalé. Continuez comme ça !'**
+  String get coachAllGood;
+
+  /// No description provided for @ratingPrivateNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les clients notent la livraison en privé : vous voyez les chiffres, jamais qui a noté.'**
+  String get ratingPrivateNote;
+
+  /// No description provided for @sectionPreferences.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préférences'**
+  String get sectionPreferences;
+
+  /// No description provided for @dangerZone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Zone sensible'**
+  String get dangerZone;
+
+  /// No description provided for @riderDeleteTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer mon compte livreur'**
+  String get riderDeleteTitle;
+
+  /// No description provided for @riderDeleteBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre profil, votre photo et votre note seront supprimés. Les commandes passées restent pour la comptabilité des restaurants, sans votre nom. C’est définitif.'**
+  String get riderDeleteBody;
+
+  /// No description provided for @riderDeleteCheckNoDelivery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune livraison en cours'**
+  String get riderDeleteCheckNoDelivery;
+
+  /// No description provided for @riderDeleteCheckCash.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tout l’argent remis aux restaurants'**
+  String get riderDeleteCheckCash;
+
+  /// No description provided for @riderDeleteConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Je comprends, c’est définitif'**
+  String get riderDeleteConfirm;
+
+  /// No description provided for @errRiderNameInvalid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entrez votre nom (2 à 60 caractères)'**
+  String get errRiderNameInvalid;
+
+  /// No description provided for @errRiderCashPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Remettez d’abord l’argent des repas aux restaurants.'**
+  String get errRiderCashPending;
+
+  /// No description provided for @goToCheckout.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer à la caisse'**
+  String get goToCheckout;
+
+  /// No description provided for @orderSummary.
+  ///
+  /// In fr, this message translates to:
+  /// **'Récapitulatif'**
+  String get orderSummary;
+
+  /// No description provided for @promoCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code promo'**
+  String get promoCode;
+
+  /// No description provided for @promoHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entrez votre code'**
+  String get promoHint;
+
+  /// No description provided for @applyPromo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appliquer'**
+  String get applyPromo;
+
+  /// No description provided for @removePromo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer'**
+  String get removePromo;
+
+  /// No description provided for @promoApplied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code {code} appliqué'**
+  String promoApplied(String code);
+
+  /// No description provided for @discount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réduction'**
+  String get discount;
+
+  /// No description provided for @taxLine.
+  ///
+  /// In fr, this message translates to:
+  /// **'Taxe ({rate})'**
+  String taxLine(String rate);
+
+  /// No description provided for @paymentMethod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mode de paiement'**
+  String get paymentMethod;
+
+  /// No description provided for @payCashHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payez le livreur à la réception'**
+  String get payCashHint;
+
+  /// No description provided for @payCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte CIB / Edahabia'**
+  String get payCard;
+
+  /// No description provided for @payCcp.
+  ///
+  /// In fr, this message translates to:
+  /// **'CCP / BaridiMob'**
+  String get payCcp;
+
+  /// No description provided for @comingSoon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt'**
+  String get comingSoon;
+
+  /// No description provided for @placeOrderTotal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commander · {amount}'**
+  String placeOrderTotal(String amount);
+
+  /// No description provided for @payOnDeliveryNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous ne payez qu’à la livraison.'**
+  String get payOnDeliveryNote;
+
+  /// No description provided for @youSave.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous économisez {amount}'**
+  String youSave(String amount);
+
+  /// No description provided for @errPromoInvalid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code invalide'**
+  String get errPromoInvalid;
+
+  /// No description provided for @errPromoNotHere.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code n’est pas valable pour ce restaurant'**
+  String get errPromoNotHere;
+
+  /// No description provided for @errPromoNotStarted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code n’est pas encore actif'**
+  String get errPromoNotStarted;
+
+  /// No description provided for @errPromoExpired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code a expiré'**
+  String get errPromoExpired;
+
+  /// No description provided for @errPromoMinOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le montant minimum de commande n’est pas atteint'**
+  String get errPromoMinOrder;
+
+  /// No description provided for @errPromoUsedUp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code a atteint sa limite'**
+  String get errPromoUsedUp;
+
+  /// No description provided for @errPromoAlreadyUsed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez déjà utilisé ce code'**
+  String get errPromoAlreadyUsed;
+
+  /// No description provided for @errPaymentUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce mode de paiement arrive bientôt'**
+  String get errPaymentUnavailable;
+
+  /// No description provided for @navPromos.
+  ///
+  /// In fr, this message translates to:
+  /// **'Codes promo'**
+  String get navPromos;
+
+  /// No description provided for @promoNew.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveau code'**
+  String get promoNew;
+
+  /// No description provided for @promoEdit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le code'**
+  String get promoEdit;
+
+  /// No description provided for @promoKindPercent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pourcentage'**
+  String get promoKindPercent;
+
+  /// No description provided for @promoKindAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant fixe'**
+  String get promoKindAmount;
+
+  /// No description provided for @promoValuePercent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réduction (%)'**
+  String get promoValuePercent;
+
+  /// No description provided for @promoValueAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réduction (DA)'**
+  String get promoValueAmount;
+
+  /// No description provided for @promoMaxDiscount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réduction max (DA)'**
+  String get promoMaxDiscount;
+
+  /// No description provided for @promoMinOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commande minimum (DA)'**
+  String get promoMinOrder;
+
+  /// No description provided for @promoMaxUses.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisations max (total)'**
+  String get promoMaxUses;
+
+  /// No description provided for @promoPerCustomer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Max par client'**
+  String get promoPerCustomer;
+
+  /// No description provided for @promoEnds.
+  ///
+  /// In fr, this message translates to:
+  /// **'Expire le'**
+  String get promoEnds;
+
+  /// No description provided for @promoNoEnd.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans date de fin'**
+  String get promoNoEnd;
+
+  /// No description provided for @promoRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restaurant'**
+  String get promoRestaurant;
+
+  /// No description provided for @promoAllRestaurants.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous les restaurants'**
+  String get promoAllRestaurants;
+
+  /// No description provided for @promoFundedBy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payé par'**
+  String get promoFundedBy;
+
+  /// No description provided for @fundedPlatform.
+  ///
+  /// In fr, this message translates to:
+  /// **'La plateforme'**
+  String get fundedPlatform;
+
+  /// No description provided for @fundedRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le restaurant'**
+  String get fundedRestaurant;
+
+  /// No description provided for @promoUses.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} utilisations'**
+  String promoUses(int n);
+
+  /// No description provided for @promoGiven.
+  ///
+  /// In fr, this message translates to:
+  /// **'{amount} offerts'**
+  String promoGiven(String amount);
+
+  /// No description provided for @promoActive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actif'**
+  String get promoActive;
+
+  /// No description provided for @promoInactive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Désactivé'**
+  String get promoInactive;
+
+  /// No description provided for @promoNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note interne'**
+  String get promoNote;
+
+  /// No description provided for @promoMin.
+  ///
+  /// In fr, this message translates to:
+  /// **'dès {amount}'**
+  String promoMin(String amount);
+
+  /// No description provided for @errPromoCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code : 3 à 20 lettres ou chiffres'**
+  String get errPromoCode;
+
+  /// No description provided for @errPromoTaken.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code existe déjà'**
+  String get errPromoTaken;
+
+  /// No description provided for @errPromoValue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifiez les valeurs (pourcentage 1 à 90)'**
+  String get errPromoValue;
+
+  /// No description provided for @noPromos.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun code pour le moment'**
+  String get noPromos;
+
+  /// No description provided for @amountDue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant dû'**
+  String get amountDue;
+
+  /// No description provided for @taxCollected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Taxe collectée'**
+  String get taxCollected;
+
+  /// No description provided for @platformDiscounts.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réductions payées par la plateforme'**
+  String get platformDiscounts;
+
+  /// No description provided for @taxLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Taxe'**
+  String get taxLabel;
+
+  /// No description provided for @copy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier'**
+  String get copy;
+
+  /// No description provided for @copied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copié'**
+  String get copied;
+
+  /// No description provided for @qrTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'QR code du restaurant'**
+  String get qrTitle;
+
+  /// No description provided for @qrHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Affiche à imprimer, scans'**
+  String get qrHint;
+
+  /// No description provided for @qrScanToOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Scannez pour commander'**
+  String get qrScanToOrder;
+
+  /// No description provided for @qrDownloadPoster.
+  ///
+  /// In fr, this message translates to:
+  /// **'Télécharger l’affiche (PDF)'**
+  String get qrDownloadPoster;
+
+  /// No description provided for @qrCopyLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier le lien'**
+  String get qrCopyLink;
+
+  /// No description provided for @qrStatsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Scans de votre QR code'**
+  String get qrStatsTitle;
+
+  /// No description provided for @qrScans30.
+  ///
+  /// In fr, this message translates to:
+  /// **'Scans (30 jours)'**
+  String get qrScans30;
+
+  /// No description provided for @qrPeople.
+  ///
+  /// In fr, this message translates to:
+  /// **'Personnes'**
+  String get qrPeople;
+
+  /// No description provided for @qrOrdersAfter.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes après un scan'**
+  String get qrOrdersAfter;
+
+  /// No description provided for @qrScansTotal.
+  ///
+  /// In fr, this message translates to:
+  /// **'{total} scans au total · {app} avec l’app · {web} avec l’appareil photo'**
+  String qrScansTotal(int total, int app, int web);
+
+  /// No description provided for @qrTip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Collez l’affiche sur la vitrine, la caisse et les tables, et mettez-la dans les sacs de livraison. Un scan ouvre directement votre page dans foodfennec.'**
+  String get qrTip;
+
+  /// No description provided for @scanTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner un QR code'**
+  String get scanTitle;
+
+  /// No description provided for @scanHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Visez le QR code d’un restaurant foodfennec'**
+  String get scanHint;
+
+  /// No description provided for @scanNotOurs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce QR code n’est pas un code foodfennec'**
+  String get scanNotOurs;
+
+  /// No description provided for @scanCameraDenied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autorisez l’appareil photo dans les réglages pour scanner.'**
+  String get scanCameraDenied;
+
+  /// No description provided for @scanCameraError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d’ouvrir l’appareil photo.'**
+  String get scanCameraError;
+
+  /// No description provided for @qrLinkSetting.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lien des QR codes'**
+  String get qrLinkSetting;
+
+  /// No description provided for @qrLinkLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse du site'**
+  String get qrLinkLabel;
+
+  /// No description provided for @qrLinkHelp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les QR codes ouvrent cette adresse + /r/nom-du-restaurant. Réglez votre vrai domaine avant d’imprimer les affiches. Le scanner de l’app fonctionne quel que soit le domaine.'**
+  String get qrLinkHelp;
+
+  /// No description provided for @errQrLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse invalide (ex. https://foodfennec.com)'**
+  String get errQrLink;
+
+  /// No description provided for @wilaya.
+  ///
+  /// In fr, this message translates to:
+  /// **'Wilaya'**
+  String get wilaya;
+
+  /// No description provided for @chooseWilaya.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez votre wilaya'**
+  String get chooseWilaya;
+
+  /// No description provided for @errWilaya.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez votre wilaya'**
+  String get errWilaya;
+
+  /// No description provided for @commune.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commune'**
+  String get commune;
+
+  /// No description provided for @communeHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex. Bab Ezzouar'**
+  String get communeHint;
+
+  /// No description provided for @errCommune.
+  ///
+  /// In fr, this message translates to:
+  /// **'Indiquez votre commune'**
+  String get errCommune;
+
+  /// No description provided for @birthDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Date de naissance'**
+  String get birthDate;
+
+  /// No description provided for @chooseDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir une date'**
+  String get chooseDate;
+
+  /// No description provided for @errBirthDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Date de naissance invalide (13 ans minimum)'**
+  String get errBirthDate;
+
+  /// No description provided for @gender.
+  ///
+  /// In fr, this message translates to:
+  /// **'Genre'**
+  String get gender;
+
+  /// No description provided for @genderMale.
+  ///
+  /// In fr, this message translates to:
+  /// **'Homme'**
+  String get genderMale;
+
+  /// No description provided for @genderFemale.
+  ///
+  /// In fr, this message translates to:
+  /// **'Femme'**
+  String get genderFemale;
+
+  /// No description provided for @howDidYouHear.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comment avez-vous connu foodfennec ?'**
+  String get howDidYouHear;
+
+  /// No description provided for @refFriend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un ami'**
+  String get refFriend;
+
+  /// No description provided for @refSocial.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réseaux sociaux'**
+  String get refSocial;
+
+  /// No description provided for @refSearch.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recherche Google'**
+  String get refSearch;
+
+  /// No description provided for @refRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un restaurant'**
+  String get refRestaurant;
+
+  /// No description provided for @refAd.
+  ///
+  /// In fr, this message translates to:
+  /// **'Publicité'**
+  String get refAd;
+
+  /// No description provided for @refOther.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autre'**
+  String get refOther;
+
+  /// No description provided for @completeProfileTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Complétez votre profil'**
+  String get completeProfileTitle;
+
+  /// No description provided for @completeProfileBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'30 secondes pour recevoir des offres qui vous ressemblent.'**
+  String get completeProfileBody;
+
+  /// No description provided for @completeProfileAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compléter'**
+  String get completeProfileAction;
+
+  /// No description provided for @completeProfilePrivacy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ces informations restent privées : elles nous aident à améliorer foodfennec.'**
+  String get completeProfilePrivacy;
+
+  /// No description provided for @later.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get later;
+
+  /// No description provided for @thanksProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Merci ! Profil mis à jour.'**
+  String get thanksProfile;
+
+  /// No description provided for @cancelOrderTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler la commande ?'**
+  String get cancelOrderTitle;
+
+  /// No description provided for @cancelRequestTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demander l’annulation'**
+  String get cancelRequestTitle;
+
+  /// No description provided for @cancelFreeExplain.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le restaurant n’a pas encore accepté : l’annulation est immédiate et gratuite.'**
+  String get cancelFreeExplain;
+
+  /// No description provided for @cancelRequestExplain.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le restaurant prépare déjà votre commande. Il recevra votre demande et décidera : si la cuisine a commencé, il peut refuser.'**
+  String get cancelRequestExplain;
+
+  /// No description provided for @cancelWhy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pourquoi ?'**
+  String get cancelWhy;
+
+  /// No description provided for @cancelReasonChangedMind.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’ai changé d’avis'**
+  String get cancelReasonChangedMind;
+
+  /// No description provided for @cancelReasonTooLong.
+  ///
+  /// In fr, this message translates to:
+  /// **'C’est trop long'**
+  String get cancelReasonTooLong;
+
+  /// No description provided for @cancelReasonWrongAddress.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mauvaise adresse'**
+  String get cancelReasonWrongAddress;
+
+  /// No description provided for @cancelReasonWrongItems.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur dans la commande'**
+  String get cancelReasonWrongItems;
+
+  /// No description provided for @cancelReasonDuplicate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commande en double'**
+  String get cancelReasonDuplicate;
+
+  /// No description provided for @cancelReasonOther.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autre raison'**
+  String get cancelReasonOther;
+
+  /// No description provided for @cancelNoteHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un mot pour le restaurant (facultatif)'**
+  String get cancelNoteHint;
+
+  /// No description provided for @sendCancelRequest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer la demande'**
+  String get sendCancelRequest;
+
+  /// No description provided for @cancelRequestSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande envoyée : le restaurant va répondre.'**
+  String get cancelRequestSent;
+
+  /// No description provided for @cancelRequestPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande d’annulation envoyée. Le restaurant va répondre.'**
+  String get cancelRequestPending;
+
+  /// No description provided for @cancelRequestRefused.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le restaurant a refusé l’annulation : votre commande est déjà en préparation et continue.'**
+  String get cancelRequestRefused;
+
+  /// No description provided for @cancelRequestExpired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop tard pour annuler : le livreur a déjà récupéré la commande.'**
+  String get cancelRequestExpired;
+
+  /// No description provided for @cancelledByYou.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulée à votre demande · {reason}'**
+  String cancelledByYou(String reason);
+
+  /// No description provided for @errCancelAlreadyRequested.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez déjà demandé l’annulation'**
+  String get errCancelAlreadyRequested;
+
+  /// No description provided for @errCancelRequestRefused.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le restaurant a déjà refusé l’annulation'**
+  String get errCancelRequestRefused;
+
+  /// No description provided for @customerWantsCancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le client demande l’annulation'**
+  String get customerWantsCancel;
+
+  /// No description provided for @cancelRequestOwnerHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acceptez si la cuisine n’a pas commencé.'**
+  String get cancelRequestOwnerHint;
+
+  /// No description provided for @acceptCancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accepter l’annulation'**
+  String get acceptCancel;
+
+  /// No description provided for @refuseCancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser'**
+  String get refuseCancel;
+
+  /// No description provided for @cancelAcceptedMsg.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commande annulée à la demande du client'**
+  String get cancelAcceptedMsg;
+
+  /// No description provided for @cancelRefusedMsg.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulation refusée : la commande continue'**
+  String get cancelRefusedMsg;
+
+  /// No description provided for @accountSuspendedTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte suspendu'**
+  String get accountSuspendedTitle;
+
+  /// No description provided for @accountSuspendedUntil.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous pourrez de nouveau utiliser foodfennec le {date}.'**
+  String accountSuspendedUntil(String date);
+
+  /// No description provided for @accountBannedTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte bloqué'**
+  String get accountBannedTitle;
+
+  /// No description provided for @accountBannedBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre compte a été bloqué. Contactez-nous si vous pensez que c’est une erreur.'**
+  String get accountBannedBody;
+
+  /// No description provided for @sanctionReasonTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Motif'**
+  String get sanctionReasonTitle;
+
+  /// No description provided for @contactSupport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contacter le support'**
+  String get contactSupport;
+
+  /// No description provided for @warningTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avertissement'**
+  String get warningTitle;
+
+  /// No description provided for @warningBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Si cela se reproduit, votre compte pourra être suspendu.'**
+  String get warningBody;
+
+  /// No description provided for @understood.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’ai compris'**
+  String get understood;
+
+  /// No description provided for @errAccountSuspended.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre compte est suspendu'**
+  String get errAccountSuspended;
+
+  /// No description provided for @sanctionFakeOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fausses commandes'**
+  String get sanctionFakeOrders;
+
+  /// No description provided for @sanctionNoShow.
+  ///
+  /// In fr, this message translates to:
+  /// **'Absent à la livraison'**
+  String get sanctionNoShow;
+
+  /// No description provided for @sanctionRefusedToPay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refus de payer'**
+  String get sanctionRefusedToPay;
+
+  /// No description provided for @sanctionAbuse.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comportement irrespectueux'**
+  String get sanctionAbuse;
+
+  /// No description provided for @sanctionFraud.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fraude'**
+  String get sanctionFraud;
+
+  /// No description provided for @sanctionTooManyCancellations.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop d’annulations'**
+  String get sanctionTooManyCancellations;
+
+  /// No description provided for @sanctionUnsafeDriving.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conduite dangereuse'**
+  String get sanctionUnsafeDriving;
+
+  /// No description provided for @sanctionCashNotReturned.
+  ///
+  /// In fr, this message translates to:
+  /// **'Argent non remis au restaurant'**
+  String get sanctionCashNotReturned;
+
+  /// No description provided for @sanctionOther.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non-respect des règles'**
+  String get sanctionOther;
+
+  /// No description provided for @sanctionWarning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avertissement'**
+  String get sanctionWarning;
+
+  /// No description provided for @sanctionSuspension.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suspension'**
+  String get sanctionSuspension;
+
+  /// No description provided for @sanctionBan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Blocage'**
+  String get sanctionBan;
+
+  /// No description provided for @suspendedPill.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suspendu'**
+  String get suspendedPill;
+
+  /// No description provided for @bannedPill.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloqué'**
+  String get bannedPill;
+
+  /// No description provided for @warnAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avertir'**
+  String get warnAction;
+
+  /// No description provided for @suspendAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suspendre'**
+  String get suspendAction;
+
+  /// No description provided for @banAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloquer'**
+  String get banAction;
+
+  /// No description provided for @liftAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lever'**
+  String get liftAction;
+
+  /// No description provided for @removeAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer'**
+  String get removeAction;
+
+  /// No description provided for @warnTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer un avertissement'**
+  String get warnTitle;
+
+  /// No description provided for @suspendTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suspendre le compte'**
+  String get suspendTitle;
+
+  /// No description provided for @banTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloquer le compte'**
+  String get banTitle;
+
+  /// No description provided for @warnExplain.
+  ///
+  /// In fr, this message translates to:
+  /// **'La personne le verra une fois en ouvrant l’app. Elle peut continuer à l’utiliser.'**
+  String get warnExplain;
+
+  /// No description provided for @suspendExplain.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus de commandes (client) ni de livraisons (livreur) jusqu’à la fin.'**
+  String get suspendExplain;
+
+  /// No description provided for @banExplain.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloqué jusqu’à ce que vous leviez le blocage.'**
+  String get banExplain;
+
+  /// No description provided for @suspendFor.
+  ///
+  /// In fr, this message translates to:
+  /// **'Durée'**
+  String get suspendFor;
+
+  /// No description provided for @daysCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n, plural, =1{1 jour} other{{n} jours}}'**
+  String daysCount(int n);
+
+  /// No description provided for @messageToUser.
+  ///
+  /// In fr, this message translates to:
+  /// **'Message à la personne'**
+  String get messageToUser;
+
+  /// No description provided for @messageToUserHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex. Merci de ne commander que si vous êtes disponible.'**
+  String get messageToUserHint;
+
+  /// No description provided for @adminNoteLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note interne (admin)'**
+  String get adminNoteLabel;
+
+  /// No description provided for @sanctionHistory.
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique'**
+  String get sanctionHistory;
+
+  /// No description provided for @noSanctions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune sanction'**
+  String get noSanctions;
+
+  /// No description provided for @sanctionsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sanctions'**
+  String get sanctionsTitle;
+
+  /// No description provided for @sanctionLifted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sanction levée'**
+  String get sanctionLifted;
+
+  /// No description provided for @untilDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'jusqu’au {date}'**
+  String untilDate(String date);
+
+  /// No description provided for @liftedOn.
+  ///
+  /// In fr, this message translates to:
+  /// **'levée le {date}'**
+  String liftedOn(String date);
+
+  /// No description provided for @seen.
+  ///
+  /// In fr, this message translates to:
+  /// **'vu'**
+  String get seen;
+
+  /// No description provided for @allCustomers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous'**
+  String get allCustomers;
+
+  /// No description provided for @watchlistTab.
+  ///
+  /// In fr, this message translates to:
+  /// **'À surveiller ({n})'**
+  String watchlistTab(int n);
+
+  /// No description provided for @watchlistHelp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clients ayant annulé (ou demandé à annuler) 3 fois ou plus en 30 jours.'**
+  String get watchlistHelp;
+
+  /// No description provided for @watchlistEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Personne à surveiller'**
+  String get watchlistEmpty;
+
+  /// No description provided for @cancels30d.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} annulations en 30 j'**
+  String cancels30d(int n);
+
+  /// No description provided for @openReports.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} signalements'**
+  String openReports(int n);
+
+  /// No description provided for @statCustomers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clients'**
+  String get statCustomers;
+
+  /// No description provided for @statNew7d.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveaux (7 jours)'**
+  String get statNew7d;
+
+  /// No description provided for @statActive7d.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actifs 7 j · {today} aujourd’hui'**
+  String statActive7d(int today);
+
+  /// No description provided for @statOrdered.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ont déjà commandé'**
+  String get statOrdered;
+
+  /// No description provided for @statProfileDone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil complété'**
+  String get statProfileDone;
+
+  /// No description provided for @ageGroups.
+  ///
+  /// In fr, this message translates to:
+  /// **'Âge'**
+  String get ageGroups;
+
+  /// No description provided for @heardFrom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connu via'**
+  String get heardFrom;
+
+  /// No description provided for @platformLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plateforme'**
+  String get platformLabel;
+
+  /// No description provided for @unknownValue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non renseigné'**
+  String get unknownValue;
+
+  /// No description provided for @ageLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Âge'**
+  String get ageLabel;
+
+  /// No description provided for @memberSince.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inscrit le'**
+  String get memberSince;
+
+  /// No description provided for @deviceAndActivity.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appareil et activité'**
+  String get deviceAndActivity;
+
+  /// No description provided for @lastSeen.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dernière visite'**
+  String get lastSeen;
+
+  /// No description provided for @activeDays30.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jours actifs (30 j)'**
+  String get activeDays30;
+
+  /// No description provided for @deviceLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appareil'**
+  String get deviceLabel;
+
+  /// No description provided for @ordersTotal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commandes'**
+  String get ordersTotal;
+
+  /// No description provided for @cancels30dLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulations (30 j)'**
+  String get cancels30dLabel;
+
+  /// No description provided for @spentLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dépensé'**
+  String get spentLabel;
+
+  /// No description provided for @lastOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dernière commande'**
+  String get lastOrder;
 }
 
 class _AppLocalizationsDelegate
