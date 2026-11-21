@@ -91,7 +91,7 @@ void main() {
     final consent = FakeConsentRepository()..acceptedDocs = {};
     final auth = FakeAuthRepository();
     await pumpFoodApp(t, repo: auth, consent: consent);
-    expect(find.byKey(const Key('social:facebook')), findsOneWidget);
+    expect(find.byKey(const Key('social:facebook')), findsNothing); // off for now
     expect(find.byKey(const Key('social:apple')), findsNothing); // iPhone only
     await tap(t, find.byKey(const Key('social:google')));
     expect(auth.calls, contains('social:google'));
@@ -106,7 +106,7 @@ void main() {
   testWidgets('a failed social login shows a message', (t) async {
     final auth = FakeAuthRepository()..socialFails = true;
     await pumpFoodApp(t, repo: auth);
-    await tap(t, find.byKey(const Key('social:facebook')));
+    await tap(t, find.byKey(const Key('social:google')));
     expect(find.textContaining('Couldn’t sign in'), findsOneWidget);
   });
 }

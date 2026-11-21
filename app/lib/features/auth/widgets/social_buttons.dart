@@ -12,6 +12,10 @@ import '../data/auth_providers.dart';
 bool get showAppleSignIn =>
     !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
 
+/// Facebook login is ready in the code but off until the Meta app is set
+/// up (docs/STORE_RELEASE.md, section 4). Set to true to show the button.
+const kFacebookLogin = false;
+
 /// "or continue with" + Google, Facebook (and Apple on iPhone). New users
 /// get an account on first use; the terms are accepted on the next screen.
 class SocialButtons extends ConsumerStatefulWidget {
@@ -109,13 +113,14 @@ class _SocialButtonsState extends ConsumerState<SocialButtons> {
           label: l.continueWithGoogle,
           icon: const _GoogleG(),
         ),
-        button(
-          provider: 'facebook',
-          label: l.continueWithFacebook,
-          icon: const Icon(Icons.facebook, color: Colors.white, size: 24),
-          background: const Color(0xFF1877F2),
-          foreground: Colors.white,
-        ),
+        if (kFacebookLogin)
+          button(
+            provider: 'facebook',
+            label: l.continueWithFacebook,
+            icon: const Icon(Icons.facebook, color: Colors.white, size: 24),
+            background: const Color(0xFF1877F2),
+            foreground: Colors.white,
+          ),
         if (showAppleSignIn)
           button(
             provider: 'apple',

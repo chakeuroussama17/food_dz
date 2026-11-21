@@ -11,7 +11,9 @@ App ID (both stores, permanent): `com.foodfennec.app`. Version: `app/pubspec.yam
   `/legal/partner`, `/legal/rider` (FR / AR / EN). Consent recorded per version.
 - Permission texts (iOS `Info.plist`); location only while the app is open (no
   background location); `ITSAppUsesNonExemptEncryption = false`.
-- Login with email, Google, Facebook; Sign in with Apple on iPhone (Apple rule 4.8).
+- Login with email, Google; Sign in with Apple on iPhone (Apple rule 4.8).
+  Facebook is coded but hidden (`kFacebookLogin` in
+  `app/lib/features/auth/widgets/social_buttons.dart`); turn it on after section 4.
 - CI: `android.yml` builds the APK + the Play bundle (`.aab`), signed with your key
   when the secrets below exist; `ios.yml` checks the iPhone build on a Mac.
 
