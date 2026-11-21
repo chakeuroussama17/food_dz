@@ -1862,5 +1862,50 @@
   "ordersTotal": "Commandes",
   "cancels30dLabel": "Annulations (30 j)",
   "spentLabel": "Dépensé",
-  "lastOrder": "Dernière commande"
+  "lastOrder": "Dernière commande",
+  "toRestaurant": "jusqu’au restaurant",
+  "tripMinutes": "trajet total · ~{n} min",
+  "@tripMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gpsRequiredTitle": "La localisation est nécessaire",
+  "gpsRequiredBody": "Pour être en ligne, foodfennec doit connaître votre position : vous voyez à quelle distance sont les restaurants, et le client suit sa livraison.",
+  "gpsOffBody": "La localisation (GPS) de votre téléphone est désactivée. Activez-la pour commencer.",
+  "gpsBlockedBody": "Vous avez refusé la localisation pour foodfennec. Autorisez-la dans les réglages du téléphone (Autorisations → Position).",
+  "allowLocation": "Autoriser la localisation",
+  "gpsLostBody": "Position introuvable : activez le GPS pour voir la distance des restaurants.",
+  "legalVersion": "Version du {date}",
+  "@legalVersion": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "acceptTermsTitle": "Avant de continuer",
+  "acceptTermsBody": "Lisez et acceptez nos conditions. Elles expliquent les règles du service, l’usage de vos données et les responsabilités de chacun.",
+  "iAcceptDoc": "J’accepte : {doc}",
+  "@iAcceptDoc": {
+    "placeholders": {
+      "doc": {
+        "type": "String"
+      }
+    }
+  },
+  "readDoc": "Lire",
+  "acceptAndContinue": "Accepter et continuer",
+  "signupAcceptPrefix": "J’ai lu et j’accepte les ",
+  "termsOfUseLink": "conditions d’utilisation",
+  "signupAcceptAnd": " et la ",
+  "privacyLink": "politique de confidentialité",
+  "errAcceptTerms": "Vous devez accepter les conditions pour créer un compte",
+  "orContinueWith": "ou continuer avec",
+  "continueWithGoogle": "Continuer avec Google",
+  "continueWithFacebook": "Continuer avec Facebook",
+  "continueWithApple": "Continuer avec Apple",
+  "errSocialLogin": "Connexion impossible. Réessayez ou utilisez votre e-mail."
 }

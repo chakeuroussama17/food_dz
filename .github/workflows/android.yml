@@ -60,6 +60,27 @@ jobs:
           json.dump({k: os.environ.get(k, "") for k in keys}, open("env.json", "w"))
           PY
 
+      # Google Play signing key, from repository secrets (optional: without
+      # them the build is signed with a test key, fine for sideloading).
+      - name: Release signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::warning::No ANDROID_KEYSTORE_BASE64 secret: signed with the test key (not for Google Play)."
+            exit 0
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storeFile=upload-keystore.jks
+          storePassword=$KEYSTORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          keyPassword=${KEY_PASSWORD:-$KEYSTORE_PASSWORD}
+          EOF
+
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
@@ -67,13 +88,21 @@ jobs:
       - name: Build APK
         run: flutter build apk --release --dart-define-from-file=env.json
 
+      # Google Play takes the app bundle (.aab), phones take the .apk.
+      - name: Build app bundle
+        run: flutter build appbundle --release --dart-define-from-file=env.json
+
       - name: Rename
-        run: cp build/app/outputs/flutter-apk/app-release.apk "foodfennec-${{ github.run_number }}.apk"
+        run: |
+          cp build/app/outputs/flutter-apk/app-release.apk "foodfennec-${{ github.run_number }}.apk"
+          cp build/app/outputs/bundle/release/app-release.aab "foodfennec-${{ github.run_number }}.aab"
 
       - uses: actions/upload-artifact@v4
         with:
           name: foodfennec-apk
-          path: app/foodfennec-${{ github.run_number }}.apk
+          path: |
+            app/foodfennec-${{ github.run_number }}.apk
+            app/foodfennec-${{ github.run_number }}.aab
 
       # A release gives a direct download link that works on the phone.
       - uses: softprops/action-gh-release@v2
@@ -85,4 +114,6 @@ jobs:
             Android test build from commit ${{ github.sha }}.
             On the phone: download the .apk below, open it, allow
             "install unknown apps" for your browser, then install.
-          files: app/foodfennec-${{ github.run_number }}.apk
+          files: |
+            app/foodfennec-${{ github.run_number }}.apk
+            app/foodfennec-${{ github.run_number }}.aab

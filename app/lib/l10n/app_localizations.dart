@@ -6789,6 +6789,150 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Dernière commande'**
   String get lastOrder;
+
+  /// No description provided for @toRestaurant.
+  ///
+  /// In fr, this message translates to:
+  /// **'jusqu’au restaurant'**
+  String get toRestaurant;
+
+  /// No description provided for @tripMinutes.
+  ///
+  /// In fr, this message translates to:
+  /// **'trajet total · ~{n} min'**
+  String tripMinutes(int n);
+
+  /// No description provided for @gpsRequiredTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'La localisation est nécessaire'**
+  String get gpsRequiredTitle;
+
+  /// No description provided for @gpsRequiredBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour être en ligne, foodfennec doit connaître votre position : vous voyez à quelle distance sont les restaurants, et le client suit sa livraison.'**
+  String get gpsRequiredBody;
+
+  /// No description provided for @gpsOffBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'La localisation (GPS) de votre téléphone est désactivée. Activez-la pour commencer.'**
+  String get gpsOffBody;
+
+  /// No description provided for @gpsBlockedBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez refusé la localisation pour foodfennec. Autorisez-la dans les réglages du téléphone (Autorisations → Position).'**
+  String get gpsBlockedBody;
+
+  /// No description provided for @allowLocation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autoriser la localisation'**
+  String get allowLocation;
+
+  /// No description provided for @gpsLostBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Position introuvable : activez le GPS pour voir la distance des restaurants.'**
+  String get gpsLostBody;
+
+  /// No description provided for @legalVersion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Version du {date}'**
+  String legalVersion(String date);
+
+  /// No description provided for @acceptTermsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avant de continuer'**
+  String get acceptTermsTitle;
+
+  /// No description provided for @acceptTermsBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lisez et acceptez nos conditions. Elles expliquent les règles du service, l’usage de vos données et les responsabilités de chacun.'**
+  String get acceptTermsBody;
+
+  /// No description provided for @iAcceptDoc.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’accepte : {doc}'**
+  String iAcceptDoc(String doc);
+
+  /// No description provided for @readDoc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lire'**
+  String get readDoc;
+
+  /// No description provided for @acceptAndContinue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accepter et continuer'**
+  String get acceptAndContinue;
+
+  /// No description provided for @signupAcceptPrefix.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’ai lu et j’accepte les '**
+  String get signupAcceptPrefix;
+
+  /// No description provided for @termsOfUseLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'conditions d’utilisation'**
+  String get termsOfUseLink;
+
+  /// No description provided for @signupAcceptAnd.
+  ///
+  /// In fr, this message translates to:
+  /// **' et la '**
+  String get signupAcceptAnd;
+
+  /// No description provided for @privacyLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'politique de confidentialité'**
+  String get privacyLink;
+
+  /// No description provided for @errAcceptTerms.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous devez accepter les conditions pour créer un compte'**
+  String get errAcceptTerms;
+
+  /// No description provided for @orContinueWith.
+  ///
+  /// In fr, this message translates to:
+  /// **'ou continuer avec'**
+  String get orContinueWith;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @continueWithFacebook.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Facebook'**
+  String get continueWithFacebook;
+
+  /// No description provided for @continueWithApple.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Apple'**
+  String get continueWithApple;
+
+  /// No description provided for @errSocialLogin.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion impossible. Réessayez ou utilisez votre e-mail.'**
+  String get errSocialLogin;
 }
 
 class _AppLocalizationsDelegate

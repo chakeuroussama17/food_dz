@@ -3676,4 +3676,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lastOrder => 'Last order';
+
+  @override
+  String get toRestaurant => 'to the restaurant';
+
+  @override
+  String tripMinutes(int n) {
+    return 'whole trip · ~$n min';
+  }
+
+  @override
+  String get gpsRequiredTitle => 'Location is needed';
+
+  @override
+  String get gpsRequiredBody =>
+      'To go online, foodfennec needs your position: you see how far each restaurant is, and the customer follows the delivery.';
+
+  @override
+  String get gpsOffBody =>
+      'Your phone’s location (GPS) is off. Turn it on to start.';
+
+  @override
+  String get gpsBlockedBody =>
+      'You refused location for foodfennec. Allow it in the phone settings (Permissions → Location).';
+
+  @override
+  String get allowLocation => 'Allow location';
+
+  @override
+  String get gpsLostBody =>
+      'No position: turn on GPS to see how far restaurants are.';
+
+  @override
+  String legalVersion(String date) {
+    return 'Version of $date';
+  }
+
+  @override
+  String get acceptTermsTitle => 'Before you continue';
+
+  @override
+  String get acceptTermsBody =>
+      'Read and accept our terms. They explain the rules of the service, how your data is used and who is responsible for what.';
+
+  @override
+  String iAcceptDoc(String doc) {
+    return 'I accept: $doc';
+  }
+
+  @override
+  String get readDoc => 'Read';
+
+  @override
+  String get acceptAndContinue => 'Accept and continue';
+
+  @override
+  String get signupAcceptPrefix => 'I have read and accept the ';
+
+  @override
+  String get termsOfUseLink => 'terms of use';
+
+  @override
+  String get signupAcceptAnd => ' and the ';
+
+  @override
+  String get privacyLink => 'privacy policy';
+
+  @override
+  String get errAcceptTerms => 'You must accept the terms to create an account';
+
+  @override
+  String get orContinueWith => 'or continue with';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get continueWithFacebook => 'Continue with Facebook';
+
+  @override
+  String get continueWithApple => 'Continue with Apple';
+
+  @override
+  String get errSocialLogin => 'Couldn’t sign in. Try again or use your email.';
 }

@@ -38,6 +38,10 @@ Future<void> fillPlace(WidgetTester t) async {
   await t.tap(find.text('02 - Chlef').last);
   await t.pumpAndSettle();
   await type(t, 'Commune', 'Ténès');
+  await t.ensureVisible(find.byKey(const Key('accept-terms-box')));
+  await t.pumpAndSettle();
+  await t.tap(find.byKey(const Key('accept-terms-box')));
+  await t.pumpAndSettle();
 }
 
 void main() {
@@ -156,7 +160,34 @@ void main() {
       'commune': 'Ténès',
       'lang': 'en',
       'platform': 'android',
+      'accepted_terms': '2026-11-20',
     });
+  });
+
+  testWidgets('sign up refused until the terms are accepted', (tester) async {
+    final repo = FakeAuthRepository()..requireEmailConfirmation = false;
+    await pumpFoodApp(tester, repo: repo);
+    await tapText(tester, 'SIGN UP');
+    await type(tester, 'Name', 'Oussama');
+    await type(tester, 'Email', 'oussama@mail.dz');
+    await type(tester, 'Phone', '0661 23 45 67');
+    await fillPlace(tester);
+    // Untick the box again.
+    await tester.tap(find.byKey(const Key('accept-terms-box')));
+    await tester.pumpAndSettle();
+    await type(tester, 'Password', 'password1');
+    await type(tester, 'Re-type password', 'password1');
+    await tapText(tester, 'SIGN UP');
+    expect(
+      find.text('You must accept the terms to create an account'),
+      findsOneWidget,
+    );
+    expect(repo.calls.where((c) => c.startsWith('signUp')), isEmpty);
+    // Tick it: the account is created, with the version accepted.
+    await tester.tap(find.byKey(const Key('accept-terms-box')));
+    await tapText(tester, 'SIGN UP');
+    expect(find.byType(HomePage), findsOneWidget);
+    expect(repo.lastSignupDetails['accepted_terms'], '2026-11-20');
   });
 
   testWidgets('sign up with an existing email shows an error', (tester) async {

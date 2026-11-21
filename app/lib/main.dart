@@ -11,6 +11,7 @@ import 'core/config/env.dart';
 import 'core/i18n/locale_controller.dart';
 import 'core/push/push_service.dart';
 import 'features/sanctions/restriction_gate.dart';
+import 'features/legal/legal_pages.dart';
 import 'features/auth/data/auth_providers.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
@@ -110,8 +111,9 @@ class _FoodAppState extends ConsumerState<FoodApp> with WidgetsBindingObserver {
       theme: AppTheme.build(locale, dark: dark),
       routerConfig: ref.watch(routerProvider),
       // Suspended / banned: only the reason; warnings shown once.
-      builder: (context, child) =>
-          RestrictionGate(child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => RestrictionGate(
+        child: ConsentGate(child: child ?? const SizedBox.shrink()),
+      ),
     );
   }
 }

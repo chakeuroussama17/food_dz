@@ -10,6 +10,7 @@ import '../../../core/widgets/snack.dart';
 import '../../../l10n/app_localizations.dart';
 import '../data/auth_providers.dart';
 import '../data/auth_repository.dart';
+import '../widgets/social_buttons.dart';
 import '../widgets/auth_fields.dart';
 import '../widgets/auth_scaffold.dart';
 
@@ -134,7 +135,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
               const SizedBox(height: 24),
               AppButton(label: l.logIn, loading: _loading, onPressed: _submit),
-              const SizedBox(height: 26),
+              const SizedBox(height: 24),
+              const SocialButtons(),
+              const SizedBox(height: 16),
               AuthLinkRow(
                 text: l.noAccount,
                 action: l.signUp,

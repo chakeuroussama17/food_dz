@@ -4,12 +4,15 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/session/session_tracker.dart' show appPlatform;
 import '../../account/widgets/details_fields.dart';
+import '../../legal/legal_texts.dart' show kLegalVersion;
+import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/labeled_field.dart';
 import '../../../core/widgets/snack.dart';
 import '../../../l10n/app_localizations.dart';
 import '../data/auth_providers.dart';
+import '../widgets/social_buttons.dart';
 import '../widgets/auth_fields.dart';
 import '../widgets/auth_scaffold.dart';
 
@@ -29,6 +32,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   final _retype = TextEditingController();
   final _commune = TextEditingController();
   int? _wilaya;
+  bool _accepted = false;
+  bool _acceptError = false;
   bool _loading = false;
 
   @override
@@ -40,7 +45,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   }
 
   Future<void> _submit() async {
-    if (!_form.currentState!.validate()) return;
+    final ok = _form.currentState!.validate();
+    setState(() => _acceptError = !_accepted);
+    if (!ok || !_accepted) return;
     final l = AppLocalizations.of(context);
     setState(() => _loading = true);
     try {
@@ -56,6 +63,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
               'commune': _commune.text.trim(),
               'lang': Localizations.localeOf(context).languageCode,
               'platform': appPlatform(),
+              'accepted_terms': kLegalVersion,
             },
           );
       // Signed in straight away: the router redirect takes over (/home).
@@ -158,9 +166,21 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                 validator: (v) =>
                     v == _password.text ? null : l.errPasswordMismatch,
               ),
-              const SizedBox(height: 47),
+              const SizedBox(height: 20),
+              // Required: terms of use and privacy policy (with links).
+              _TermsBox(
+                value: _accepted,
+                error: _acceptError,
+                onChanged: (v) => setState(() {
+                  _accepted = v;
+                  if (v) _acceptError = false;
+                }),
+              ),
+              const SizedBox(height: 27),
               AppButton(label: l.signUp, loading: _loading, onPressed: _submit),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
+              const SocialButtons(),
+              const SizedBox(height: 8),
               AuthLinkRow(
                 text: l.haveAccount,
                 action: l.logIn,
@@ -171,6 +191,82 @@ class _SignupPageState extends ConsumerState<SignupPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _TermsBox extends StatelessWidget {
+  const _TermsBox({
+    required this.value,
+    required this.error,
+    required this.onChanged,
+  });
+  final bool value;
+  final bool error;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final link = TextStyle(
+      color: AppColors.primary,
+      fontWeight: FontWeight.w700,
+      decoration: TextDecoration.underline,
+      decorationColor: AppColors.primary,
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Checkbox(
+              key: const Key('accept-terms-box'),
+              value: value,
+              activeColor: AppColors.primary,
+              side: BorderSide(
+                color: error ? AppColors.danger : AppColors.muted,
+                width: 1.5,
+              ),
+              onChanged: (v) => onChanged(v ?? false),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Wrap(
+                  children: [
+                    Text(
+                      l.signupAcceptPrefix,
+                      style: TextStyle(color: AppColors.body, height: 1.4),
+                    ),
+                    InkWell(
+                      onTap: () => context.push('/legal/terms'),
+                      child: Text(l.termsOfUseLink, style: link),
+                    ),
+                    Text(
+                      l.signupAcceptAnd,
+                      style: TextStyle(color: AppColors.body, height: 1.4),
+                    ),
+                    InkWell(
+                      onTap: () => context.push('/legal/privacy'),
+                      child: Text(l.privacyLink, style: link),
+                    ),
+                    Text('.', style: TextStyle(color: AppColors.body)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (error)
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 12),
+            child: Text(
+              l.errAcceptTerms,
+              style: const TextStyle(color: AppColors.danger, fontSize: 12),
+            ),
+          ),
+      ],
     );
   }
 }

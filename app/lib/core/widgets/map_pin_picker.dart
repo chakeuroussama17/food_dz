@@ -145,7 +145,7 @@ class _MapPinPickerState extends ConsumerState<MapPinPicker> {
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'dz.foodapp.food_app',
+                userAgentPackageName: 'com.foodfennec.app',
                 tileProvider: ref.watch(mapTileProvider),
               ),
               const SimpleAttributionWidget(source: Text('OpenStreetMap')),

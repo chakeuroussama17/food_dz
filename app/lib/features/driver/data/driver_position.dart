@@ -38,6 +38,48 @@ final driverPositionProvider = StreamProvider.autoDispose<GeoPoint?>((
   }
 });
 
+/// Can the phone give the rider's position? Going online needs it (the
+/// rider sees how far each restaurant is, the customer follows the ride).
+enum GpsStatus { ok, off, denied, deniedForever }
+
+typedef GpsCheck = Future<GpsStatus> Function();
+
+/// Asks for the permission when needed. Overridden in tests.
+final gpsCheckProvider = Provider<GpsCheck>(
+  (ref) => () async {
+    try {
+      if (!await Geolocator.isLocationServiceEnabled()) return GpsStatus.off;
+      var perm = await Geolocator.checkPermission();
+      if (perm == LocationPermission.denied) {
+        perm = await Geolocator.requestPermission();
+      }
+      return switch (perm) {
+        LocationPermission.deniedForever => GpsStatus.deniedForever,
+        LocationPermission.denied => GpsStatus.denied,
+        _ => GpsStatus.ok,
+      };
+    } catch (_) {
+      return GpsStatus.denied;
+    }
+  },
+);
+
+/// Opens the phone settings where the rider can turn location on.
+final openGpsSettingsProvider = Provider<Future<void> Function(GpsStatus)>(
+  (ref) => (s) async {
+    try {
+      if (s == GpsStatus.off) {
+        await Geolocator.openLocationSettings();
+      } else {
+        await Geolocator.openAppSettings();
+      }
+    } catch (_) {}
+  },
+);
+
+/// Rough time for a city ride on a scooter (25 km/h, plus 2 minutes).
+int rideMinutes(double km) => (km / 25 * 60).round() + 2;
+
 /// Distance in km from [me] to a point, or null when either is unknown.
 double? kmTo(GeoPoint? me, double? lat, double? lng) =>
     me == null || lat == null || lng == null

@@ -1,0 +1,47 @@
+name: iOS build check
+
+# Builds the iPhone app on a Mac (no signing) to catch iOS-only problems.
+# Publishing to the App Store needs an Apple Developer account and signing
+# certificates; see docs/STORE_RELEASE.md.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - ".github/workflows/ios.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.1"
+          channel: stable
+          cache: true
+
+      - name: Write env.json
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          json.dump({k: os.environ.get(k, "") for k in
+                     ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"]},
+                    open("env.json", "w"))
+          PY
+
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign --dart-define-from-file=env.json

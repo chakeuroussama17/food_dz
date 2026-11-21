@@ -1,4 +1,4 @@
-package dz.foodapp.food_app
+package com.foodfennec.app
 
 import io.flutter.embedding.android.FlutterActivity
 

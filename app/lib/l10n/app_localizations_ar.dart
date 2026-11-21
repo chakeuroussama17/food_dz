@@ -3658,4 +3658,86 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lastOrder => 'آخر طلب';
+
+  @override
+  String get toRestaurant => 'إلى المطعم';
+
+  @override
+  String tripMinutes(int n) {
+    return 'المسار الكامل · ~$n د';
+  }
+
+  @override
+  String get gpsRequiredTitle => 'تحديد الموقع ضروري';
+
+  @override
+  String get gpsRequiredBody =>
+      'لتكون متصلًا، يحتاج foodfennec إلى موقعك: ترى بُعد المطاعم عنك، ويتابع الزبون توصيلته.';
+
+  @override
+  String get gpsOffBody => 'خدمة الموقع (GPS) في هاتفك متوقفة. فعّلها للبدء.';
+
+  @override
+  String get gpsBlockedBody =>
+      'رفضت إذن الموقع لـ foodfennec. اسمح به من إعدادات الهاتف (الأذونات ← الموقع).';
+
+  @override
+  String get allowLocation => 'السماح بالموقع';
+
+  @override
+  String get gpsLostBody => 'تعذر تحديد موقعك: فعّل GPS لرؤية بُعد المطاعم.';
+
+  @override
+  String legalVersion(String date) {
+    return 'نسخة $date';
+  }
+
+  @override
+  String get acceptTermsTitle => 'قبل المتابعة';
+
+  @override
+  String get acceptTermsBody =>
+      'اقرأ شروطنا ووافق عليها. توضح قواعد الخدمة واستعمال بياناتك ومسؤوليات كل طرف.';
+
+  @override
+  String iAcceptDoc(String doc) {
+    return 'أوافق على: $doc';
+  }
+
+  @override
+  String get readDoc => 'قراءة';
+
+  @override
+  String get acceptAndContinue => 'موافقة ومتابعة';
+
+  @override
+  String get signupAcceptPrefix => 'قرأت ووافقت على ';
+
+  @override
+  String get termsOfUseLink => 'شروط الاستخدام';
+
+  @override
+  String get signupAcceptAnd => ' و';
+
+  @override
+  String get privacyLink => 'سياسة الخصوصية';
+
+  @override
+  String get errAcceptTerms => 'يجب الموافقة على الشروط لإنشاء حساب';
+
+  @override
+  String get orContinueWith => 'أو تابع باستخدام';
+
+  @override
+  String get continueWithGoogle => 'المتابعة باستخدام Google';
+
+  @override
+  String get continueWithFacebook => 'المتابعة باستخدام Facebook';
+
+  @override
+  String get continueWithApple => 'المتابعة باستخدام Apple';
+
+  @override
+  String get errSocialLogin =>
+      'تعذر تسجيل الدخول. أعد المحاولة أو استعمل بريدك الإلكتروني.';
 }

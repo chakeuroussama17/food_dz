@@ -33,9 +33,11 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
 
   Future<void> _setOnline(bool online) async {
     final l = AppLocalizations.of(context);
+    if (online && !await _gpsReady()) return;
     setState(() => _switching = true);
     try {
       await ref.read(driverRepositoryProvider).setOnline(online);
+      if (online) ref.invalidate(driverPositionProvider);
       // A tap is the moment browsers allow sound.
       if (online) await ref.read(driverLiveProvider.notifier).enableSound();
     } on DriverError catch (e) {
@@ -47,6 +49,26 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
       ref.invalidate(availableOrdersProvider);
       if (mounted) setState(() => _switching = false);
     }
+  }
+
+  /// Location is needed to ride: asks for it, else explains how to turn
+  /// it on. True when the phone can give the position.
+  Future<bool> _gpsReady() async {
+    var status = await ref.read(gpsCheckProvider)();
+    while (status != GpsStatus.ok) {
+      if (!mounted) return false;
+      final retry = await showModalBottomSheet<bool>(
+        context: context,
+        backgroundColor: AppColors.surface,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        builder: (_) => _GpsRequiredSheet(status: status),
+      );
+      if (retry != true) return false;
+      status = await ref.read(gpsCheckProvider)();
+    }
+    return status == GpsStatus.ok;
   }
 
   Future<void> _claim(AvailableOrder o) async {
@@ -741,9 +763,17 @@ class _AvailableList extends ConsumerWidget {
             ),
           );
         }
+        // Nearest restaurant first when the position is known.
+        final sorted = [...orders];
+        if (me != null) {
+          double d(AvailableOrder o) =>
+              kmTo(me, o.restaurantLat, o.restaurantLng) ?? double.infinity;
+          sorted.sort((a, b) => d(a).compareTo(d(b)));
+        }
         return Column(
           children: [
-            for (final o in orders)
+            if (me == null) const _NoGpsCard(),
+            for (final o in sorted)
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: RiderCard(
@@ -790,9 +820,18 @@ class _AvailableList extends ConsumerWidget {
                           if (kmTo(me, o.restaurantLat, o.restaurantLng)
                               case final km?)
                             StatPill(
+                              key: Key('to-restaurant:${o.id}'),
                               icon: Icons.near_me_rounded,
                               value: l.kmAway(formatKm(km)),
-                              label: l.statDistance,
+                              label: l.toRestaurant,
+                              showLabel: true,
+                            ),
+                          if (_trip(me, o) case final km?)
+                            StatPill(
+                              icon: Icons.route_rounded,
+                              value: l.kmAway(formatKm(km)),
+                              label: l.tripMinutes(rideMinutes(km)),
+                              showLabel: true,
                             ),
                           StatPill(
                             icon: Icons.shopping_bag_rounded,
@@ -828,6 +867,15 @@ class _AvailableList extends ConsumerWidget {
     );
   }
 
+  /// You → restaurant → customer, when all three points are known.
+  double? _trip(GeoPoint? me, AvailableOrder o) {
+    final a = kmTo(me, o.restaurantLat, o.restaurantLng);
+    final b = o.restaurantLat == null || o.restaurantLng == null
+        ? null
+        : kmTo(GeoPoint(o.restaurantLat!, o.restaurantLng!), o.lat, o.lng);
+    return a == null || b == null ? null : a + b;
+  }
+
   /// Restaurant → customer distance when both points are known.
   String _distance(AppLocalizations l, AvailableOrder o) {
     final km = o.lat == null || o.lng == null
@@ -840,5 +888,116 @@ class _AvailableList extends ConsumerWidget {
             o.lng,
           );
     return km == null ? '' : l.kmAway(formatKm(km));
+  }
+}
+
+/// Why location is needed, and the button to turn it on. Pops true to
+/// check again.
+class _GpsRequiredSheet extends ConsumerWidget {
+  const _GpsRequiredSheet({required this.status});
+  final GpsStatus status;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+        child: Column(
+          key: const Key('gps-required'),
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 76,
+              height: 76,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: .12),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.location_on_rounded,
+                size: 40,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l.gpsRequiredTitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: AppColors.ink,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              status == GpsStatus.off
+                  ? l.gpsOffBody
+                  : status == GpsStatus.deniedForever
+                  ? l.gpsBlockedBody
+                  : l.gpsRequiredBody,
+              textAlign: TextAlign.center,
+              style: TextStyle(height: 1.45, color: AppColors.body),
+            ),
+            const SizedBox(height: 22),
+            RiderButton(
+              label: status == GpsStatus.denied
+                  ? l.allowLocation
+                  : l.openSettings,
+              icon: Icons.my_location_rounded,
+              onPressed: () async {
+                if (status != GpsStatus.denied) {
+                  await ref.read(openGpsSettingsProvider)(status);
+                }
+                if (context.mounted) Navigator.pop(context, true);
+              },
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l.notNow, style: TextStyle(color: AppColors.muted)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Online but the phone stopped giving the position.
+class _NoGpsCard extends ConsumerWidget {
+  const _NoGpsCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: RiderCard(
+        child: Row(
+          children: [
+            const Icon(Icons.location_off_rounded, color: AppColors.danger),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                l.gpsLostBody,
+                style: TextStyle(color: AppColors.body, height: 1.4),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                final s = await ref.read(gpsCheckProvider)();
+                if (s != GpsStatus.ok) {
+                  await ref.read(openGpsSettingsProvider)(s);
+                }
+                ref.invalidate(driverPositionProvider);
+              },
+              child: Text(l.turnOn),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

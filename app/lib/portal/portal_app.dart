@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/legal/legal_pages.dart';
 import '../core/session/session_tracker.dart';
 import '../core/i18n/locale_controller.dart';
 import '../core/theme/app_colors.dart';
@@ -174,6 +175,8 @@ class _PortalAppState extends ConsumerState<PortalApp>
       ],
       theme: AppTheme.build(locale, dark: dark),
       routerConfig: ref.watch(portalRouterProvider),
+      builder: (context, child) =>
+          ConsentGate(child: child ?? const SizedBox.shrink()),
     );
   }
 }

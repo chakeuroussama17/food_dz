@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:food_app/features/legal/consent_repository.dart';
 import 'package:food_app/features/sanctions/sanctions_repository.dart';
 import 'package:food_app/core/session/session_tracker.dart';
 import 'package:food_app/features/qr/qr_repository.dart';
@@ -49,6 +50,7 @@ import 'fake_promos.dart';
 import 'fake_qr.dart';
 import 'fake_session.dart';
 import 'fake_sanctions.dart';
+import 'fake_consent.dart';
 import 'fake_orders.dart';
 import 'fake_owner_orders.dart';
 
@@ -59,6 +61,7 @@ export 'fake_promos.dart';
 export 'fake_qr.dart';
 export 'fake_session.dart';
 export 'fake_sanctions.dart';
+export 'fake_consent.dart';
 export 'fake_orders.dart';
 export 'fake_outlet_admin.dart';
 export 'fake_ratings.dart';
@@ -266,6 +269,18 @@ class FakeAuthRepository implements AuthRepository {
   /// Starts the app already signed in as [email].
   void signInDirect(String email) => _setUser(email);
 
+  /// Set to make "Continue with ..." fail (e.g. the user closed the page).
+  bool socialFails = false;
+
+  @override
+  Future<void> signInWithProvider(String provider) async {
+    calls.add('social:$provider');
+    if (socialFails) throw const AuthError(AuthFailure.unknown);
+    final email = '$provider.user@mail.dz';
+    _users[email] ??= (name: 'Social User', password: '', confirmed: true);
+    _setUser(email);
+  }
+
   void _setUser(String email) {
     final u = _users[email]!;
     _current = AppUser(id: 'id-$email', email: email, name: u.name);
@@ -386,11 +401,14 @@ Future<FakeAuthRepository> pumpFoodApp(
   FakeOutletAdminRepository? outletAdmin,
   FakeRatingsRepository? ratings,
   GeoPoint? driverPosition,
+  GpsStatus gps = GpsStatus.ok,
+  List<GpsStatus>? gpsOpened,
   FakePromoRepository? promos,
   FakeQrRepository? qr,
   FakeCamera? camera,
   FakeSessionRepository? session,
   FakeSanctionsRepository? sanctions,
+  FakeConsentRepository? consent,
 }) async {
   SharedPreferences.setMockInitialValues({
     if (dark) 'theme_mode': 'dark',
@@ -471,10 +489,17 @@ Future<FakeAuthRepository> pumpFoodApp(
         sanctionsRepositoryProvider.overrideWithValue(
           sanctions ?? FakeSanctionsRepository(),
         ),
+        consentRepositoryProvider.overrideWithValue(
+          consent ?? FakeConsentRepository(),
+        ),
         pickRiderPhotoProvider.overrideWithValue(
           () async => PickedImage(fakePng, 'png'),
         ),
         // No GPS in tests: a fixed position, or none.
+        gpsCheckProvider.overrideWithValue(() async => gps),
+        openGpsSettingsProvider.overrideWithValue(
+          (s) async => gpsOpened?.add(s),
+        ),
         driverPositionProvider.overrideWith(
           (ref) => Stream.value(driverPosition),
         ),

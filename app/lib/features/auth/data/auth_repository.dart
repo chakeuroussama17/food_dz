@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Why an auth call failed, mapped to a translated message in the UI.
@@ -72,6 +73,11 @@ abstract interface class AuthRepository {
 
   Future<void> signOut();
 
+  /// "Continue with Google / Facebook / Apple" ([provider]: google,
+  /// facebook, apple). Opens the provider's page; the app is signed in when
+  /// it comes back (userChanges). The account is created on first use.
+  Future<void> signInWithProvider(String provider);
+
   /// The signed-in account's role from `profiles.role`
   /// ('customer', 'restaurant', 'driver', 'admin').
   Future<String> fetchRole();
@@ -88,7 +94,9 @@ class SupabaseAuthRepository implements AuthRepository {
       : AppUser(
           id: u.id,
           email: u.email ?? '',
-          name: u.userMetadata?['full_name'] as String?,
+          name:
+              (u.userMetadata?['full_name'] ?? u.userMetadata?['name'])
+                  as String?,
         );
 
   @override
@@ -166,6 +174,28 @@ class SupabaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() => _guard(() => _auth.signOut());
+
+  /// Where the provider sends the user back: the website itself on the
+  /// web (Supabase "Site URL"), the app's own link on phones.
+  static const mobileRedirect = 'foodfennec://login-callback';
+
+  @override
+  Future<void> signInWithProvider(String provider) => _guard(() async {
+    final p = switch (provider) {
+      'facebook' => OAuthProvider.facebook,
+      'apple' => OAuthProvider.apple,
+      _ => OAuthProvider.google,
+    };
+    final ok = await _auth.signInWithOAuth(
+      p,
+      redirectTo: kIsWeb ? null : mobileRedirect,
+      scopes: p == OAuthProvider.facebook ? 'email,public_profile' : null,
+      authScreenLaunchMode: kIsWeb
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication,
+    );
+    if (!ok) throw const AuthError(AuthFailure.unknown);
+  });
 
   @override
   Future<String> fetchRole() async {
@@ -282,6 +312,8 @@ class UnconfiguredAuthRepository implements AuthRepository {
   Future<void> updatePassword(String password) async => _fail();
   @override
   Future<void> signOut() async {}
+  @override
+  Future<void> signInWithProvider(String provider) async => _fail();
   @override
   Future<String> fetchRole() async => 'customer';
 }

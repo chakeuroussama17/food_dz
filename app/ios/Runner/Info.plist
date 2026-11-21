@@ -66,6 +66,21 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- "Continue with Google / Facebook / Apple" comes back here. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.foodfennec.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>foodfennec</string>
+			</array>
+		</dict>
+	</array>
+	<!-- Only standard HTTPS encryption (App Store export question). -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tel</string>
@@ -76,6 +91,6 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Choose photos for your profile, dishes or deliveries.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Find restaurants near you and place your delivery address.</string>
+	<string>Find restaurants near you, place your delivery address and, for riders, show how far restaurants are and let customers follow their delivery.</string>
 </dict>
 </plist>

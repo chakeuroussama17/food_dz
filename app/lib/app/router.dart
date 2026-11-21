@@ -10,7 +10,6 @@ import '../features/account/pages/address_form_page.dart';
 import '../features/account/pages/addresses_page.dart';
 import '../features/account/pages/edit_profile_page.dart';
 import '../features/account/pages/personal_info_page.dart';
-import '../features/account/pages/terms_page.dart';
 import '../features/auth/data/auth_providers.dart';
 import '../features/auth/pages/forgot_password_page.dart';
 import '../features/auth/pages/login_page.dart';
@@ -59,6 +58,7 @@ import '../features/restaurant_owner/pages/restaurant_register_page.dart';
 import '../features/admin/pages/admin_ratings_page.dart';
 import '../features/admin/pages/admin_promos_page.dart';
 import '../features/qr/qr_page.dart';
+import '../features/legal/legal_pages.dart';
 import '../features/admin/pages/admin_customers_page.dart';
 import '../features/qr/scan_page.dart';
 
@@ -130,6 +130,8 @@ String? authRedirect({
   String? fullLocation,
 }) {
   if (path == '/' || path.startsWith('/dev/')) return null;
+  // The legal texts are public (stores, Google and Facebook link to them).
+  if (path == '/terms' || path.startsWith('/legal/')) return null;
   if (path == '/reset-password') {
     return signedIn && recoveringPassword ? null : '/login';
   }
@@ -228,7 +230,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/scan', builder: (_, _) => const ScanPage()),
       GoRoute(path: '/cart', builder: (_, _) => const CartPage()),
       GoRoute(path: '/checkout', builder: (_, _) => const CheckoutPage()),
-      GoRoute(path: '/terms', builder: (_, _) => const TermsPage()),
+      GoRoute(path: '/terms', builder: (_, _) => const LegalHubPage()),
+      GoRoute(
+        path: '/legal/:id',
+        builder: (_, s) => LegalDocPage(id: s.pathParameters['id']!),
+      ),
       GoRoute(
         path: '/orders',
         builder: (_, _) => const MyOrdersPage(),

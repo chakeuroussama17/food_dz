@@ -3702,4 +3702,89 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lastOrder => 'Dernière commande';
+
+  @override
+  String get toRestaurant => 'jusqu’au restaurant';
+
+  @override
+  String tripMinutes(int n) {
+    return 'trajet total · ~$n min';
+  }
+
+  @override
+  String get gpsRequiredTitle => 'La localisation est nécessaire';
+
+  @override
+  String get gpsRequiredBody =>
+      'Pour être en ligne, foodfennec doit connaître votre position : vous voyez à quelle distance sont les restaurants, et le client suit sa livraison.';
+
+  @override
+  String get gpsOffBody =>
+      'La localisation (GPS) de votre téléphone est désactivée. Activez-la pour commencer.';
+
+  @override
+  String get gpsBlockedBody =>
+      'Vous avez refusé la localisation pour foodfennec. Autorisez-la dans les réglages du téléphone (Autorisations → Position).';
+
+  @override
+  String get allowLocation => 'Autoriser la localisation';
+
+  @override
+  String get gpsLostBody =>
+      'Position introuvable : activez le GPS pour voir la distance des restaurants.';
+
+  @override
+  String legalVersion(String date) {
+    return 'Version du $date';
+  }
+
+  @override
+  String get acceptTermsTitle => 'Avant de continuer';
+
+  @override
+  String get acceptTermsBody =>
+      'Lisez et acceptez nos conditions. Elles expliquent les règles du service, l’usage de vos données et les responsabilités de chacun.';
+
+  @override
+  String iAcceptDoc(String doc) {
+    return 'J’accepte : $doc';
+  }
+
+  @override
+  String get readDoc => 'Lire';
+
+  @override
+  String get acceptAndContinue => 'Accepter et continuer';
+
+  @override
+  String get signupAcceptPrefix => 'J’ai lu et j’accepte les ';
+
+  @override
+  String get termsOfUseLink => 'conditions d’utilisation';
+
+  @override
+  String get signupAcceptAnd => ' et la ';
+
+  @override
+  String get privacyLink => 'politique de confidentialité';
+
+  @override
+  String get errAcceptTerms =>
+      'Vous devez accepter les conditions pour créer un compte';
+
+  @override
+  String get orContinueWith => 'ou continuer avec';
+
+  @override
+  String get continueWithGoogle => 'Continuer avec Google';
+
+  @override
+  String get continueWithFacebook => 'Continuer avec Facebook';
+
+  @override
+  String get continueWithApple => 'Continuer avec Apple';
+
+  @override
+  String get errSocialLogin =>
+      'Connexion impossible. Réessayez ou utilisez votre e-mail.';
 }

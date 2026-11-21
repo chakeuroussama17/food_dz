@@ -27,6 +27,13 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- "Continue with Google / Facebook / Apple" comes back here. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="foodfennec" android:host="login-callback"/>
+            </intent-filter>
             <!-- Restaurant QR codes: https://foodfennec.com/r/<slug> opens the
                  app when it is installed (verified once the domain serves
                  /.well-known/assetlinks.json), otherwise the website.

@@ -178,12 +178,16 @@ class StatPill extends StatelessWidget {
     required this.icon,
     required this.value,
     required this.label,
+    this.showLabel = false,
   });
   final IconData icon;
   final String value;
 
   /// Read by screen readers.
   final String label;
+
+  /// Also write [label] after the value ("2,3 km  to the restaurant").
+  final bool showLabel;
 
   @override
   Widget build(BuildContext context) => Semantics(
@@ -208,6 +212,10 @@ class StatPill extends StatelessWidget {
               fontSize: 14,
             ),
           ),
+          if (showLabel) ...[
+            const SizedBox(width: 5),
+            Text(label, style: TextStyle(color: AppColors.muted, fontSize: 13)),
+          ],
         ],
       ),
     ),
@@ -356,7 +364,7 @@ class _RiderMapState extends ConsumerState<RiderMap> {
           children: [
             TileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'dz.foodapp.food_app',
+              userAgentPackageName: 'com.foodfennec.app',
               tileProvider: ref.watch(mapTileProvider),
             ),
             if (w.route && routePoints.length >= 2)

@@ -27,12 +27,24 @@ class FakeDriverRepository implements DriverRepository {
   }
 
   /// A restaurant accepted an order: it shows up for drivers.
-  AvailableOrder addAvailable({String id = 'av1', bool ready = false}) {
+  AvailableOrder addAvailable({
+    String id = 'av1',
+    bool ready = false,
+    String restaurant = 'Pizzeria El Bahdja',
+    double? restaurantLat,
+    double? restaurantLng,
+    double? lat,
+    double? lng,
+  }) {
     final o = AvailableOrder(
       id: id,
       code: 'DRV${offers.length + 1}X',
       status: ready ? 'ready' : 'accepted',
-      restaurantName: 'Pizzeria El Bahdja',
+      restaurantName: restaurant,
+      restaurantLat: restaurantLat,
+      restaurantLng: restaurantLng,
+      lat: lat,
+      lng: lng,
       restaurantAddress: 'Rue Larbi Ben Mhidi',
       restaurantArea: 'Bab Ezzouar',
       area: 'Alger Centre',
