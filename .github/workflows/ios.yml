@@ -37,8 +37,9 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
         run: |
           python3 - <<'PY'
+          # Keys never contain spaces: drop stray line breaks from pasted secrets.
           import json, os
-          json.dump({k: os.environ.get(k, "") for k in
+          json.dump({k: "".join(os.environ.get(k, "").split()) for k in
                      ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"]},
                     open("env.json", "w"))
           PY

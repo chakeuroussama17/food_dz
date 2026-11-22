@@ -54,10 +54,11 @@ jobs:
             exit 1
           fi
           python3 - <<'PY'
+          # Keys never contain spaces: drop stray line breaks from pasted secrets.
           import json, os
           keys = ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY", "FIREBASE_API_KEY",
                   "FIREBASE_APP_ID", "FIREBASE_SENDER_ID", "FIREBASE_PROJECT_ID"]
-          json.dump({k: os.environ.get(k, "") for k in keys}, open("env.json", "w"))
+          json.dump({k: "".join(os.environ.get(k, "").split()) for k in keys}, open("env.json", "w"))
           PY
 
       # Google Play signing key, from repository secrets (optional: without
